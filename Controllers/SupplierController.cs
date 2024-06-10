@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SupplierManagement.Domain;
 using SupplierManagementService.Application;
-using SupplierManagementService.Domain;
 
 namespace SupplierManagementService.Controllers;
 [ApiController]

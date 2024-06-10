@@ -1,4 +1,4 @@
-﻿using SupplierManagementService.Domain;
+﻿using SupplierManagement.Domain;
 
 namespace SupplierManagementService.Infrastructure;
 public class SupplierRepository

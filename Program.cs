@@ -1,5 +1,5 @@
+using SupplierManagement.Domain.Events;
 using SupplierManagementService.Application;
-using SupplierManagementService.Domain.Events;
 using SupplierManagementService.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
