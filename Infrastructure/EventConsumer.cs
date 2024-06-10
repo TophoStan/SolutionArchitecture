@@ -1,11 +1,9 @@
-﻿namespace SupplierManagementService.Infrastructure;
-
+﻿using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System;
 using System.Text;
-using Newtonsoft.Json;
 
+namespace SupplierManagementService.Infrastructure;
 public class EventConsumer
 {
     private readonly IConnection _connection;

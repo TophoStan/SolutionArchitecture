@@ -1,8 +1,6 @@
-﻿namespace SupplierManagementService.Infrastructure;
+﻿using SupplierManagementService.Domain;
 
-using SupplierManagementService.Domain;
-using System.Collections.Generic;
-
+namespace SupplierManagementService.Infrastructure;
 public class SupplierRepository
 {
     private readonly Dictionary<string, Supplier> _suppliers = new Dictionary<string, Supplier>();

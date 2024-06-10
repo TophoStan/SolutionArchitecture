@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupplierManagementService", "SupplierManagementService.csproj", "{D49F758B-E274-4762-98F2-D79A5E8FF8D5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupplierManagementService.Domain", "..\SupplierManagementService.Domain\SupplierManagementService.Domain.csproj", "{79D343AE-E78E-4C8F-B61E-F05FF56CC0DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D49F758B-E274-4762-98F2-D79A5E8FF8D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D49F758B-E274-4762-98F2-D79A5E8FF8D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D49F758B-E274-4762-98F2-D79A5E8FF8D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79D343AE-E78E-4C8F-B61E-F05FF56CC0DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79D343AE-E78E-4C8F-B61E-F05FF56CC0DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79D343AE-E78E-4C8F-B61E-F05FF56CC0DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79D343AE-E78E-4C8F-B61E-F05FF56CC0DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

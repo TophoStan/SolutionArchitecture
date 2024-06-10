@@ -1,5 +1,5 @@
-﻿using SupplierManagementService.Domain.Events;
-using SupplierManagementService.Domain;
+﻿using SupplierManagementService.Domain;
+using SupplierManagementService.Domain.Events;
 using SupplierManagementService.Infrastructure;
 
 namespace SupplierManagementService.Application;

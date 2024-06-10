@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using SupplierManagementService.Application;
 using SupplierManagementService.Domain.Events;
 using SupplierManagementService.Infrastructure;
