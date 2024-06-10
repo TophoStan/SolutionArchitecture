@@ -1,6 +1,8 @@
-﻿using SupplierManagement.Domain;
+﻿
+using BallComSolution.Domain;
 
-namespace SupplierManagementService.Infrastructure;
+namespace BallComSolution.Infrastructure;
+
 public class SupplierRepository
 {
     private readonly Dictionary<string, Supplier> _suppliers = new Dictionary<string, Supplier>();
@@ -16,4 +18,3 @@ public class SupplierRepository
         return supplier;
     }
 }
-

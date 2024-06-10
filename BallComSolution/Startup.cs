@@ -1,12 +1,7 @@
-﻿namespace SupplierManagementService;
+﻿using BallComSolution.Infrastructure;
+using BallComSolution.Services;
 
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using SupplierManagementService.Application;
-using SupplierManagementService.Infrastructure;
+namespace BallComSolution;
 
 public class Startup
 {
@@ -46,5 +41,3 @@ public class Startup
         });
     }
 }
-
-

@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SupplierManagement.Domain;
-using SupplierManagementService.Application;
+﻿using BallComSolution.Domain;
+using BallComSolution.Services;
+using Microsoft.AspNetCore.Mvc;
 
-namespace SupplierManagementService.Controllers;
+namespace BallComSolution.Controllers;
+
 [ApiController]
 [Route("api/[controller]")]
 public class SuppliersController : ControllerBase

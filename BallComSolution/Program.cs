@@ -1,6 +1,6 @@
-using SupplierManagement.Domain.Events;
-using SupplierManagementService.Application;
-using SupplierManagementService.Infrastructure;
+using BallComSolution.Domain.Events;
+using BallComSolution.Infrastructure;
+using BallComSolution.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

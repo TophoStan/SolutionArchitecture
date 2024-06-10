@@ -3,7 +3,8 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
 
-namespace SupplierManagementService.Infrastructure;
+namespace BallComSolution.Infrastructure;
+
 public class EventConsumer
 {
     private readonly IConnection _connection;
@@ -41,4 +42,3 @@ public class EventConsumer
                               consumer: consumer);
     }
 }
-
