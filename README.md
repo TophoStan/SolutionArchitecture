@@ -46,7 +46,7 @@ A document describing where the following concepts have been applied in the solu
 To get started with the project, clone the repository and follow the instructions in the respective directories for each deliverable.
 
 ```bash
-git clone https://github.com/yourusername/enterprise-architecture-assignment.git
+git clone https://github.com/TophoStan/SolutionArchitecture.git
 ```
 
 
