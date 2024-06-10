@@ -2,7 +2,8 @@
 using RabbitMQ.Client;
 using System.Text;
 
-namespace SupplierManagementService.Infrastructure;
+namespace BallComSolution.Infrastructure;
+
 public class EventPublisher
 {
     private readonly IConnection _connection;

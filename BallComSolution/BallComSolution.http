@@ -1,0 +1,6 @@
+@BallComSolution_HostAddress = http://localhost:5219
+
+GET {{BallComSolution_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
