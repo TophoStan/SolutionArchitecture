@@ -13,7 +13,7 @@ public class EventPublisher
         var factory = new ConnectionFactory() { HostName = "localhost" };
         _connection = factory.CreateConnection();
         _channel = _connection.CreateModel();
-        _channel.ExchangeDeclare(exchange: "supplier_exchange", type: "fanout");
+        _channel.ExchangeDeclare(exchange: "ball_exchange", type: "fanout");
     }
 
     public void Publish<T>(T @event)
@@ -21,7 +21,7 @@ public class EventPublisher
         var message = JsonConvert.SerializeObject(@event);
         var body = Encoding.UTF8.GetBytes(message);
 
-        _channel.BasicPublish(exchange: "supplier_exchange",
+        _channel.BasicPublish(exchange: "ball_exchange",
                              routingKey: "",
                              basicProperties: null,
                              body: body);

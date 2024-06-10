@@ -16,11 +16,11 @@ public class EventConsumer
         _connection = factory.CreateConnection();
         _channel = _connection.CreateModel();
 
-        _channel.ExchangeDeclare(exchange: "supplier_exchange", type: "fanout");
+        _channel.ExchangeDeclare(exchange: "ball_exchange", type: "fanout");
 
         _queueName = _channel.QueueDeclare().QueueName;
         _channel.QueueBind(queue: _queueName,
-                           exchange: "supplier_exchange",
+                           exchange: "ball_exchange",
                            routingKey: "");
     }
 
