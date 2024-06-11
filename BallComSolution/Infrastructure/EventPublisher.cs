@@ -11,7 +11,7 @@ public class EventPublisher
 
     public EventPublisher()
     {
-        var factory = new ConnectionFactory() { HostName = "localhost" };
+        var factory = new ConnectionFactory() { HostName = "localhost", Port= 5672};
         _connection = factory.CreateConnection();
         _channel = _connection.CreateModel();
         _channel.ExchangeDeclare(exchange: "ball_exchange", type: "fanout");

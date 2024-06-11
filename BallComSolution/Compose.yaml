@@ -38,7 +38,7 @@ services:
     image: ballcomsolution:latest
     container_name: supplier_rest
     ports:
-      - "8080:8080"
+      - "5219:5219"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - RABBITMQ_HOST=rabbitmq_container
