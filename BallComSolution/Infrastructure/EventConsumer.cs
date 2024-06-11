@@ -13,7 +13,7 @@ public class EventConsumer
 
     public EventConsumer()
     {
-        var factory = new ConnectionFactory() { HostName = "localhost" };
+        var factory = new ConnectionFactory() { HostName = "localhost", Port = 5672 };
         _connection = factory.CreateConnection();
         _channel = _connection.CreateModel();
 
