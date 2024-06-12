@@ -16,7 +16,7 @@ services:
       - my_network
 
   dotnet_app:
-    image: hallo:0.3
+    image: dotnetapp:0.3
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -25,6 +25,8 @@ services:
       - "8080:8080"
     depends_on:
       - rabbitmq
+    environment:
+      - RABBITMQ_HOSTNAME=rabbitmq
     volumes:
       - dotnet_app_data:/app
     networks:

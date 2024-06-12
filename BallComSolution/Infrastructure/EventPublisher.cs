@@ -13,7 +13,12 @@ public class EventPublisher
     {
         Console.WriteLine("EventPublisher created");
         Console.WriteLine("Connection SUUUUUU");
-        var factory = new ConnectionFactory() { HostName = "rabbitmq" };
+
+        var hostname = Environment.GetEnvironmentVariable("RABBITMQ_HOSTNAME");
+        Console.WriteLine(hostname);
+
+
+        var factory = new ConnectionFactory() { HostName = hostname };
 
         _connection = factory.CreateConnection();
         Console.WriteLine("Connection created");

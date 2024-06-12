@@ -14,8 +14,8 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 RUN echo $BUILD_CONFIGURATION
-RUN echo $BUILD_CONFIGURATION
 COPY ["BallComSolution/BallComSolution.csproj", "BallComSolution/"]
+RUN echo $BUILD_CONFIGURATION
 COPY ["BallComSolution.Domain/BallComSolution.Domain.csproj", "BallComSolution.Domain/"]
 RUN dotnet restore "BallComSolution/./BallComSolution.csproj"
 COPY . .
