@@ -5,16 +5,22 @@ USER app
 WORKDIR /app
 EXPOSE 5219
 
+# Install curl
+USER root
+RUN apt-get update && apt-get install -y curl
+USER app
+
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+RUN echo $BUILD_CONFIGURATION
+RUN echo $BUILD_CONFIGURATION
 COPY ["BallComSolution/BallComSolution.csproj", "BallComSolution/"]
 COPY ["BallComSolution.Domain/BallComSolution.Domain.csproj", "BallComSolution.Domain/"]
-RUN dotnet restore "./BallComSolution/./BallComSolution.csproj"
+RUN dotnet restore "BallComSolution/./BallComSolution.csproj"
 COPY . .
 WORKDIR "/src/BallComSolution"
 RUN dotnet build "./BallComSolution.csproj" -c $BUILD_CONFIGURATION -o /app/build
-ENV cool=cool
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./BallComSolution.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
