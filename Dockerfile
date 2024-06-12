@@ -14,7 +14,7 @@ RUN dotnet restore "./BallComSolution/./BallComSolution.csproj"
 COPY . .
 WORKDIR "/src/BallComSolution"
 RUN dotnet build "./BallComSolution.csproj" -c $BUILD_CONFIGURATION -o /app/build
-
+ENV cool=cool
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./BallComSolution.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false

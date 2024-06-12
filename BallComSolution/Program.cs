@@ -32,7 +32,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 Console.WriteLine("BallComSolution is running!");
-var eventConsumer = new EventConsumer();
-eventConsumer.ConsumeEvents<SupplierRegisteredEvent>();
 
 app.Run();
