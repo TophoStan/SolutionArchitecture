@@ -1,5 +1,4 @@
-﻿
-using BallComSolution.Domain;
+﻿using BallComSolution.Domain;
 
 namespace BallComSolution.Infrastructure;
 
