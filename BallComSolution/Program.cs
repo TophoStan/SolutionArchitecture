@@ -6,7 +6,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Configuration
 builder.Configuration.AddJsonFile("appsettings.json");
-var configuration = builder.Configuration;
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<SupplierDbContext>(options => options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 2))));

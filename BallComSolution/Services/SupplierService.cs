@@ -20,10 +20,11 @@ public class SupplierService
         await _supplierRepository.AddSupplierAsync(supplier);
         var @event = new SupplierRegisteredEvent
         {
-            SupplierId = supplier.SupplierId,
-            Name = supplier.Name,
-            Address = supplier.Address,
-            ContactDetails = supplier.ContactDetails
+            SupplierName = supplier.SupplierName,
+            ContactName = supplier.SupplierName,
+            ContactEmail = supplier.ContactEmail,
+            ContactPhone = supplier.ContactPhone,
+            Address = supplier.ContactName,
         };
         _eventPublisher.Publish(@event);
     }
