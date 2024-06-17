@@ -13,9 +13,9 @@ builder.Services.AddDbContext<SupplierDbContext>(options => options.UseMySql(con
 
 // Add other services to the container.
 builder.Services.AddControllers();
-builder.Services.AddSingleton<SupplierRepository>();
-builder.Services.AddSingleton<EventPublisher>();
-builder.Services.AddSingleton<SupplierService>();
+builder.Services.AddScoped<SupplierRepository>();
+builder.Services.AddScoped<EventPublisher>();
+builder.Services.AddScoped<SupplierService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
