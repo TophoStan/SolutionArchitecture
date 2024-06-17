@@ -21,7 +21,7 @@ public class SupplierService
         var @event = new SupplierRegisteredEvent
         {
             SupplierName = supplier.SupplierName,
-            ContactName = supplier.SupplierName,
+            ContactName = supplier.ContactName,
             ContactEmail = supplier.ContactEmail,
             ContactPhone = supplier.ContactPhone,
             Address = supplier.ContactName,
