@@ -15,9 +15,9 @@ public class SupplierService
         _eventPublisher = eventPublisher;
     }
 
-    public void RegisterSupplier(Supplier supplier)
+    public async Task RegisterSupplierAsync(Supplier supplier)
     {
-        _supplierRepository.AddSupplier(supplier); // Add supplier to the database
+        await _supplierRepository.AddSupplierAsync(supplier);
         var @event = new SupplierRegisteredEvent
         {
             SupplierId = supplier.SupplierId,

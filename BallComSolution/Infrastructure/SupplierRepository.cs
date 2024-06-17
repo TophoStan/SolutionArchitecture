@@ -1,20 +1,24 @@
-﻿
-using BallComSolution.Domain;
+﻿using BallComSolution.Domain;
 
 namespace BallComSolution.Infrastructure;
 
 public class SupplierRepository
 {
-    private readonly Dictionary<string, Supplier> _suppliers = new Dictionary<string, Supplier>();
+    private readonly SupplierDbContext _context;
 
-    public void AddSupplier(Supplier supplier)
+    public SupplierRepository(SupplierDbContext context)
     {
-        _suppliers[supplier.SupplierId] = supplier;
+        _context = context;
     }
 
-    public Supplier GetSupplier(string supplierId)
+    public async Task AddSupplierAsync(Supplier supplier)
     {
-        _suppliers.TryGetValue(supplierId, out var supplier);
-        return supplier;
+        await _context.Suppliers.AddAsync(supplier);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<Supplier> GetSupplierAsync(string supplierId)
+    {
+        return await _context.Suppliers.FindAsync(supplierId);
     }
 }

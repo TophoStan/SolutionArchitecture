@@ -1,18 +1,22 @@
-using BallComSolution.Domain.Events;
 using BallComSolution.Infrastructure;
 using BallComSolution.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllers();
+// Configuration
+builder.Configuration.AddJsonFile("appsettings.json");
+var configuration = builder.Configuration;
 
-// Register your services and repositories
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<SupplierDbContext>(options => options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 2))));
+
+// Add other services to the container.
+builder.Services.AddControllers();
 builder.Services.AddSingleton<SupplierRepository>();
 builder.Services.AddSingleton<EventPublisher>();
 builder.Services.AddSingleton<SupplierService>();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

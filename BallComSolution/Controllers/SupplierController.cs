@@ -17,11 +17,10 @@ public class SuppliersController : ControllerBase
 
     [HttpPost]
     [Route("/registersupplier")]
-    public IActionResult RegisterSupplier([FromBody] Supplier supplier)
+    public async Task<IActionResult> RegisterSupplier([FromBody] Supplier supplier)
     {
         Console.WriteLine("Registering supplier");
-        _supplierService.RegisterSupplier(supplier);
+        await _supplierService.RegisterSupplierAsync(supplier);
         return Ok();
     }
 }
-
