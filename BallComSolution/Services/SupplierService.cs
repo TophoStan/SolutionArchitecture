@@ -15,15 +15,19 @@ public class SupplierService
         _eventPublisher = eventPublisher;
     }
 
-    public void RegisterSupplier(Supplier supplier)
+    public async Task RegisterSupplierAsync(Supplier supplier)
     {
-        _supplierRepository.AddSupplier(supplier); // Add supplier to the database
+        var result = await _supplierRepository.AddSupplierAsync(supplier);
+        if (!result)
+            return;
+
         var @event = new SupplierRegisteredEvent
         {
-            SupplierId = supplier.SupplierId,
-            Name = supplier.Name,
+            SupplierName = supplier.SupplierName,
+            ContactName = supplier.ContactName,
+            ContactEmail = supplier.ContactEmail,
+            ContactPhone = supplier.ContactPhone,
             Address = supplier.Address,
-            ContactDetails = supplier.ContactDetails
         };
         _eventPublisher.Publish(@event);
     }

@@ -25,6 +25,7 @@ services:
     depends_on:
       - rabbitmq
     environment:
+      - ASPNETCORE_ENVIRONMENT=Production
       - RABBITMQ_HOSTNAME=rabbitmq
     volumes:
       - dotnet_app_data:/app
@@ -45,6 +46,31 @@ services:
       - RABBITMQ_HOSTNAME=rabbitmq
     volumes:
       - dotnet_app_data:/app
+    networks:
+      - my_network
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql_container
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - my_network
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb_container
+    ports:
+      - "28000:27017"
+    volumes:
+      - mongo_data:/data/db
     networks:
       - my_network
 

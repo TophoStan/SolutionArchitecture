@@ -4,16 +4,33 @@ namespace BallComSolution.Infrastructure;
 
 public class SupplierRepository
 {
-    private readonly Dictionary<string, Supplier> _suppliers = new Dictionary<string, Supplier>();
+    private readonly SupplierMySQLContext _SQLcontext;
+    private readonly SupplierMongoDBContext _MongoDBcontext;
 
-    public void AddSupplier(Supplier supplier)
+    public SupplierRepository(SupplierMySQLContext context, SupplierMongoDBContext mongoDBcontext)
     {
-        _suppliers[supplier.SupplierId] = supplier;
+        _SQLcontext = context;
+        _MongoDBcontext = mongoDBcontext;
     }
 
-    public Supplier GetSupplier(string supplierId)
+    public async Task<bool> AddSupplierAsync(Supplier supplier)
     {
-        _suppliers.TryGetValue(supplierId, out var supplier);
-        return supplier;
+        try
+        {
+            await _SQLcontext.Suppliers.AddAsync(supplier);
+            await _SQLcontext.SaveChangesAsync();
+
+            await _MongoDBcontext.SQLToMongoDB();
+            return true;
+        } catch 
+        {
+            return false;
+        }
+        
+    }
+
+    public async Task<Supplier> GetSupplierAsync(string supplierId)
+    {
+        return await _SQLcontext.Suppliers.FindAsync(supplierId);
     }
 }
