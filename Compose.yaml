@@ -1,21 +1,20 @@
-version: '3.8'
+version: "3.8"
 
 networks:
-  my_network: 
+  my_network:
 
 services:
-
   rabbitmq:
     image: rabbitmq:3-management
     ports:
-      - "5672:5672"   # RabbitMQ server port
+      - "5672:5672" # RabbitMQ server port
       - "15672:15672" # RabbitMQ management UI port
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
     networks:
       - my_network
 
-  dotnet_app:
+  supplier:
     image: dotnetapp:0.3
     build:
       context: .
@@ -23,6 +22,23 @@ services:
     ports:
       - "5219:5219"
       - "8080:8080"
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITMQ_HOSTNAME=rabbitmq
+    volumes:
+      - dotnet_app_data:/app
+    networks:
+      - my_network
+
+  order:
+    image: dotnetapp:0.3
+    build:
+      context: .
+      dockerfile: ./OrderDockerfile
+    ports:
+      - "5220:5220"
+      - "8081:8081"
     depends_on:
       - rabbitmq
     environment:
