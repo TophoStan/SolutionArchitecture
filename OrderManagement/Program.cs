@@ -1,25 +1,50 @@
+using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
 using OrderManagement.Infrastructure;
+using OrderManagement.Infrastructure.Order;
+using OrderManagement.Infrastructure.Product;
+using OrderManagement.Infrastructure.User;
 using OrderManagement.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Configuration
+builder.Configuration.AddJsonFile("appsettings.json");
 
+
+var mySQLConnectionString = builder.Configuration.GetConnectionString("mySQLConnection");
+
+
+if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
+{
+    mySQLConnectionString = mySQLConnectionString.Replace("localhost", "mysql");
+}
+mySQLConnectionString = builder.Configuration.GetConnectionString("mySQLConnectionDev");
+
+builder.Services.AddDbContext<OrderMySQLContext>(options => options.UseMySql(mySQLConnectionString, new MySqlServerVersion(new Version(8, 0, 2))));
+
+
+
+var mongoDBConnectionString = builder.Configuration.GetConnectionString("MongoDBConnection");
+if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
+{
+    mongoDBConnectionString = mongoDBConnectionString.Replace("localhost", "mongo");
+}
+var client = new MongoClient(mongoDBConnectionString);
+var database = client.GetDatabase("ReadOrder");
+builder.Services.AddSingleton(database);
+builder.Services.AddScoped<OrderMongoDBContext>();
+
+// Add other services to the container.
 builder.Services.AddControllers();
+builder.Services.AddScoped<EventPublisher>();
 
-// Register your services and repositories
-builder.Services.AddSingleton<OrderRepository>();
-//builder.Services.AddSingleton<EventPublisher>();
-builder.Services.AddSingleton<OrderService>();
-
-builder.Services.AddSingleton<UserRepository>();
-builder.Services.AddSingleton<UserService>();
-builder.Services.AddSingleton<ProductRepository>();
-builder.Services.AddSingleton<ProductService>();
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<OrderRepository>();
+builder.Services.AddScoped<OrderService>();
+builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<ProductRepository>();
+builder.Services.AddScoped<ProductService>();
 
 var app = builder.Build();
 
@@ -37,5 +62,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 Console.WriteLine("Order management is running!");
+Console.WriteLine("Running in environment: " + app.Environment.EnvironmentName);
 
 app.Run();

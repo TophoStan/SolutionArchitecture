@@ -9,7 +9,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.json");
 
 
-
 var mySQLConnectionString = builder.Configuration.GetConnectionString("mySQLConnection");
 
 

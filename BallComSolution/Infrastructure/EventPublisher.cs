@@ -11,10 +11,7 @@ public class EventPublisher
 
     public EventPublisher()
     {
-
         var hostname = Environment.GetEnvironmentVariable("RABBITMQ_HOSTNAME");
-
-
         var factory = new ConnectionFactory() { HostName = hostname };
 
         _connection = factory.CreateConnection();

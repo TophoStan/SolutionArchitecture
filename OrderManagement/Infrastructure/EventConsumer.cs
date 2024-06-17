@@ -3,7 +3,7 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
 
-namespace BallComSolution.Infrastructure;
+namespace OrderManagement.Infrastructure;
 
 public class EventConsumer
 {

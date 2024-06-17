@@ -1,5 +1,5 @@
-﻿using OrderManagement.Infrastructure;
-using OrderManagement.Domain;
+﻿using OrderManagement.Domain;
+using OrderManagement.Infrastructure.Product;
 
 namespace OrderManagement.Services;
 

@@ -1,10 +1,7 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿namespace OrderManagement.Domain.Events;
 
-namespace OrderManagement.Domain;
-
-public class Order
+public class OrderAddedEvent
 {
-    [BsonId]
     public string OrderNumber { get; set; }
     public string UserEmail { get; set; }
     public DateTime OrderDate { get; set; }

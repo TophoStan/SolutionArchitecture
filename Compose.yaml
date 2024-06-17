@@ -4,6 +4,7 @@ networks:
   my_network:
 
 services:
+  # general
   rabbitmq:
     image: rabbitmq:3-management
     ports:
@@ -14,6 +15,7 @@ services:
     networks:
       - my_network
 
+  # supplier
   supplier:
     image: dotnetapp:0.3
     build:
@@ -28,10 +30,36 @@ services:
       - ASPNETCORE_ENVIRONMENT=Production
       - RABBITMQ_HOSTNAME=rabbitmq
     volumes:
-      - dotnet_app_data:/app
+      - dotnet_supplier_data:/app
     networks:
       - my_network
 
+  suppliermysql:
+    image: mysql:latest
+    container_name: mysql_supplier_container
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: mysupplierdatabase
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_supplier_data:/var/lib/mysql
+    networks:
+      - my_network
+
+  suppliermongodb:
+    image: mongo:latest
+    container_name: mongodb_supplier_container
+    ports:
+      - "28000:27017"
+    volumes:
+      - mongo_supplier_data:/data/db
+    networks:
+      - my_network
+
+  # order
   order:
     image: dotnetapp:0.3
     build:
@@ -43,39 +71,46 @@ services:
     depends_on:
       - rabbitmq
     environment:
+      - ASPNETCORE_ENVIRONMENT=Production
       - RABBITMQ_HOSTNAME=rabbitmq
     volumes:
-      - dotnet_app_data:/app
+      - dotnet_order_data:/app
     networks:
       - my_network
 
-  mysql:
+  ordermysql:
     image: mysql:latest
-    container_name: mysql_container
+    container_name: mysql_order_container
     environment:
       MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: mydatabase
+      MYSQL_DATABASE: myorderdatabase
       MYSQL_USER: user
       MYSQL_PASSWORD: user_password
     ports:
-      - "3306:3306"
+      - "3307:3307"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql_order_data:/var/lib/mysql
     networks:
       - my_network
 
-  mongodb:
+  ordermongodb:
     image: mongo:latest
-    container_name: mongodb_container
+    container_name: mongodb_order_container
     ports:
-      - "28000:27017"
+      - "28001:27018"
     volumes:
-      - mongo_data:/data/db
+      - mongo_order_data:/data/db
     networks:
       - my_network
 
 volumes:
-  mysql_data:
-  mongo_data:
-  dotnet_app_data:
+  # supplier
+  dotnet_supplier_data:
+  mysql_supplier_data:
+  mongo_supplier_data:
+  # order
+  dotnet_order_data:
+  mysql_order_data:
+  mongo_order_data:
+  # general
   rabbitmq_data:
