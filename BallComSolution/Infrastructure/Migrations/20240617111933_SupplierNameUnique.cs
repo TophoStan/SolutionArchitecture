@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BallComSolution.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class SupplierNameUnique : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,7 +22,7 @@ namespace BallComSolution.Infrastructure.Migrations
                 {
                     SupplierId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    SupplierName = table.Column<string>(type: "longtext", nullable: false)
+                    SupplierName = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ContactName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -53,6 +53,12 @@ namespace BallComSolution.Infrastructure.Migrations
                 name: "IX_Suppliers_SupplierId",
                 table: "Suppliers",
                 column: "SupplierId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Suppliers_SupplierName",
+                table: "Suppliers",
+                column: "SupplierName",
                 unique: true);
         }
 

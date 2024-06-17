@@ -14,4 +14,9 @@
 		<NoWarn>1701;1702;8618</NoWarn>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <PackageReference Include="MongoDB.Bson" Version="2.26.0" />
+	  <PackageReference Include="MongoDB.Driver" Version="2.26.0" />
+	</ItemGroup>
+
 </Project>

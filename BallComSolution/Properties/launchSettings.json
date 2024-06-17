@@ -6,7 +6,9 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "RABBITMQ_HOSTNAME": "localhost"
+        "RABBITMQ_HOSTNAME": "localhost",
+        "mysql_HOSTNAME": "localhost",
+        "MongoDB_HOSTNAME": "localhost"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5219"

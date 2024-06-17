@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BallComSolution.Infrastructure.Migrations
 {
-    [DbContext(typeof(SupplierDbContext))]
+    [DbContext(typeof(SupplierMySQLContext))]
     partial class SupplierDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -47,11 +47,14 @@ namespace BallComSolution.Infrastructure.Migrations
 
                     b.Property<string>("SupplierName")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("SupplierId");
 
                     b.HasIndex("SupplierId")
+                        .IsUnique();
+
+                    b.HasIndex("SupplierName")
                         .IsUnique();
 
                     b.ToTable("Suppliers");

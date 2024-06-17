@@ -17,14 +17,17 @@ public class SupplierService
 
     public async Task RegisterSupplierAsync(Supplier supplier)
     {
-        await _supplierRepository.AddSupplierAsync(supplier);
+        var result = await _supplierRepository.AddSupplierAsync(supplier);
+        if (!result)
+            return;
+
         var @event = new SupplierRegisteredEvent
         {
             SupplierName = supplier.SupplierName,
             ContactName = supplier.ContactName,
             ContactEmail = supplier.ContactEmail,
             ContactPhone = supplier.ContactPhone,
-            Address = supplier.ContactName,
+            Address = supplier.Address,
         };
         _eventPublisher.Publish(@event);
     }

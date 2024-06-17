@@ -26,6 +26,7 @@ services:
     depends_on:
       - rabbitmq
     environment:
+      - ASPNETCORE_ENVIRONMENT=Production
       - RABBITMQ_HOSTNAME=rabbitmq
     volumes:
       - dotnet_app_data:/app

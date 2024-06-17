@@ -16,10 +16,9 @@ public class SuppliersController : ControllerBase
     }
 
     [HttpPost]
-    [Route("/registersupplier")]
+    [Route("register")]
     public async Task<IActionResult> RegisterSupplier([FromBody] Supplier supplier)
     {
-        Console.WriteLine("Registering supplier");
         await _supplierService.RegisterSupplierAsync(supplier);
         return Ok();
     }

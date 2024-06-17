@@ -10,9 +10,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BallComSolution.Infrastructure.Migrations
 {
-    [DbContext(typeof(SupplierDbContext))]
-    [Migration("20240617094318_InitialCreate")]
-    partial class InitialCreate
+    [DbContext(typeof(SupplierMySQLContext))]
+    [Migration("20240617111933_SupplierNameUnique")]
+    partial class SupplierNameUnique
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,11 +50,14 @@ namespace BallComSolution.Infrastructure.Migrations
 
                     b.Property<string>("SupplierName")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("SupplierId");
 
                     b.HasIndex("SupplierId")
+                        .IsUnique();
+
+                    b.HasIndex("SupplierName")
                         .IsUnique();
 
                     b.ToTable("Suppliers");

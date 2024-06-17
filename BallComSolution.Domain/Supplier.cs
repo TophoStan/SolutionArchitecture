@@ -1,7 +1,11 @@
-﻿namespace BallComSolution.Domain;
+﻿using MongoDB.Bson.Serialization.Attributes;
+
+namespace BallComSolution.Domain;
 
 public class Supplier
 {
+
+    [BsonId]
     public int SupplierId { get; set; }
     public string SupplierName { get; set; }
     public string ContactName { get; set; }
