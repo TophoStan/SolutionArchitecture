@@ -17,7 +17,7 @@ services:
 
   # supplier
   supplier:
-    image: dotnetapp:0.3
+    image: suppliermanagement_app:0.3
     build:
       context: .
       dockerfile: ./SupplierDockerfile
@@ -64,7 +64,7 @@ services:
     image: ordermanagement_app:0.3
     build:
       context: .
-      dockerfile: ./OrderManagement/OrderDockerfile
+      dockerfile: ./OrderDockerfile
     ports:
       - "5220:5219"
       - "8081:8080"
