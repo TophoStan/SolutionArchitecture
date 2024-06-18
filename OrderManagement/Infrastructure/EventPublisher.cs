@@ -2,7 +2,7 @@
 using RabbitMQ.Client;
 using System.Text;
 
-namespace SupplierManagement.Infrastructure;
+namespace OrderManagement.Infrastructure;
 
 public class EventPublisher
 {

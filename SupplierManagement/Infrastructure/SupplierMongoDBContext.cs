@@ -19,7 +19,7 @@ namespace SupplierManagement.Infrastructure
 
         public async Task SQLToMongoDB()
         {
-            Console.WriteLine("Migrating data from SQL to MongoDB");
+            Console.WriteLine("Migrating support data from SQL to MongoDB");
             // Retrieve data from SQL database
             List<Supplier> sqlSuppliers = await _sqlContext.Suppliers.ToListAsync();
 

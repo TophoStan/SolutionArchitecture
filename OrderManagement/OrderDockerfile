@@ -3,7 +3,7 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
-EXPOSE 5219
+EXPOSE 5220
 
 # Install curl
 USER root
@@ -14,19 +14,19 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 RUN echo $BUILD_CONFIGURATION
-COPY ["SupplierManagement/SupplierManagement.csproj", "SupplierManagement/"]
+COPY ["OrderManagement/OrderManagement.csproj", "OrderManagement/"]
 RUN echo $BUILD_CONFIGURATION
-COPY ["SupplierManagement.Domain/SupplierManagement.Domain.csproj", "SupplierManagement.Domain/"]
-RUN dotnet restore "SupplierManagement/./SupplierManagement.csproj"
+COPY ["OrderManagment.Domain/OrderManagement.Domain.csproj", "OrderManagment.Domain/"]
+RUN dotnet restore "./OrderManagement/OrderManagement.csproj"
 COPY . .
-WORKDIR "/src/SupplierManagement"
-RUN dotnet build "./SupplierManagement.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/OrderManagement"
+RUN dotnet build "./OrderManagement.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./SupplierManagement.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./OrderManagement.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "SupplierManagement.dll"]
+ENTRYPOINT ["dotnet", "OrderManagement.dll"]

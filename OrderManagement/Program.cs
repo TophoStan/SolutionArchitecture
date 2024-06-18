@@ -1,16 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
-using SupplierManagement.Domain.Events;
-using SupplierManagement.Infrastructure;
-using SupplierManagement.Services;
+using OrderManagement.Infrastructure;
+using OrderManagement.Infrastructure.Order;
+using OrderManagement.Infrastructure.Product;
+using OrderManagement.Infrastructure.User;
+using OrderManagement.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Configuration
 builder.Configuration.AddJsonFile("appsettings.json");
-builder.Configuration.AddJsonFile("properties/launchsettings.json");
-builder.Configuration.AddEnvironmentVariables();
-
 
 
 var mySQLConnectionString = builder.Configuration.GetConnectionString("mySQLConnection");
@@ -20,10 +19,9 @@ if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development
 {
     mySQLConnectionString = mySQLConnectionString.Replace("localhost", "mysql");
 }
+mySQLConnectionString = builder.Configuration.GetConnectionString("mySQLConnectionDev");
 
-Console.WriteLine("MySQL Connection String: " + mySQLConnectionString);
-
-builder.Services.AddDbContext<SupplierMySQLContext>(options => options.UseMySql(mySQLConnectionString, new MySqlServerVersion(new Version(8, 0, 2))));
+builder.Services.AddDbContext<OrderMySQLContext>(options => options.UseMySql(mySQLConnectionString, new MySqlServerVersion(new Version(8, 0, 2))));
 
 
 
@@ -33,19 +31,20 @@ if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development
     mongoDBConnectionString = mongoDBConnectionString.Replace("localhost", "mongo");
 }
 var client = new MongoClient(mongoDBConnectionString);
-var database = client.GetDatabase("ReadSupplier");
+var database = client.GetDatabase("ReadOrder");
 builder.Services.AddSingleton(database);
-builder.Services.AddScoped<SupplierMongoDBContext>();
-
+builder.Services.AddScoped<OrderMongoDBContext>();
 
 // Add other services to the container.
 builder.Services.AddControllers();
-builder.Services.AddScoped<SupplierRepository>();
 builder.Services.AddScoped<EventPublisher>();
-builder.Services.AddScoped<SupplierService>();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<OrderRepository>();
+builder.Services.AddScoped<OrderService>();
+builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<ProductRepository>();
+builder.Services.AddScoped<ProductService>();
 
 var app = builder.Build();
 
@@ -62,13 +61,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-Console.WriteLine("BallComSolution is running!");
+Console.WriteLine("Order management is running!");
 Console.WriteLine("Running in environment: " + app.Environment.EnvironmentName);
-
-
-var eventConsumer = new EventConsumer();
-eventConsumer.ConsumeEvents<SupplierRegisteredEvent>();
-
-
 
 app.Run();
