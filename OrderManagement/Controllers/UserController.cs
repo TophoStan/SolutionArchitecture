@@ -16,7 +16,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    [Route("/adduser")]
+    [Route("adduser")]
     public IActionResult AddUser([FromBody] User user)
     {
         Console.WriteLine("Added user");

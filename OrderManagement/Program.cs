@@ -23,14 +23,16 @@ builder.Services.AddScoped<OrderMongoDBContext>();
 
 // Add other services to the container.
 builder.Services.AddControllers();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<OrderService>();
+builder.Services.AddScoped<ProductRepository>();
+builder.Services.AddScoped<OrderRepository>();
+builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<EventPublisher>();
 
-builder.Services.AddScoped<OrderRepository>();
-builder.Services.AddScoped<OrderService>();
-builder.Services.AddScoped<UserRepository>();
-builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<ProductRepository>();
-builder.Services.AddScoped<ProductService>();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 

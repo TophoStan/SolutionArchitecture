@@ -16,7 +16,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost]
-    [Route("/addproduct")]
+    [Route("addproduct")]
     public IActionResult AddProduct([FromBody] Product product)
     {
         Console.WriteLine("Added product");

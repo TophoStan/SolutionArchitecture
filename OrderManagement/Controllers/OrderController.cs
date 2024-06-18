@@ -16,7 +16,7 @@ public class OrderController : ControllerBase
     }
 
     [HttpPost]
-    [Route("/addorder")]
+    [Route("addorder")]
     public IActionResult AddOrder([FromBody] Order order)
     {
         Console.WriteLine("Added order");
