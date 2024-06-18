@@ -8,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Configuration
 builder.Configuration.AddJsonFile("appsettings.json");
+builder.Configuration.AddJsonFile("properties/launchsettings.json");
+builder.Configuration.AddEnvironmentVariables();
+
 
 
 
@@ -18,7 +21,8 @@ if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development
 {
     mySQLConnectionString = mySQLConnectionString.Replace("localhost", "mysql");
 }
-mySQLConnectionString = builder.Configuration.GetConnectionString("mySQLConnectionDev");
+
+Console.WriteLine("MySQL Connection String: " + mySQLConnectionString);
 
 builder.Services.AddDbContext<SupplierMySQLContext>(options => options.UseMySql(mySQLConnectionString, new MySqlServerVersion(new Version(8, 0, 2))));
 
