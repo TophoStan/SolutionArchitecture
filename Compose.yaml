@@ -20,7 +20,7 @@ services:
     image: dotnetapp:0.3
     build:
       context: .
-      dockerfile: ./SupplierDockerfile
+      dockerfile: ./BallComSolution/SupplierDockerfile
     ports:
       - "5219:5219"
       - "8080:8080"
@@ -64,7 +64,7 @@ services:
     image: dotnetapp:0.3
     build:
       context: .
-      dockerfile: ./OrderDockerfile
+      dockerfile: ./OrderManagement/OrderDockerfile
     ports:
       - "5220:5220"
       - "8081:8081"
@@ -87,7 +87,7 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: user_password
     ports:
-      - "3307:3307"
+      - "3307:3306"
     volumes:
       - mysql_order_data:/var/lib/mysql
     networks:
@@ -97,7 +97,7 @@ services:
     image: mongo:latest
     container_name: mongodb_order_container
     ports:
-      - "28001:27018"
+      - "28001:27017"
     volumes:
       - mongo_order_data:/data/db
     networks:
