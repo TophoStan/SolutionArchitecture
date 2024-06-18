@@ -17,7 +17,7 @@ services:
 
   # supplier
   supplier:
-    image: dotnetapp:0.3
+    image: suppliermanagement_app:0.3
     build:
       context: .
       dockerfile: ./SupplierDockerfile
@@ -61,13 +61,13 @@ services:
 
   # order
   order:
-    image: dotnetapp:0.3
+    image: ordermanagement_app:0.3
     build:
       context: .
-      dockerfile: ./OrderManagement/OrderDockerfile
+      dockerfile: ./OrderDockerfile
     ports:
-      - "5220:5220"
-      - "8081:8081"
+      - "5220:5219"
+      - "8081:8080"
     depends_on:
       - rabbitmq
     environment:
