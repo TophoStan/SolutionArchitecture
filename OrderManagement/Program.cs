@@ -10,26 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Configuration
 builder.Configuration.AddJsonFile("appsettings.json");
-
+builder.Configuration.AddEnvironmentVariables();
 
 var mySQLConnectionString = builder.Configuration.GetConnectionString("MySQLConnection");
-
-
-if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
-{
-    mySQLConnectionString = mySQLConnectionString.Replace("localhost", "mysql");
-}
-mySQLConnectionString = builder.Configuration.GetConnectionString("mySQLConnectionDev");
-
 builder.Services.AddDbContext<OrderMySQLContext>(options => options.UseMySql(mySQLConnectionString, new MySqlServerVersion(new Version(8, 0, 2))));
 
-
-
 var mongoDBConnectionString = builder.Configuration.GetConnectionString("MongoDBConnection");
-if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
-{
-    mongoDBConnectionString = mongoDBConnectionString.Replace("localhost", "mongo");
-}
 var client = new MongoClient(mongoDBConnectionString);
 var database = client.GetDatabase("ReadOrder");
 builder.Services.AddSingleton(database);

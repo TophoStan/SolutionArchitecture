@@ -7,32 +7,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Configuration
 builder.Configuration.AddJsonFile("appsettings.json");
-
 builder.Configuration.AddEnvironmentVariables();
 
-
-
 var mySQLConnectionString = builder.Configuration.GetConnectionString("MySQLConnection");
-
-
-if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
-{
-    mySQLConnectionString = mySQLConnectionString.Replace("localhost", "mysql");
-}
-
-Console.WriteLine("MySQL Connection String: " + mySQLConnectionString);
-
 builder.Services.AddDbContext<ProductMySQLContext>(options => options.UseMySql(mySQLConnectionString, new MySqlServerVersion(new Version(8, 0, 2))));
 
-
-
 var mongoDBConnectionString = builder.Configuration.GetConnectionString("MongoDBConnection");
-if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
-{
-    mongoDBConnectionString = mongoDBConnectionString.Replace("localhost", "mongo");
-}
 var client = new MongoClient(mongoDBConnectionString);
-var database = client.GetDatabase("ReadSupplier");
+var database = client.GetDatabase("ReadProduct");
 builder.Services.AddSingleton(database);
 builder.Services.AddScoped<ProductMongoDBContext>();
 
@@ -64,10 +46,7 @@ app.MapControllers();
 Console.WriteLine("Productmanagement is running!");
 Console.WriteLine("Running in environment: " + app.Environment.EnvironmentName);
 
-
 //var eventConsumer = new EventConsumer();
 //eventConsumer.ConsumeEvents<ProductRegisteredEvent>();
-
-
 
 app.Run();

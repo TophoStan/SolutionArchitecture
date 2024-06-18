@@ -10,32 +10,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.json");
 builder.Configuration.AddEnvironmentVariables();
 
-
-
 var mySQLConnectionString = builder.Configuration.GetConnectionString("MySQLConnection");
-
-
-if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
-{
-    mySQLConnectionString = mySQLConnectionString.Replace("localhost", "mysql");
-}
-
-Console.WriteLine("MySQL Connection String: " + mySQLConnectionString);
-
 builder.Services.AddDbContext<SupplierMySQLContext>(options => options.UseMySql(mySQLConnectionString, new MySqlServerVersion(new Version(8, 0, 2))));
 
-
-
 var mongoDBConnectionString = builder.Configuration.GetConnectionString("MongoDBConnection");
-if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
-{
-    mongoDBConnectionString = mongoDBConnectionString.Replace("localhost", "mongo");
-}
 var client = new MongoClient(mongoDBConnectionString);
 var database = client.GetDatabase("ReadSupplier");
 builder.Services.AddSingleton(database);
 builder.Services.AddScoped<SupplierMongoDBContext>();
-
 
 // Add other services to the container.
 builder.Services.AddControllers();
@@ -64,10 +46,7 @@ app.MapControllers();
 Console.WriteLine("Supplier management is running!");
 Console.WriteLine("Running in environment: " + app.Environment.EnvironmentName);
 
-
 var eventConsumer = new EventConsumer();
 eventConsumer.ConsumeEvents<SupplierRegisteredEvent>();
-
-
 
 app.Run();
