@@ -1,3 +1,4 @@
+using BallComSolution.Domain.Events;
 using BallComSolution.Infrastructure;
 using BallComSolution.Services;
 using Microsoft.EntityFrameworkCore;
@@ -60,5 +61,11 @@ app.MapControllers();
 
 Console.WriteLine("BallComSolution is running!");
 Console.WriteLine("Running in environment: " + app.Environment.EnvironmentName);
+
+
+var eventConsumer = new EventConsumer();
+eventConsumer.ConsumeEvents<SupplierRegisteredEvent>();
+
+
 
 app.Run();

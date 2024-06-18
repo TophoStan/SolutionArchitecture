@@ -14,7 +14,6 @@ public class EventConsumer
     public EventConsumer()
     {
         var hostname = Environment.GetEnvironmentVariable("RABBITMQ_HOSTNAME");
-        Console.WriteLine(hostname);
 
 
         var factory = new ConnectionFactory() { HostName = hostname };
