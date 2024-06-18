@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.json");
 
 
-var mySQLConnectionString = builder.Configuration.GetConnectionString("mySQLConnection");
+var mySQLConnectionString = builder.Configuration.GetConnectionString("MySQLConnection");
 
 
 if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")

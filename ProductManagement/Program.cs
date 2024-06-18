@@ -12,7 +12,7 @@ builder.Configuration.AddEnvironmentVariables();
 
 
 
-var mySQLConnectionString = builder.Configuration.GetConnectionString("mySQLConnection");
+var mySQLConnectionString = builder.Configuration.GetConnectionString("MySQLConnection");
 
 
 if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
