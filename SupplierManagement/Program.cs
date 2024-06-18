@@ -8,7 +8,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Configuration
 builder.Configuration.AddJsonFile("appsettings.json");
-builder.Configuration.AddJsonFile("properties/launchsettings.json");
 builder.Configuration.AddEnvironmentVariables();
 
 
@@ -62,7 +61,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-Console.WriteLine("BallComSolution is running!");
+Console.WriteLine("Supplier management is running!");
 Console.WriteLine("Running in environment: " + app.Environment.EnvironmentName);
 
 

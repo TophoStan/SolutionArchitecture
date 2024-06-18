@@ -20,7 +20,7 @@ services:
     image: dotnetapp:0.3
     build:
       context: .
-      dockerfile: ./BallComSolution/SupplierDockerfile
+      dockerfile: ./SupplierManagement/SupplierDockerfile
     ports:
       - "5219:5219"
       - "8080:8080"
