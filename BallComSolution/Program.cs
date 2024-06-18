@@ -1,8 +1,8 @@
-using BallComSolution.Domain.Events;
-using BallComSolution.Infrastructure;
-using BallComSolution.Services;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
+using SupplierManagement.Domain.Events;
+using SupplierManagement.Infrastructure;
+using SupplierManagement.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,9 +14,9 @@ builder.Configuration.AddJsonFile("appsettings.json");
 var mySQLConnectionString = builder.Configuration.GetConnectionString("mySQLConnection");
 
 
-if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
+if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
 {
-   mySQLConnectionString = mySQLConnectionString.Replace("localhost", "mysql");
+    mySQLConnectionString = mySQLConnectionString.Replace("localhost", "mysql");
 }
 mySQLConnectionString = builder.Configuration.GetConnectionString("mySQLConnectionDev");
 

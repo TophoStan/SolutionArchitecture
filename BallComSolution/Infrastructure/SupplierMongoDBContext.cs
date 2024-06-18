@@ -1,8 +1,8 @@
-﻿using BallComSolution.Domain;
+﻿using SupplierManagement.Domain;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
 
-namespace BallComSolution.Infrastructure
+namespace SupplierManagement.Infrastructure
 {
     public class SupplierMongoDBContext
     {

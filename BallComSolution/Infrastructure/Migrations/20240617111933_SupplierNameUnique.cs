@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace BallComSolution.Infrastructure.Migrations
+namespace SupplierManagement.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class SupplierNameUnique : Migration

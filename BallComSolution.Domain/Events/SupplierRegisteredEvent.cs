@@ -1,4 +1,4 @@
-﻿namespace BallComSolution.Domain.Events;
+﻿namespace SupplierManagement.Domain.Events;
 
 public class SupplierRegisteredEvent
 {

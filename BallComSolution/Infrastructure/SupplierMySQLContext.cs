@@ -1,7 +1,7 @@
-﻿using BallComSolution.Domain;
+﻿using SupplierManagement.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace BallComSolution.Infrastructure;
+namespace SupplierManagement.Infrastructure;
 
 public class SupplierMySQLContext : DbContext
 {

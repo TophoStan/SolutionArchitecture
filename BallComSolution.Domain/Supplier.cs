@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 
-namespace BallComSolution.Domain;
+namespace SupplierManagement.Domain;
 
 public class Supplier
 {
