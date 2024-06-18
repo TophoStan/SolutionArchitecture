@@ -37,7 +37,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\BallComSolution.Domain\BallComSolution.Domain.csproj" />
+		<ProjectReference Include="..\SupplierManagement.Domain\SupplierManagement.Domain.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

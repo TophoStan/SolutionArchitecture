@@ -3,16 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BallComSolution", "BallComSolution\BallComSolution.csproj", "{6895190C-11D2-4B6A-91BA-DF11C6115359}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupplierManagement", "SupplierManagement\SupplierManagement.csproj", "{6895190C-11D2-4B6A-91BA-DF11C6115359}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BallComSolution.Domain", "BallComSolution.Domain\BallComSolution.Domain.csproj", "{84F14B37-640B-48AA-A5BD-4BD897BACA08}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderManagement.Domain", "OrderManagment.Domain\OrderManagement.Domain.csproj", "{3EF07459-6B62-4909-B558-89856A5E9CD1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderManagement", "OrderManagement\OrderManagement.csproj", "{F184ED0A-A58D-4EFC-8D73-486BC3894AC9}"
-	ProjectSection(ProjectDependencies) = postProject
-		{3EF07459-6B62-4909-B558-89856A5E9CD1} = {3EF07459-6B62-4909-B558-89856A5E9CD1}
-	EndProjectSection
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupplierManagement.Domain", "SupplierManagement.Domain\SupplierManagement.Domain.csproj", "{84F14B37-640B-48AA-A5BD-4BD897BACA08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

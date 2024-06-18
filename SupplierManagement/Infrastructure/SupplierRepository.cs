@@ -1,6 +1,6 @@
-﻿using BallComSolution.Domain;
+﻿using SupplierManagement.Domain;
 
-namespace BallComSolution.Infrastructure;
+namespace SupplierManagement.Infrastructure;
 
 public class SupplierRepository
 {

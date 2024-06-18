@@ -3,7 +3,7 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
 
-namespace BallComSolution.Infrastructure;
+namespace SupplierManagement.Infrastructure;
 
 public class EventConsumer
 {
@@ -14,7 +14,6 @@ public class EventConsumer
     public EventConsumer()
     {
         var hostname = Environment.GetEnvironmentVariable("RABBITMQ_HOSTNAME");
-        Console.WriteLine(hostname);
 
 
         var factory = new ConnectionFactory() { HostName = hostname };

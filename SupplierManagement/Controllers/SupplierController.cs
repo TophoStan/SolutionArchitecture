@@ -1,8 +1,8 @@
-﻿using BallComSolution.Domain;
-using BallComSolution.Services;
+﻿using SupplierManagement.Domain;
+using SupplierManagement.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BallComSolution.Controllers;
+namespace SupplierManagement.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

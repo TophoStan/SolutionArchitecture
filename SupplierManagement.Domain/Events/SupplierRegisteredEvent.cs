@@ -1,12 +1,7 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿namespace SupplierManagement.Domain.Events;
 
-namespace BallComSolution.Domain;
-
-public class Supplier
+public class SupplierRegisteredEvent
 {
-
-    [BsonId]
-    public int SupplierId { get; set; }
     public string SupplierName { get; set; }
     public string ContactName { get; set; }
     public string ContactEmail { get; set; }

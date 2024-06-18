@@ -1,8 +1,8 @@
-﻿using BallComSolution.Domain;
-using BallComSolution.Domain.Events;
-using BallComSolution.Infrastructure;
+﻿using SupplierManagement.Domain;
+using SupplierManagement.Domain.Events;
+using SupplierManagement.Infrastructure;
 
-namespace BallComSolution.Services;
+namespace SupplierManagement.Services;
 
 public class SupplierService
 {
