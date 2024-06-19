@@ -7,13 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupplierManagement", "Suppl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupplierManagement.Domain", "SupplierManagement.Domain\SupplierManagement.Domain.csproj", "{84F14B37-640B-48AA-A5BD-4BD897BACA08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderManagement.Domain", "OrderManagment.Domain\OrderManagement.Domain.csproj", "{3EF07459-6B62-4909-B558-89856A5E9CD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderManagement.Domain", "OrderManagment.Domain\OrderManagement.Domain.csproj", "{3EF07459-6B62-4909-B558-89856A5E9CD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderManagement", "OrderManagement\OrderManagement.csproj", "{F184ED0A-A58D-4EFC-8D73-486BC3894AC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderManagement", "OrderManagement\OrderManagement.csproj", "{F184ED0A-A58D-4EFC-8D73-486BC3894AC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductManagement", "ProductManagement\ProductManagement.csproj", "{ECB22221-4459-4368-A756-FDAB09099276}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductManagement", "ProductManagement\ProductManagement.csproj", "{ECB22221-4459-4368-A756-FDAB09099276}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductManagement.Domain", "ProductManagement.Domain\ProductManagement.Domain.csproj", "{D0D38E76-A00B-4EEF-9259-615A94CBF89E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductManagement.Domain", "ProductManagement.Domain\ProductManagement.Domain.csproj", "{D0D38E76-A00B-4EEF-9259-615A94CBF89E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitMQ.domain", "RabbitMQ.domain\RabbitMQ.domain.csproj", "{F33D3BE2-B935-46B0-92BC-25B3CC99E5F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{D0D38E76-A00B-4EEF-9259-615A94CBF89E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0D38E76-A00B-4EEF-9259-615A94CBF89E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0D38E76-A00B-4EEF-9259-615A94CBF89E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F33D3BE2-B935-46B0-92BC-25B3CC99E5F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F33D3BE2-B935-46B0-92BC-25B3CC99E5F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F33D3BE2-B935-46B0-92BC-25B3CC99E5F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F33D3BE2-B935-46B0-92BC-25B3CC99E5F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

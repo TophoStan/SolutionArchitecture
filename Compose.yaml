@@ -15,24 +15,24 @@ services:
     networks:
       - my_network
 
-  # supplier
-  supplier:
-    image: suppliermanagement_app:0.3
-    build:
-      context: .
-      dockerfile: ./SupplierDockerfile
-    ports:
-      - "5219:5219"
-      - "8080:8080"
-    depends_on:
-      - rabbitmq
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Production
-      - RABBITMQ_HOSTNAME=rabbitmq
-    volumes:
-      - dotnet_supplier_data:/app
-    networks:
-      - my_network
+  # # supplier
+  # supplier:
+  #   image: suppliermanagement_app:0.3
+  #   build:
+  #     context: .
+  #     dockerfile: ./SupplierDockerfile
+  #   ports:
+  #     - "5219:5219"
+  #     - "8080:8080"
+  #   depends_on:
+  #     - rabbitmq
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Production
+  #     - RABBITMQ_HOSTNAME=rabbitmq
+  #   volumes:
+  #     - dotnet_supplier_data:/app
+  #   networks:
+  #     - my_network
 
   suppliermysql:
     image: mysql:latest
@@ -60,23 +60,23 @@ services:
       - my_network
 
   # order
-  order:
-    image: ordermanagement_app:0.3
-    build:
-      context: .
-      dockerfile: ./OrderDockerfile
-    ports:
-      - "5220:5219"
-      - "8081:8080"
-    depends_on:
-      - rabbitmq
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Production
-      - RABBITMQ_HOSTNAME=rabbitmq
-    volumes:
-      - dotnet_order_data:/app
-    networks:
-      - my_network
+  # order:
+  #   image: ordermanagement_app:0.3
+  #   build:
+  #     context: .
+  #     dockerfile: ./OrderDockerfile
+  #   ports:
+  #     - "5220:5219"
+  #     - "8081:8080"
+  #   depends_on:
+  #     - rabbitmq
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Production
+  #     - RABBITMQ_HOSTNAME=rabbitmq
+  #   volumes:
+  #     - dotnet_order_data:/app
+  #   networks:
+  #     - my_network
 
   ordermysql:
     image: mysql:latest

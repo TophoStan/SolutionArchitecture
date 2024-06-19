@@ -7,12 +7,10 @@ namespace ProductManagement.Services;
 public class ProductService
 {
     private readonly ProductRepository _productRepository;
-    private readonly EventPublisher _eventPublisher;
 
-    public ProductService(ProductRepository productRepository, EventPublisher eventPublisher)
+    public ProductService(ProductRepository productRepository)
     {
         _productRepository = productRepository;
-        _eventPublisher = eventPublisher;
     }
 
     public async Task RegisterProductAsync(Product product)
@@ -30,7 +28,6 @@ public class ProductService
             Category = product.Category
                 
         };
-        _eventPublisher.Publish(@event);
     }
 
     public async Task<Product> GetProductAsync(int productId)
