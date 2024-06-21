@@ -32,7 +32,7 @@ public class ProductRepository
 
     }
 
-    public async Task<Product> GetProductAsync(int productId)
+    public async Task<Product?> GetProductAsync(int productId)
     {
         return await _SQLcontext.Products.FindAsync(productId);
     }

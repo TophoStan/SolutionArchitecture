@@ -1,8 +1,8 @@
+using UserManagement.Domain;
+using UserManagement.Services;
 using Microsoft.AspNetCore.Mvc;
-using OrderManagement.Services;
-using OrderManagement.Domain;
 
-namespace OrderManagement.Controllers;
+namespace UserManagement.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -16,11 +16,10 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    [Route("adduser")]
-    public IActionResult AddUser([FromBody] User user)
+    [Route("register")]
+    public async Task<IActionResult> RegisterUser([FromBody] User user)
     {
-        Console.WriteLine("Added user");
-        _userService.AddUser(user);
+        await _userService.RegisterUserAsync(user);
         return Ok();
     }
 }

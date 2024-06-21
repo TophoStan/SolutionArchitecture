@@ -32,7 +32,7 @@ if (developmentEnvironment != "Development")
     mongoDBConnectionString = mongoDBConnectionString.Replace("localhost", "mongo");
 }
 var client = new MongoClient(mongoDBConnectionString);
-var database = client.GetDatabase("ReadSupplier");
+var database = client.GetDatabase("ReadProduct");
 builder.Services.AddSingleton(database);
 builder.Services.AddScoped<ProductMongoDBContext>();
 

@@ -4,7 +4,7 @@ networks:
   my_network:
 
 services:
-  # general
+  # General
   rabbitmq:
     image: rabbitmq:3-management
     ports:
@@ -14,103 +14,74 @@ services:
       - rabbitmq_data:/var/lib/rabbitmq
     networks:
       - my_network
-
-  # # supplier
-  # supplier:
-  #   image: suppliermanagement_app:0.3
-  #   build:
-  #     context: .
-  #     dockerfile: ./SupplierDockerfile
-  #   ports:
-  #     - "5219:5219"
-  #     - "8080:8080"
-  #   depends_on:
-  #     - rabbitmq
-  #   environment:
-  #     - ASPNETCORE_ENVIRONMENT=Production
-  #     - RABBITMQ_HOSTNAME=rabbitmq
-  #   volumes:
-  #     - dotnet_supplier_data:/app
-  #   networks:
-  #     - my_network
-
-  suppliermysql:
+  
+  # MySQL server
+  mysqlserver:
     image: mysql:latest
-    container_name: mysql_supplier_container
+    container_name: mysql_container
     environment:
       MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: mysupplierdatabase
       MYSQL_USER: user
       MYSQL_PASSWORD: user_password
     ports:
       - "3306:3306"
     volumes:
-      - mysql_supplier_data:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
     networks:
       - my_network
 
-  suppliermongodb:
+  # MongoDB
+  mongodb:
     image: mongo:latest
-    container_name: mongodb_supplier_container
+    container_name: mongodb_container
     ports:
-      - "28000:27017"
+      - "27017:27017"
     volumes:
-      - mongo_supplier_data:/data/db
+      - mongo_data:/data/db
     networks:
       - my_network
 
-  # order
-  # order:
-  #   image: ordermanagement_app:0.3
-  #   build:
-  #     context: .
-  #     dockerfile: ./OrderDockerfile
-  #   ports:
-  #     - "5220:5219"
-  #     - "8081:8080"
-  #   depends_on:
-  #     - rabbitmq
-  #   environment:
-  #     - ASPNETCORE_ENVIRONMENT=Production
-  #     - RABBITMQ_HOSTNAME=rabbitmq
-  #   volumes:
-  #     - dotnet_order_data:/app
-  #   networks:
-  #     - my_network
-
-  ordermysql:
-    image: mysql:latest
-    container_name: mysql_order_container
+  # Supplier
+  supplier:
+    image: suppliermanagement_app:0.3
+    build:
+      context: .
+      dockerfile: ./SupplierDockerfile
+    ports:
+      - "5219:5219"
+      - "8080:8080"
+    depends_on:
+      - rabbitmq
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: myorderdatabase
-      MYSQL_USER: user
-      MYSQL_PASSWORD: user_password
-    ports:
-      - "3307:3306"
+      - ASPNETCORE_ENVIRONMENT=Production
+      - RABBITMQ_HOSTNAME=rabbitmq
     volumes:
-      - mysql_order_data:/var/lib/mysql
+      - dotnet_supplier_data:/app
     networks:
       - my_network
 
-  ordermongodb:
-    image: mongo:latest
-    container_name: mongodb_order_container
+  # Order
+  order:
+    image: ordermanagement_app:0.3
+    build:
+      context: .
+      dockerfile: ./OrderDockerfile
     ports:
-      - "28001:27017"
+      - "5220:5219"
+      - "8081:8080"
+    depends_on:
+      - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - RABBITMQ_HOSTNAME=rabbitmq
     volumes:
-      - mongo_order_data:/data/db
+      - dotnet_order_data:/app
     networks:
       - my_network
 
 volumes:
-  # supplier
-  dotnet_supplier_data:
-  mysql_supplier_data:
-  mongo_supplier_data:
-  # order
-  dotnet_order_data:
-  mysql_order_data:
-  mongo_order_data:
-  # general
   rabbitmq_data:
+  mysql_data:
+  mongo_data:
+  dotnet_supplier_data:
+  dotnet_order_data:

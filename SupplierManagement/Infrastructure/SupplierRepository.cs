@@ -29,7 +29,7 @@ public class SupplierRepository
         
     }
 
-    public async Task<Supplier> GetSupplierAsync(string supplierId)
+    public async Task<Supplier?> GetSupplierAsync(string supplierId)
     {
         return await _SQLcontext.Suppliers.FindAsync(supplierId);
     }

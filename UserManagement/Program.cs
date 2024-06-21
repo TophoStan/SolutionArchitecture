@@ -1,10 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
-using OrderManagement.Infrastructure;
-using OrderManagement.Infrastructure.Order;
-using OrderManagement.Infrastructure.Product;
-using OrderManagement.Infrastructure.User;
-using OrderManagement.Services;
+using SupplierManagement.Infrastructure;
+using UserManagement.Infrastructure;
+using UserManagement.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,21 +11,17 @@ builder.Configuration.AddJsonFile("appsettings.json");
 builder.Configuration.AddEnvironmentVariables();
 
 var mySQLConnectionString = builder.Configuration.GetConnectionString("MySQLConnection");
-builder.Services.AddDbContext<OrderMySQLContext>(options => options.UseMySql(mySQLConnectionString, new MySqlServerVersion(new Version(8, 0, 2))));
+builder.Services.AddDbContext<UserMySQLContext>(options => options.UseMySql(mySQLConnectionString, new MySqlServerVersion(new Version(8, 0, 2))));
 
 var mongoDBConnectionString = builder.Configuration.GetConnectionString("MongoDBConnection");
 var client = new MongoClient(mongoDBConnectionString);
-var database = client.GetDatabase("ReadOrder");
+var database = client.GetDatabase("ReadUser");
 builder.Services.AddSingleton(database);
-builder.Services.AddScoped<OrderMongoDBContext>();
+builder.Services.AddScoped<UserMongoDBContext>();
 
 // Add other services to the container.
 builder.Services.AddControllers();
 builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<ProductService>();
-builder.Services.AddScoped<OrderService>();
-builder.Services.AddScoped<ProductRepository>();
-builder.Services.AddScoped<OrderRepository>();
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<EventPublisher>();
 
@@ -49,7 +43,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-Console.WriteLine("Order management is running!");
+Console.WriteLine("User management is running!");
 Console.WriteLine("Running in environment: " + app.Environment.EnvironmentName);
 
 app.Run();
