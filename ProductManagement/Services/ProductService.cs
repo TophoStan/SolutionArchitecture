@@ -1,37 +1,40 @@
-﻿using ProductManagement.Domain;
+﻿using MassTransit;
+using ProductManagement.Domain;
 using ProductManagement.Domain.Events;
 using ProductManagement.Infrastructure;
+using RabbitMQ.domain;
 
 namespace ProductManagement.Services;
 
 public class ProductService
 {
     private readonly ProductRepository _productRepository;
+    private readonly IBus _bus;
 
-    public ProductService(ProductRepository productRepository)
+
+    public ProductService(ProductRepository productRepository, IBus bus)
     {
         _productRepository = productRepository;
+        _bus = bus;
     }
 
     public async Task RegisterProductAsync(Product product)
     {
-        var result = await _productRepository.AddProductAsync(product);
-        if (!result)
+        // Add to database
+        var insertResult = await _productRepository.AddProductAsync(product);
+        if (insertResult == null)
             return;
-
-        var @event = new ProductInsertedEvent
+        // Publish event
+        IInsertedEvent @event = new ProductInsertedEvent
         {
-            ProductName = product.ProductName,
-            ProductDescription = product.ProductDescription,
-            Price = product.Price,
-            StockQuantity = product.StockQuantity,
-            Category = product.Category
-                
+            ProductName = insertResult.ProductName,
+            ProductDescription = insertResult.ProductDescription,
+            Price = insertResult.Price,
+            StockQuantity = insertResult.StockQuantity,
+            Category = insertResult.Category
         };
+
+        await _bus.Publish(@event);
     }
 
-    public async Task<Product> GetProductAsync(int productId)
-    {
-        return await _productRepository.GetProductAsync(productId);
-    }
 }

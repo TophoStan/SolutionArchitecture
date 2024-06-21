@@ -53,6 +53,7 @@ builder.Host.ConfigureServices(services =>
                 h.Username("guest");
                 h.Password("guest");
             });
+
             cfg.ReceiveEndpoint("supplier-management-queue", e =>
             {
                 e.ConfigureConsumer<ProductConsumer>(context);
@@ -63,16 +64,9 @@ builder.Host.ConfigureServices(services =>
                 });
             });
 
+            cfg.Message<IInsertedEvent>(x => { x.SetEntityName("product-inserted-event"); });
+            cfg.Publish<IInsertedEvent>(x => { x.ExchangeType = "topic"; });
 
-            cfg.Message<IInsertedEvent>(x =>
-            {
-                x.SetEntityName("product-inserted-event");
-            });
-
-            cfg.Publish<IInsertedEvent>(x =>
-            {
-                x.ExchangeType = "topic";
-            });
         });
     });
     // Add the bus to the container

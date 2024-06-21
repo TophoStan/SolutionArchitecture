@@ -21,7 +21,15 @@ public class SuppliersController : ControllerBase
     {
 
 
-        //await _supplierService.RegisterSupplierAsync(supplier);
+        await _supplierService.RegisterSupplierAsync(supplier);
+        return Ok();
+    }
+
+    [HttpPost]
+    [Route("insertproduct")]
+    public async Task<IActionResult> InsertProduct([FromBody] Product product)
+    {
+        await _supplierService.InsertProduct(product);
         return Ok();
     }
 }

@@ -14,7 +14,10 @@ builder.Configuration.AddJsonFile("appsettings.json");
 builder.Configuration.AddEnvironmentVariables();
 
 var mySQLConnectionString = builder.Configuration.GetConnectionString("mySQLConnection");
-if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
+var developmentEnvironment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+Console.WriteLine("Environment: " + developmentEnvironment);
+
+if (developmentEnvironment != "Development")
 {
     mySQLConnectionString = mySQLConnectionString.Replace("localhost", "mysql");
 }
@@ -24,7 +27,7 @@ builder.Services.AddDbContext<ProductMySQLContext>(options =>
     options.UseMySql(mySQLConnectionString, new MySqlServerVersion(new Version(8, 0, 2))));
 
 var mongoDBConnectionString = builder.Configuration.GetConnectionString("MongoDBConnection");
-if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
+if (developmentEnvironment != "Development")
 {
     mongoDBConnectionString = mongoDBConnectionString.Replace("localhost", "mongo");
 }

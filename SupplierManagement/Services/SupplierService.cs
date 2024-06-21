@@ -1,4 +1,6 @@
-﻿using SupplierManagement.Domain;
+﻿using MassTransit;
+using RabbitMQ.domain;
+using SupplierManagement.Domain;
 using SupplierManagement.Domain.Events;
 using SupplierManagement.Infrastructure;
 
@@ -7,28 +9,44 @@ namespace SupplierManagement.Services;
 public class SupplierService
 {
     private readonly SupplierRepository _supplierRepository;
-    private readonly EventPublisher _eventPublisher;
+    private readonly IBus _bus;
 
-    public SupplierService(SupplierRepository supplierRepository, EventPublisher eventPublisher)
+    public SupplierService(SupplierRepository supplierRepository, IBus bus)
     {
         _supplierRepository = supplierRepository;
-        _eventPublisher = eventPublisher;
+        _bus = bus;
     }
 
     public async Task RegisterSupplierAsync(Supplier supplier)
     {
-        var result = await _supplierRepository.AddSupplierAsync(supplier);
-        if (!result)
-            return;
+        await _supplierRepository.AddSupplierAsync(supplier);
 
-        var @event = new SupplierRegisteredEvent
+        //ISupplierRegisteredEvent @event = new SupplierRegisteredEvent
+        //{
+        //    SupplierName = supplier.SupplierName,
+        //    ContactName = supplier.ContactName,
+        //    ContactEmail = supplier.ContactEmail,
+        //    ContactPhone = supplier.ContactPhone,
+        //    Address = supplier.Address,
+        //};
+        //_eventPublisher.Publish(@event);
+    }
+
+    public async Task InsertProduct(Product product )
+    {
+
+        // Insert into supplier database only the product id and name
+
+
+        // Publish the event so that the product management service can insert the product into its database
+        IInsertedEvent @event = new ProductInsertedEvent
         {
-            SupplierName = supplier.SupplierName,
-            ContactName = supplier.ContactName,
-            ContactEmail = supplier.ContactEmail,
-            ContactPhone = supplier.ContactPhone,
-            Address = supplier.Address,
+            ProductName = product.ProductName,
+            ProductDescription = product.ProductDescription,
+            Price = product.Price,
+            StockQuantity = product.StockQuantity,
+
         };
-        _eventPublisher.Publish(@event);
+        await _bus.Publish(@event);
     }
 }
