@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProductManagement.Domain;
-using System.Collections.Generic;
 
 namespace ProductManagement.Infrastructure;
 

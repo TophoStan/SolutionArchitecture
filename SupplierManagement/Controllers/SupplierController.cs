@@ -6,11 +6,11 @@ namespace SupplierManagement.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class SuppliersController : ControllerBase
+public class SupplierController : ControllerBase
 {
     private readonly SupplierService _supplierService;
 
-    public SuppliersController(SupplierService supplierService)
+    public SupplierController(SupplierService supplierService)
     {
         _supplierService = supplierService;
     }
