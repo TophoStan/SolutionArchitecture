@@ -16,11 +16,13 @@ public class OrderService
         _eventPublisher = eventPublisher;
     }
 
-    public async Task AddOrder(Order order)
+    public async Task<bool> AddOrder(Order order)
     {
         var result = await _orderRepository.AddOrderAsync(order);
-        if (!result)
-            return;
+        var eventResult = await _orderRepository.SaveEventAsync(order.OrderNumber, "AddOrder", order);
+
+        if (!result || !eventResult)
+            return false;
 
         var @event = new OrderAddedEvent
         {
@@ -30,5 +32,32 @@ public class OrderService
             Status = order.Status
         };
         _eventPublisher.Publish(@event);
+
+        return true;
+    }
+
+    public async Task<bool> UpdateOrder(Order order)
+    {
+        var result = await _orderRepository.UpdateOrderAsync(order);
+        var eventResult = await _orderRepository.SaveEventAsync(order.OrderNumber, "UpdateOrder", order);
+
+        if (!result || !eventResult)
+            return false;
+
+        var @event = new OrderUpdatedEvent
+        {
+            OrderNumber = order.OrderNumber,
+            UserEmail = order.UserEmail,
+            OrderDate = order.OrderDate,
+            Status = order.Status
+        };
+        _eventPublisher.Publish(@event);
+
+        return true;
+    }
+
+    public async Task<IEnumerable<OrderEvent>> GetOrderEvents(string orderNumber)
+    {
+        return await _orderRepository.GetEventsAsync(orderNumber);
     }
 }
