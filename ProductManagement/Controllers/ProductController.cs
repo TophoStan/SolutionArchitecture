@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using ProductManagement.Domain;
+﻿using Microsoft.AspNetCore.Mvc;
 using ProductManagement.Services;
 
 namespace ProductManagement.Controllers;
@@ -24,5 +22,5 @@ public class ProductController : ControllerBase
             return NotFound();
         return Ok(product);
     }
-    
+
 }
