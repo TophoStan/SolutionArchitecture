@@ -23,6 +23,7 @@ public class OrderMongoDBContext
 
         if (sqlOrders.Any())
         {
+            await Orders.DeleteManyAsync(Builders<Domain.Order>.Filter.Empty);
             await Orders.InsertManyAsync(sqlOrders);
         }
     }
