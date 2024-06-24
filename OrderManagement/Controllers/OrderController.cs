@@ -17,10 +17,29 @@ public class OrderController : ControllerBase
 
     [HttpPost]
     [Route("addorder")]
-    public IActionResult AddOrder([FromBody] Order order)
+    public async Task<IActionResult> AddOrder([FromBody] Order order)
     {
         Console.WriteLine("Added order");
-        _orderService.AddOrder(order);
-        return Ok();
+        
+        var result = await _orderService.AddOrder(order);
+        return result ? Ok() : BadRequest();
+    }
+
+    [HttpPut]
+    [Route("updateorder")]
+    public async Task<IActionResult> UpdateOrder([FromBody] Order order)
+    {
+        Console.WriteLine("Updated order");
+        
+        var result = await _orderService.UpdateOrder(order);
+        return result ? Ok() : BadRequest();
+    }
+
+    [HttpGet]
+    [Route("getevents")]
+    public async Task<IActionResult> GetEvents(string orderNumber)
+    {
+        var events = await _orderService.GetOrderEvents(orderNumber);
+        return Ok(events);
     }
 }
