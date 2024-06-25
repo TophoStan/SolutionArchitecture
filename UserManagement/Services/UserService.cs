@@ -1,4 +1,5 @@
-﻿using SupplierManagement.Infrastructure;
+﻿using MassTransit;
+using RabbitMQ.domain.UserEvents;
 using UserManagement.Domain;
 using UserManagement.Domain.Events;
 using UserManagement.Infrastructure;
@@ -8,28 +9,35 @@ namespace UserManagement.Services;
 public class UserService
 {
     private readonly UserRepository _userRepository;
-    private readonly EventPublisher _eventPublisher;
+    private readonly IBus _bus;
 
-    public UserService(UserRepository userRepository, EventPublisher eventPublisher)
+    public UserService(UserRepository userRepository, IBus bus)
     {
         _userRepository = userRepository;
-        _eventPublisher = eventPublisher;
+        _bus = bus;
     }
 
     public async Task RegisterUserAsync(User user)
     {
         var result = await _userRepository.AddUserAsync(user);
-        if (!result)
-            return;
+        
+        // add event
+    }
 
-        var @event = new UserRegisteredEvent
+    public async Task UpdateUserAsync(User user)
+    {
+        await _userRepository.UpdateUserAsync(user);
+
+        IUserUpdatedEvent @event = new UserUpdatedEvent
         {
+            UserId = user.UserId,
             Email = user.Email,
             FirstName = user.FirstName,
             LastName = user.LastName,
             PhoneNumber = user.PhoneNumber,
             Address = user.Address,
         };
-        _eventPublisher.Publish(@event);
+        await _bus.Publish(@event);
+
     }
 }

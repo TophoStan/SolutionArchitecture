@@ -1,7 +1,10 @@
-﻿namespace UserManagement.Domain.Events;
+﻿using RabbitMQ.domain.UserEvents;
 
-public class UserRegisteredEvent
+namespace UserManagement.Domain.Events;
+
+public class UserUpdatedEvent : IUserUpdatedEvent
 {
+    public int UserId { get; set; }
     public string Email { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }

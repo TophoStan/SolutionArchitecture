@@ -13,6 +13,21 @@ public class UserRepository
         _MongoDBcontext = mongoDBcontext;
     }
 
+    public async Task<bool> UpdateUserAsync(User user)
+    {
+        try
+        {
+            _SQLcontext.Users.Update(user);
+            await _SQLcontext.SaveChangesAsync();
+
+            await _MongoDBcontext.UpdateMongoDB(user);
+            return true;
+        } catch
+        {
+            return false;
+        }
+    }
+
     public async Task<bool> AddUserAsync(User user)
     {
         try
@@ -20,7 +35,7 @@ public class UserRepository
             await _SQLcontext.Users.AddAsync(user);
             await _SQLcontext.SaveChangesAsync();
 
-            await _MongoDBcontext.SQLToMongoDB();
+            await _MongoDBcontext.AddMongoDB(user);
             return true;
         } catch 
         {

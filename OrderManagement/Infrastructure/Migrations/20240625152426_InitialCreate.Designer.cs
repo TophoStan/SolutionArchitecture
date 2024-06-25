@@ -12,7 +12,7 @@ using OrderManagement.Infrastructure.Order;
 namespace OrderManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(OrderMySQLContext))]
-    [Migration("20240625080052_InitialCreate")]
+    [Migration("20240625152426_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -67,16 +67,15 @@ namespace OrderManagement.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("UserEmail")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("OrderNumber");
 
                     b.HasIndex("OrderNumber")
                         .IsUnique();
 
-                    b.HasIndex("UserEmail");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -107,8 +106,15 @@ namespace OrderManagement.Infrastructure.Migrations
 
             modelBuilder.Entity("OrderManagement.Domain.User", b =>
                 {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("UserId"));
+
                     b.Property<string>("Email")
-                        .HasColumnType("varchar(255)");
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -118,12 +124,35 @@ namespace OrderManagement.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.HasKey("Email");
+                    b.HasKey("UserId");
 
-                    b.HasIndex("Email")
+                    b.HasIndex("UserId")
                         .IsUnique();
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            Email = "Logitech@mail.com",
+                            FirstName = "John",
+                            LastName = "Doe"
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            Email = "Pokemon@mail.com",
+                            FirstName = "Ash",
+                            LastName = "Ketchum"
+                        },
+                        new
+                        {
+                            UserId = 3,
+                            Email = "Redbull@mail.com",
+                            FirstName = "Max",
+                            LastName = "Verstappen"
+                        });
                 });
 
             modelBuilder.Entity("OrderProduct", b =>
@@ -145,9 +174,7 @@ namespace OrderManagement.Infrastructure.Migrations
                 {
                     b.HasOne("OrderManagement.Domain.User", "User")
                         .WithMany("Orders")
-                        .HasForeignKey("UserEmail")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });

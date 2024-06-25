@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace OrderManagement.Infrastructure.Migrations
 {
     /// <inheritdoc />
@@ -57,7 +59,9 @@ namespace OrderManagement.Infrastructure.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Email = table.Column<string>(type: "varchar(255)", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Email = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FirstName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -66,7 +70,7 @@ namespace OrderManagement.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Email);
+                    table.PrimaryKey("PK_Users", x => x.UserId);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -79,18 +83,16 @@ namespace OrderManagement.Infrastructure.Migrations
                     OrderDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Status = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UserEmail = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.OrderNumber);
                     table.ForeignKey(
-                        name: "FK_Orders_Users_UserEmail",
-                        column: x => x.UserEmail,
+                        name: "FK_Orders_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Email",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "UserId");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -121,6 +123,16 @@ namespace OrderManagement.Infrastructure.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "UserId", "Email", "FirstName", "LastName" },
+                values: new object[,]
+                {
+                    { 1, "Logitech@mail.com", "John", "Doe" },
+                    { 2, "Pokemon@mail.com", "Ash", "Ketchum" },
+                    { 3, "Redbull@mail.com", "Max", "Verstappen" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Events_AggregateId",
                 table: "Events",
@@ -138,9 +150,9 @@ namespace OrderManagement.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_UserEmail",
+                name: "IX_Orders_UserId",
                 table: "Orders",
-                column: "UserEmail");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_ProductId",
@@ -149,9 +161,9 @@ namespace OrderManagement.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_Email",
+                name: "IX_Users_UserId",
                 table: "Users",
-                column: "Email",
+                column: "UserId",
                 unique: true);
         }
 
