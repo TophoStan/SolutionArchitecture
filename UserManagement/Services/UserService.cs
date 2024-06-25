@@ -1,5 +1,6 @@
 ﻿using MassTransit;
 using RabbitMQ.domain;
+using RabbitMQ.domain.UserEvents;
 using UserManagement.Domain;
 using UserManagement.Domain.Events;
 using UserManagement.Infrastructure;
@@ -23,14 +24,32 @@ public class UserService
         if (!result)
             return;
 
-        var @event = new UserRegisteredEvent
+        IUserRegisteredEvent @event = new UserRegisteredEvent
         {
+            UserId = user.UserId,
             Email = user.Email,
             FirstName = user.FirstName,
             LastName = user.LastName,
             PhoneNumber = user.PhoneNumber,
             Address = user.Address,
         };
+        await _bus.Publish(@event);
+    }
+
+    public async Task UpdateUserAsync(User user)
+    {
+        await _userRepository.UpdateUserAsync(user);
+
+        IUserUpdatedEvent @event = new UserUpdatedEvent
+        {
+            UserId = user.UserId,
+            Email = user.Email,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            PhoneNumber = user.PhoneNumber,
+            Address = user.Address,
+        };
+        await _bus.Publish(@event);
     }
 
     public async Task RequestUserSupport(Support support, int userId)

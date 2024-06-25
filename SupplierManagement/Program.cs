@@ -13,6 +13,14 @@ builder.Configuration.AddJsonFile("appsettings.json");
 builder.Configuration.AddEnvironmentVariables();
 
 var mySQLConnectionString = builder.Configuration.GetConnectionString("MySQLConnection");
+var developmentEnvironment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+if (developmentEnvironment != "Development")
+{
+    mySQLConnectionString = mySQLConnectionString.Replace("localhost", "mysqlserver");
+}
+Console.WriteLine("MySQL Connection String: " + mySQLConnectionString);
+
 builder.Services.AddDbContext<SupplierMySQLContext>(options => options.UseMySql(mySQLConnectionString, new MySqlServerVersion(new Version(8, 0, 2))));
 
 var mongoDBConnectionString = builder.Configuration.GetConnectionString("MongoDBConnection");
@@ -62,7 +70,6 @@ builder.Services.AddScoped<ProductConsumer>();
 // Add other services to the container.
 builder.Services.AddControllers();
 builder.Services.AddScoped<SupplierRepository>();
-builder.Services.AddScoped<EventPublisher>();
 builder.Services.AddScoped<SupplierService>();
 
 builder.Services.AddEndpointsApiExplorer();

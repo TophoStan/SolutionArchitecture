@@ -2,6 +2,7 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
 using RabbitMQ.domain;
+using RabbitMQ.domain.UserEvents;
 using UserManagement.Infrastructure;
 using UserManagement.Services;
 
@@ -46,6 +47,8 @@ builder.Host.ConfigureServices(services =>
                 });
             });
 
+            cfg.Message<IUserUpdatedEvent>(x => { x.SetEntityName("user-updated-event"); });
+            cfg.Publish<IUserUpdatedEvent>(x => { x.ExchangeType = "topic"; });
             cfg.Message<ISupportTicketCreatedEvent>(x =>
             {
                 x.SetEntityName("support-ticket-created-event");

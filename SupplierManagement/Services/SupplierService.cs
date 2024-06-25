@@ -20,33 +20,27 @@ public class SupplierService
     public async Task RegisterSupplierAsync(Supplier supplier)
     {
         await _supplierRepository.AddSupplierAsync(supplier);
-
-        //ISupplierRegisteredEvent @event = new SupplierRegisteredEvent
-        //{
-        //    SupplierName = supplier.SupplierName,
-        //    ContactName = supplier.ContactName,
-        //    ContactEmail = supplier.ContactEmail,
-        //    ContactPhone = supplier.ContactPhone,
-        //    Address = supplier.Address,
-        //};
-        //_eventPublisher.Publish(@event);
     }
 
-    public async Task InsertProduct(Product product )
+    public async Task InsertProduct(Product product, int supplierId)
     {
 
         // Insert into supplier database only the product id and name
 
+        var productWithId = await _supplierRepository.AddProductOfSupplierAsync(product, supplierId);
 
         // Publish the event so that the product management service can insert the product into its database
         IInsertedEvent @event = new ProductInsertedEvent
         {
             ProductName = product.ProductName,
             ProductDescription = product.ProductDescription,
-            Price = product.Price,
-            StockQuantity = product.StockQuantity,
-
+            Price = (int)product.Price,
+            StockQuantity = (int)product.StockQuantity,
+            Category = product.Category,
+            SupplierId = supplierId,
+            ProductId = productWithId.ProductId
         };
         await _bus.Publish(@event);
+
     }
 }

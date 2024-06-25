@@ -17,10 +17,21 @@ public class UserController : ControllerBase
 
     [HttpPost]
     [Route("adduser")]
-    public IActionResult AddUser([FromBody] User user)
+    public async Task<IActionResult> AddUser([FromBody] User user)
     {
         Console.WriteLine("Added user");
-        _userService.AddUser(user);
-        return Ok();
+
+        var result = await _userService.AddUser(user);
+        return result ? Ok() : BadRequest();
+    }
+
+    [HttpPut]
+    [Route("updateuser")]
+    public async Task<IActionResult> UpdateUser([FromBody] User user)
+    {
+        Console.WriteLine("Updated user");
+
+        var result = await _userService.UpdateUser(user);
+        return result ? Ok() : BadRequest();
     }
 }

@@ -4,15 +4,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SupplierManagement.Infrastructure;
+using UserManagement.Infrastructure;
 
 #nullable disable
 
-namespace SupplierManagement.Infrastructure.Migrations
+namespace UserManagement.Infrastructure.Migrations
 {
-    [DbContext(typeof(SupplierMySQLContext))]
-    [Migration("20240618091442_InitialCreate")]
-    partial class InitialCreate
+    [DbContext(typeof(UserMySQLContext))]
+    [Migration("20240625150448_updatedSeedData")]
+    partial class updatedSeedData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,71 +24,68 @@ namespace SupplierManagement.Infrastructure.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("SupplierManagement.Domain.Supplier", b =>
+            modelBuilder.Entity("UserManagement.Domain.User", b =>
                 {
-                    b.Property<int>("SupplierId")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("SupplierId"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("UserId"));
 
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("ContactEmail")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("ContactName")
+                    b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("ContactPhone")
+                    b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("SupplierName")
+                    b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
-                    b.HasKey("SupplierId");
+                    b.HasKey("UserId");
 
-                    b.HasIndex("SupplierId")
+                    b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.HasIndex("SupplierName")
-                        .IsUnique();
-
-                    b.ToTable("Suppliers");
+                    b.ToTable("Users");
 
                     b.HasData(
                         new
                         {
-                            SupplierId = 1,
+                            UserId = 1,
                             Address = "Logitech address",
-                            ContactEmail = "Logitech@mail.com",
-                            ContactName = "John Doe",
-                            ContactPhone = "123456789",
-                            SupplierName = "Logitech BV."
+                            Email = "Logitech@mail.com",
+                            FirstName = "John",
+                            LastName = "Doe",
+                            PhoneNumber = "123456789"
                         },
                         new
                         {
-                            SupplierId = 2,
+                            UserId = 2,
                             Address = "Pokemon address",
-                            ContactEmail = "Pokemon@mail.com",
-                            ContactName = "Ash Ketchum",
-                            ContactPhone = "987654321",
-                            SupplierName = "Pokemon Inc."
+                            Email = "Pokemon@mail.com",
+                            FirstName = "Ash",
+                            LastName = "Ketchum",
+                            PhoneNumber = "987654321"
                         },
                         new
                         {
-                            SupplierId = 3,
+                            UserId = 3,
                             Address = "Red Bull Racing address",
-                            ContactEmail = "Redbull@mail.com",
-                            ContactName = "Max Verstappen",
-                            ContactPhone = "123456789",
-                            SupplierName = "Red Bull Racing"
+                            Email = "Redbull@mail.com",
+                            FirstName = "Max",
+                            LastName = "Verstappen",
+                            PhoneNumber = "192837465"
                         });
                 });
 #pragma warning restore 612, 618

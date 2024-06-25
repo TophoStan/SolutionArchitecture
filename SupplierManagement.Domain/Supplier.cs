@@ -12,4 +12,6 @@ public class Supplier
     public string ContactEmail { get; set; }
     public string ContactPhone { get; set; }
     public string Address { get; set; }
+
+    public List<Product>? Products { get; set; } = new List<Product>();
 }

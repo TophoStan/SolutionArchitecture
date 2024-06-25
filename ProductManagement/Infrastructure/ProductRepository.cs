@@ -25,8 +25,9 @@ public class ProductRepository
 
             return _SQLcontext.Products.FirstOrDefault(p => p.ProductName == product.ProductName);
         }
-        catch
+        catch(Exception e)
         {
+            Console.WriteLine(e);
             return null;
         }
 
