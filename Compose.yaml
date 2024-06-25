@@ -43,18 +43,19 @@ services:
 
   # Supplier
   supplier:
-    image: suppliermanagement_app:0.3
+    image: suppliermanagement_app_asp:0.4
     build:
       context: .
       dockerfile: ./SupplierDockerfile
     ports:
-      - "5219:5219"
+      - "5300:5300"
       - "8080:8080"
     depends_on:
       - rabbitmq
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - RABBITMQ_HOSTNAME=rabbitmq
+      - ASPNETCORE_URLS=http://+:5300 
     volumes:
       - dotnet_supplier_data:/app
     networks:
