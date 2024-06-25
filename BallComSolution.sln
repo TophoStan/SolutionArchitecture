@@ -21,9 +21,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement.Domain", "Us
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RabbitMQ.domain", "RabbitMQ.domain\RabbitMQ.domain.csproj", "{31579A79-D64E-4089-9739-D7112DD48EFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoiceManagement.Domain", "InvoiceManagement.Domain\InvoiceManagement.Domain.csproj", "{364AF584-6005-4104-B068-4953E70B4F1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvoiceManagement.Domain", "InvoiceManagement.Domain\InvoiceManagement.Domain.csproj", "{364AF584-6005-4104-B068-4953E70B4F1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoiceManagement", "InvoiceManagement\InvoiceManagement.csproj", "{586432B3-F972-4734-A0F7-513DCEEDE337}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvoiceManagement", "InvoiceManagement\InvoiceManagement.csproj", "{586432B3-F972-4734-A0F7-513DCEEDE337}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupportManagement", "SupportManagement\SupportManagement.csproj", "{A30E382B-608B-46AF-A101-5409435F7539}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupportManagement.Domain", "SupportManagement.Domain\SupportManagement.Domain.csproj", "{5036D428-9DBF-4A9B-BFB2-DB57785650E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +79,14 @@ Global
 		{586432B3-F972-4734-A0F7-513DCEEDE337}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{586432B3-F972-4734-A0F7-513DCEEDE337}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{586432B3-F972-4734-A0F7-513DCEEDE337}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A30E382B-608B-46AF-A101-5409435F7539}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A30E382B-608B-46AF-A101-5409435F7539}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A30E382B-608B-46AF-A101-5409435F7539}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A30E382B-608B-46AF-A101-5409435F7539}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5036D428-9DBF-4A9B-BFB2-DB57785650E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5036D428-9DBF-4A9B-BFB2-DB57785650E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5036D428-9DBF-4A9B-BFB2-DB57785650E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5036D428-9DBF-4A9B-BFB2-DB57785650E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
