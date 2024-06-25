@@ -1,6 +1,8 @@
-﻿namespace SupplierManagement.Domain.Events;
+﻿using RabbitMQ.domain;
 
-public class SupplierRegisteredEvent
+namespace SupplierManagement.Domain.Events;
+
+public class SupplierRegisteredEvent : ISupplierRegisteredEvent
 {
     public string SupplierName { get; set; }
     public string ContactName { get; set; }

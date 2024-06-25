@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProductManagement.Domain;
+using ProductManagement.Domain.Events;
 using ProductManagement.Services;
+using RabbitMQ.domain;
 
 namespace ProductManagement.Controllers;
 
@@ -15,14 +17,12 @@ public class ProductController : ControllerBase
     {
         _productService = productService;
     }
-    //get product by id
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetProductAsync(int id)
+
+    [HttpPost]
+    public async Task<IActionResult> Register([FromBody] Product product)
     {
-        var product = await _productService.GetProductAsync(id);
-        if (product == null)
-            return NotFound();
-        return Ok(product);
+        await _productService.RegisterProductAsync(product);
+        return Ok();
     }
-    
+
 }

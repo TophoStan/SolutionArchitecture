@@ -1,5 +1,5 @@
-﻿using SupplierManagement.Domain;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using SupplierManagement.Domain;
 
 namespace SupplierManagement.Infrastructure;
 
@@ -18,7 +18,8 @@ public class SupplierMySQLContext : DbContext
         modelBuilder.Entity<Supplier>().HasIndex(s => s.SupplierId).IsUnique();
         modelBuilder.Entity<Supplier>().HasIndex(s => s.SupplierName).IsUnique();
 
-        var Logitech = new Supplier {
+        var Logitech = new Supplier
+        {
             SupplierId = 1,
             ContactEmail = "Logitech@mail.com",
             ContactName = "John Doe",
@@ -48,12 +49,8 @@ public class SupplierMySQLContext : DbContext
             Address = "Red Bull Racing address"
         };
 
-
-
-        // Configure rest of supplier 
         modelBuilder.Entity<Supplier>().HasData(
                 Logitech, Pokemon, RedBull
             );
-            
     }
 }

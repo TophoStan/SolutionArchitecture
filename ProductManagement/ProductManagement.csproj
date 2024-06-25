@@ -6,15 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<NoWarn>1701;1702;8618;8602;8629</NoWarn>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<NoWarn>1701;1702;8618;8602;8629</NoWarn>
-	</PropertyGroup>
-
-	<ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
     <PackageReference Include="MongoDB.Bson" Version="2.26.0" />
     <PackageReference Include="MongoDB.Driver" Version="2.26.0" />
@@ -27,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ProductManagement.Domain\ProductManagement.Domain.csproj" />
+    <ProjectReference Include="..\RabbitMQ.domain\RabbitMQ.domain.csproj" />
   </ItemGroup>
 
 </Project>

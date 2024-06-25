@@ -1,9 +1,7 @@
 ﻿using MassTransit;
 using RabbitMQ.domain;
 
-namespace ProductManagement.Domain.Events;
-
-
+namespace SupplierManagement.Domain.Events;
 public class ProductInsertedEvent : IInsertedEvent
 {
     public string ProductName { get; set; }

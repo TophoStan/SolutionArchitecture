@@ -1,9 +1,8 @@
-﻿namespace ProductManagement.Infrastructure;
-
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using RabbitMQ.Client;
 using System.Text;
 
+namespace SupplierManagement.Infrastructure;
 
 public class EventPublisher
 {

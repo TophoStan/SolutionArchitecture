@@ -6,11 +6,11 @@ namespace SupplierManagement.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class SuppliersController : ControllerBase
+public class SupplierController : ControllerBase
 {
     private readonly SupplierService _supplierService;
 
-    public SuppliersController(SupplierService supplierService)
+    public SupplierController(SupplierService supplierService)
     {
         _supplierService = supplierService;
     }
@@ -19,7 +19,17 @@ public class SuppliersController : ControllerBase
     [Route("register")]
     public async Task<IActionResult> RegisterSupplier([FromBody] Supplier supplier)
     {
+
+
         await _supplierService.RegisterSupplierAsync(supplier);
+        return Ok();
+    }
+
+    [HttpPost]
+    [Route("insertproduct")]
+    public async Task<IActionResult> InsertProduct([FromBody] Product product)
+    {
+        await _supplierService.InsertProduct(product);
         return Ok();
     }
 }

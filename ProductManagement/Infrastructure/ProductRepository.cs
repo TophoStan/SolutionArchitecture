@@ -13,24 +13,26 @@ public class ProductRepository
         _MongoDBcontext = mongoDBcontext;
     }
 
-    public async Task<bool> AddProductAsync(Product supplier)
+    public async Task<Product> AddProductAsync(Product product)
     {
         try
         {
-            await _SQLcontext.Products.AddAsync(supplier);
+            await _SQLcontext.Products.AddAsync(product);
             await _SQLcontext.SaveChangesAsync();
 
+
             //TODO await _MongoDBcontext.SQLToMongoDB();
-            return true;
+
+            return _SQLcontext.Products.FirstOrDefault(p => p.ProductName == product.ProductName);
         }
         catch
         {
-            return false;
+            return null;
         }
 
     }
 
-    public async Task<Product> GetProductAsync(int productId)
+    public async Task<Product?> GetProductAsync(int productId)
     {
         return await _SQLcontext.Products.FindAsync(productId);
     }
