@@ -19,7 +19,7 @@ Console.WriteLine("Environment: " + developmentEnvironment);
 
 if (developmentEnvironment != "Development")
 {
-    mySQLConnectionString = mySQLConnectionString.Replace("localhost", "mysql");
+    mySQLConnectionString = mySQLConnectionString.Replace("localhost", "mysqlserver");
 }
 Console.WriteLine("MySQL Connection String: " + mySQLConnectionString);
 

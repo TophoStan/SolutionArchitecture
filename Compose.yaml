@@ -43,7 +43,7 @@ services:
 
   # Supplier
   supplier:
-    image: suppliermanagement_app_asp:0.4
+    image: suppliermanagement_app:0.5
     build:
       context: .
       dockerfile: ./SupplierDockerfile
@@ -58,6 +58,25 @@ services:
       - ASPNETCORE_URLS=http://+:5300 
     volumes:
       - dotnet_supplier_data:/app
+    networks:
+      - my_network
+# Product
+  product:
+    image: productmanagement_app_asp:0.4
+    build:
+      context: .
+      dockerfile: ./ProductDockerfile
+    ports:
+      - "5301:5301"
+      - "8082:8080"
+    depends_on:
+      - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - RABBITMQ_HOSTNAME=rabbitmq
+      - ASPNETCORE_URLS=http://+:5301 
+    volumes:
+      - dotnet_product_data:/app
     networks:
       - my_network
 
@@ -86,3 +105,4 @@ volumes:
   mongo_data:
   dotnet_supplier_data:
   dotnet_order_data:
+  dotnet_product_data:
