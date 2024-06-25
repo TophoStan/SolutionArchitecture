@@ -15,9 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductManagement", "Produc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductManagement.Domain", "ProductManagement.Domain\ProductManagement.Domain.csproj", "{D0D38E76-A00B-4EEF-9259-615A94CBF89E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement", "UserManagement\UserManagement.csproj", "{DEE8A275-C1B8-4E55-9481-D0556D975FE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement", "UserManagement\UserManagement.csproj", "{DEE8A275-C1B8-4E55-9481-D0556D975FE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement.Domain", "UserManagement.Domain\UserManagement.Domain.csproj", "{E48634C8-0772-44FF-9B9A-DB9B607DF105}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement.Domain", "UserManagement.Domain\UserManagement.Domain.csproj", "{E48634C8-0772-44FF-9B9A-DB9B607DF105}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RabbitMQ.domain", "RabbitMQ.domain\RabbitMQ.domain.csproj", "{7CED9A09-F9DC-4D7B-95F0-F5E44137EAE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{E48634C8-0772-44FF-9B9A-DB9B607DF105}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E48634C8-0772-44FF-9B9A-DB9B607DF105}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E48634C8-0772-44FF-9B9A-DB9B607DF105}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CED9A09-F9DC-4D7B-95F0-F5E44137EAE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CED9A09-F9DC-4D7B-95F0-F5E44137EAE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CED9A09-F9DC-4D7B-95F0-F5E44137EAE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CED9A09-F9DC-4D7B-95F0-F5E44137EAE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
