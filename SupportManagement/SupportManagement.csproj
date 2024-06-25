@@ -28,6 +28,7 @@
   </ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\RabbitMQ.domain\RabbitMQ.domain.csproj" />
 	  <ProjectReference Include="..\SupportManagement.Domain\SupportManagement.Domain.csproj" />
 	</ItemGroup>
 

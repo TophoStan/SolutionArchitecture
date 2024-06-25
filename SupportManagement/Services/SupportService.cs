@@ -1,5 +1,4 @@
-﻿using SupportManagement.Domain;
-using SupportManagement.Domain.Events;
+﻿using MassTransit;
 using SupportManagement.Infrastructure;
 
 namespace SupportManagement.Services;
@@ -7,26 +6,11 @@ namespace SupportManagement.Services;
 public class SupportService
 {
     private readonly SupportRepository _supportRepository;
+    private readonly IBus _bus;
 
-    public SupportService(SupportRepository supportRepository)
+    public SupportService(SupportRepository supportRepository, IBus bus)
     {
         _supportRepository = supportRepository;
-    }
-
-    public async Task CreateSupportTicket(Support support)
-    {
-        var result = await _supportRepository.AddSupportAsync(support);
-        if (!result)
-            return;
-
-        var @event = new SupportTicketCreatedEvent
-        {
-            SupportTicketNumber = support.SupportTicketNumber,
-            UserEmail = support.UserEmail,
-            IssueDate = support.IssueDate,
-            Status = support.Status,
-            Description = support.Description,
-        };
-        //_eventPublisher.Publish(@event);
+        _bus = bus;
     }
 }

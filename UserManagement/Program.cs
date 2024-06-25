@@ -1,6 +1,8 @@
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
-using SupplierManagement.Infrastructure;
+using RabbitMQ.domain;
+using RabbitMQ.domain.UserEvents;
 using UserManagement.Infrastructure;
 using UserManagement.Services;
 
@@ -19,11 +21,53 @@ var database = client.GetDatabase("ReadUser");
 builder.Services.AddSingleton(database);
 builder.Services.AddScoped<UserMongoDBContext>();
 
+var rabbitMQHostName = builder.Configuration["RABBITMQ_HOSTNAME"];
+#pragma warning disable ASP0012 // Suggest using builder.Services over Host.ConfigureServices or WebHost.ConfigureServices
+builder.Host.ConfigureServices(services =>
+{
+    services.AddMassTransit(x =>
+    {
+        x.AddConsumer<UserSupportConsumer>();
+
+        x.UsingRabbitMq((context, cfg) =>
+        {
+            cfg.Host(rabbitMQHostName, "/", h =>
+            {
+                h.Username("guest");
+                h.Password("guest");
+            });
+
+            cfg.ReceiveEndpoint("user-support-queue", e =>
+            {
+                e.ConfigureConsumer<UserSupportConsumer>(context);
+                e.Bind("ballcom", x =>
+                {
+                    x.RoutingKey = "user-support-key";
+                    x.ExchangeType = "topic";
+                });
+            });
+
+            cfg.Message<IUserUpdatedEvent>(x => { x.SetEntityName("user-updated-event"); });
+            cfg.Publish<IUserUpdatedEvent>(x => { x.ExchangeType = "topic"; });
+            cfg.Message<ISupportTicketCreatedEvent>(x =>
+            {
+                x.SetEntityName("support-ticket-created-event");
+            });
+
+            cfg.Publish<ISupportTicketCreatedEvent>(x =>
+            {
+                x.ExchangeType = "topic";
+            });
+        });
+    });
+    // Add the bus to the container
+});
+builder.Services.AddScoped<UserSupportConsumer>();
+
 // Add other services to the container.
 builder.Services.AddControllers();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<UserRepository>();
-builder.Services.AddScoped<EventPublisher>();
 builder.Services.AddScoped<CsvImportService>();
 
 builder.Services.AddEndpointsApiExplorer();

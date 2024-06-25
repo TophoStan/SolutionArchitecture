@@ -14,4 +14,8 @@
 		<NoWarn>1701;1702;8618</NoWarn>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\RabbitMQ.domain\RabbitMQ.domain.csproj" />
+	</ItemGroup>
+
 </Project>

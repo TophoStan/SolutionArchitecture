@@ -12,7 +12,7 @@ using SupportManagement.Infrastructure;
 namespace SupportManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(SupportMySQLContext))]
-    [Migration("20240625100832_InitialCreate")]
+    [Migration("20240625151824_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -52,6 +52,9 @@ namespace SupportManagement.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("SupportId");
 
                     b.HasIndex("SupportId")
@@ -64,10 +67,11 @@ namespace SupportManagement.Infrastructure.Migrations
                         {
                             SupportId = 1,
                             Description = "Unable to login to the account.",
-                            IssueDate = new DateTime(2024, 6, 25, 12, 8, 31, 987, DateTimeKind.Local).AddTicks(9017),
+                            IssueDate = new DateTime(2024, 6, 25, 17, 18, 23, 715, DateTimeKind.Local).AddTicks(7124),
                             Status = "Open",
                             SupportTicketNumber = "ST-1001",
-                            UserEmail = "user1@example.com"
+                            UserEmail = "user1@example.com",
+                            UserId = 0
                         });
                 });
 #pragma warning restore 612, 618
