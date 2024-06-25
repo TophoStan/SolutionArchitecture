@@ -36,7 +36,7 @@ builder.Host.ConfigureServices(services =>
 
             //cfg.ReceiveEndpoint("user-support-queue", e =>
             //{
-            //    e.ConfigureConsumer<SupportConsumer>(context);
+            //    e.ConfigureConsumer<UserSupportConsumer>(context);
             //    e.Bind("ballcom", x =>
             //    {
             //        x.RoutingKey = "user-support-key";
@@ -57,6 +57,7 @@ builder.Host.ConfigureServices(services =>
     });
     // Add the bus to the container
 });
+builder.Services.AddScoped<UserSupportConsumer>();
 
 // Add other services to the container.
 builder.Services.AddControllers();

@@ -3,7 +3,7 @@ using RabbitMQ.domain;
 
 namespace UserManagement.Infrastructure;
 
-public class SupportConsumer : IConsumer<ISupportTicketCreatedEvent>
+public class UserSupportConsumer : IConsumer<ISupportTicketCreatedEvent>
 {
     public Task Consume(ConsumeContext<ISupportTicketCreatedEvent> context)
     {
