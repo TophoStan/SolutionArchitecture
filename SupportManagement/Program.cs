@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
-using SupplierManagement.Infrastructure;
-using UserManagement.Infrastructure;
-using UserManagement.Services;
+using SupportManagement.Infrastructure;
+using SupportManagement.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,20 +10,18 @@ builder.Configuration.AddJsonFile("appsettings.json");
 builder.Configuration.AddEnvironmentVariables();
 
 var mySQLConnectionString = builder.Configuration.GetConnectionString("MySQLConnection");
-builder.Services.AddDbContext<UserMySQLContext>(options => options.UseMySql(mySQLConnectionString, new MySqlServerVersion(new Version(8, 0, 2))));
+builder.Services.AddDbContext<SupportMySQLContext>(options => options.UseMySql(mySQLConnectionString, new MySqlServerVersion(new Version(8, 0, 2))));
 
 var mongoDBConnectionString = builder.Configuration.GetConnectionString("MongoDBConnection");
 var client = new MongoClient(mongoDBConnectionString);
-var database = client.GetDatabase("ReadUser");
+var database = client.GetDatabase("ReadSupport");
 builder.Services.AddSingleton(database);
-builder.Services.AddScoped<UserMongoDBContext>();
+builder.Services.AddScoped<SupportMongoDBContext>();
 
 // Add other services to the container.
 builder.Services.AddControllers();
-builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<UserRepository>();
-builder.Services.AddScoped<EventPublisher>();
-builder.Services.AddScoped<CsvImportService>();
+builder.Services.AddScoped<SupportService>();
+builder.Services.AddScoped<SupportRepository>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -44,7 +41,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-Console.WriteLine("User management is running!");
+Console.WriteLine("Support management is running!");
 Console.WriteLine("Running in environment: " + app.Environment.EnvironmentName);
 
 app.Run();
