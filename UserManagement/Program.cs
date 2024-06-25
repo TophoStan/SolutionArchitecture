@@ -2,7 +2,6 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
 using RabbitMQ.domain;
-using SupplierManagement.Infrastructure;
 using UserManagement.Infrastructure;
 using UserManagement.Services;
 
@@ -35,6 +34,16 @@ builder.Host.ConfigureServices(services =>
                 h.Password("guest");
             });
 
+            //cfg.ReceiveEndpoint("user-support-queue", e =>
+            //{
+            //    e.ConfigureConsumer<SupportConsumer>(context);
+            //    e.Bind("ballcom", x =>
+            //    {
+            //        x.RoutingKey = "user-support-key";
+            //        x.ExchangeType = "topic";
+            //    });
+            //});
+
             cfg.Message<ISupportTicketCreatedEvent>(x =>
             {
                 x.SetEntityName("support-ticket-created-event");
@@ -53,7 +62,6 @@ builder.Host.ConfigureServices(services =>
 builder.Services.AddControllers();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<UserRepository>();
-builder.Services.AddScoped<EventPublisher>();
 builder.Services.AddScoped<CsvImportService>();
 
 builder.Services.AddEndpointsApiExplorer();
