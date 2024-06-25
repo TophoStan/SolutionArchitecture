@@ -1,4 +1,6 @@
-﻿using SupportManagement.Domain;
+﻿using MassTransit;
+using RabbitMQ.domain;
+using SupportManagement.Domain;
 using SupportManagement.Domain.Events;
 using SupportManagement.Infrastructure;
 
@@ -7,19 +9,21 @@ namespace SupportManagement.Services;
 public class SupportService
 {
     private readonly SupportRepository _supportRepository;
+    private readonly IBus _bus;
 
-    public SupportService(SupportRepository supportRepository)
+    public SupportService(SupportRepository supportRepository, IBus bus)
     {
         _supportRepository = supportRepository;
+        _bus = bus;
     }
 
-    public async Task CreateSupportTicket(Support support)
+    public async Task CreateSupportTicketAsync(Support support)
     {
-        var result = await _supportRepository.AddSupportAsync(support);
-        if (!result)
+        var result = await _supportRepository.AddSupportTicketAsync(support);
+        if (result == null)
             return;
 
-        var @event = new SupportTicketCreatedEvent
+        ISupportTicketCreatedEvent @event = new SupportTicketCreatedEvent
         {
             SupportTicketNumber = support.SupportTicketNumber,
             UserEmail = support.UserEmail,
@@ -27,6 +31,6 @@ public class SupportService
             Status = support.Status,
             Description = support.Description,
         };
-        //_eventPublisher.Publish(@event);
+        await _bus.Publish(@event);
     }
 }

@@ -1,5 +1,7 @@
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
+using RabbitMQ.domain;
 using SupportManagement.Infrastructure;
 using SupportManagement.Services;
 
@@ -17,6 +19,42 @@ var client = new MongoClient(mongoDBConnectionString);
 var database = client.GetDatabase("ReadSupport");
 builder.Services.AddSingleton(database);
 builder.Services.AddScoped<SupportMongoDBContext>();
+
+var rabbitMQHostName = builder.Configuration["RABBITMQ_HOSTNAME"];
+#pragma warning disable ASP0012 // Suggest using builder.Services over Host.ConfigureServices or WebHost.ConfigureServices
+builder.Host.ConfigureServices(services =>
+{
+    services.AddMassTransit(x =>
+    {
+        x.AddConsumer<UserSupportConsumer>();
+
+        x.UsingRabbitMq((context, cfg) =>
+        {
+            cfg.Host(rabbitMQHostName, "/", h =>
+            {
+                h.Username("guest");
+                h.Password("guest");
+            });
+
+            cfg.ReceiveEndpoint("user-support-queue", e =>
+            {
+                e.ConfigureConsumer<UserSupportConsumer>(context);
+                e.Bind("ballcom", x =>
+                {
+                    x.RoutingKey = "user-support-key";
+                    x.ExchangeType = "topic";
+                });
+            });
+            cfg.Message<ISupportTicketCreatedEvent>(x =>
+            {
+                x.SetEntityName("support-ticket-created-event");
+            });
+        });
+    });
+    // Add the bus to the container
+});
+
+builder.Services.AddScoped<UserSupportConsumer>();
 
 // Add other services to the container.
 builder.Services.AddControllers();

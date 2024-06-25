@@ -29,7 +29,8 @@ namespace SupportManagement.Infrastructure.Migrations
                     Status = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Description = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -39,8 +40,8 @@ namespace SupportManagement.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Supports",
-                columns: new[] { "SupportId", "Description", "IssueDate", "Status", "SupportTicketNumber", "UserEmail" },
-                values: new object[] { 1, "Unable to login to the account.", new DateTime(2024, 6, 25, 12, 8, 31, 987, DateTimeKind.Local).AddTicks(9017), "Open", "ST-1001", "user1@example.com" });
+                columns: new[] { "SupportId", "Description", "IssueDate", "Status", "SupportTicketNumber", "UserEmail", "UserId" },
+                values: new object[] { 1, "Unable to login to the account.", new DateTime(2024, 6, 25, 14, 35, 40, 861, DateTimeKind.Local).AddTicks(208), "Open", "ST-1001", "user1@example.com", 0 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Supports_SupportId",

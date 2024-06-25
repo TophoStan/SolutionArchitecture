@@ -19,7 +19,7 @@ public class SupportController : ControllerBase
     [Route("ticket")]
     public async Task<IActionResult> CreateSupportTicket([FromBody] Support support)
     {
-        await _supportService.CreateSupportTicket(support);
+        await _supportService.CreateSupportTicketAsync(support);
         return Ok();
     }
 }
