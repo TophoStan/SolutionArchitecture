@@ -40,4 +40,8 @@
     <ProjectReference Include="..\OrderManagment.Domain\OrderManagement.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Infrastructure\Migrations\" />
+  </ItemGroup>
+
 </Project>
