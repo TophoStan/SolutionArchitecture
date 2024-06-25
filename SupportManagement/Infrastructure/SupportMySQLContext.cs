@@ -19,9 +19,10 @@ public class SupportMySQLContext : DbContext
 
         var ST1001 = new Support
         {
+            SupportId = 1,
             SupportTicketNumber = "ST-1001",
             UserEmail = "user1@example.com",
-            IssueDate = DateTime.UtcNow,
+            IssueDate = DateTime.Now,
             Status = "Open",
             Description = "Unable to login to the account."
         };
