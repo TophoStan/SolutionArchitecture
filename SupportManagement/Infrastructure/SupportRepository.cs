@@ -5,12 +5,10 @@ namespace SupportManagement.Infrastructure;
 public class SupportRepository
 {
     private readonly SupportMySQLContext _SQLcontext;
-    private readonly SupportMongoDBContext _MongoDBcontext;
 
-    public SupportRepository(SupportMySQLContext context, SupportMongoDBContext mongoDBcontext)
+    public SupportRepository(SupportMySQLContext context)
     {
         _SQLcontext = context;
-        _MongoDBcontext = mongoDBcontext;
     }
 
     public async Task<Support> AddSupportTicketAsync(Support support)
@@ -19,8 +17,6 @@ public class SupportRepository
         {
             await _SQLcontext.Supports.AddAsync(support);
             await _SQLcontext.SaveChangesAsync();
-
-            await _MongoDBcontext.SQLToMongoDB();
 
             var addedSupport = _SQLcontext.Supports.FirstOrDefault(s => s.SupportTicketNumber == support.SupportTicketNumber);
             if (addedSupport == null)

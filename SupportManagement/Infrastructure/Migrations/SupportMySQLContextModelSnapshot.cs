@@ -64,7 +64,7 @@ namespace SupportManagement.Infrastructure.Migrations
                         {
                             SupportId = 1,
                             Description = "Unable to login to the account.",
-                            IssueDate = new DateTime(2024, 6, 25, 14, 35, 40, 861, DateTimeKind.Local).AddTicks(208),
+                            IssueDate = new DateTime(2024, 6, 25, 17, 18, 23, 715, DateTimeKind.Local).AddTicks(7124),
                             Status = "Open",
                             SupportTicketNumber = "ST-1001",
                             UserEmail = "user1@example.com",

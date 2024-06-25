@@ -31,6 +31,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\RabbitMQ.domain\RabbitMQ.domain.csproj" />
+	  <ProjectReference Include="..\SupportManagement.Domain\SupportManagement.Domain.csproj" />
 	  <ProjectReference Include="..\UserManagement.Domain\UserManagement.Domain.csproj" />
 	</ItemGroup>
 
