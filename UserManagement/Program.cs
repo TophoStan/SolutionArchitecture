@@ -26,6 +26,8 @@ builder.Host.ConfigureServices(services =>
 {
     services.AddMassTransit(x =>
     {
+        x.AddConsumer<UserSupportConsumer>();
+
         x.UsingRabbitMq((context, cfg) =>
         {
             cfg.Host(rabbitMQHostName, "/", h =>
@@ -34,15 +36,15 @@ builder.Host.ConfigureServices(services =>
                 h.Password("guest");
             });
 
-            //cfg.ReceiveEndpoint("user-support-queue", e =>
-            //{
-            //    e.ConfigureConsumer<UserSupportConsumer>(context);
-            //    e.Bind("ballcom", x =>
-            //    {
-            //        x.RoutingKey = "user-support-key";
-            //        x.ExchangeType = "topic";
-            //    });
-            //});
+            cfg.ReceiveEndpoint("user-support-queue", e =>
+            {
+                e.ConfigureConsumer<UserSupportConsumer>(context);
+                e.Bind("ballcom", x =>
+                {
+                    x.RoutingKey = "user-support-key";
+                    x.ExchangeType = "topic";
+                });
+            });
 
             cfg.Message<ISupportTicketCreatedEvent>(x =>
             {
