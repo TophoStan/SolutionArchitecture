@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SupplierManagement.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class SupplierNameUnique : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -39,6 +39,33 @@ namespace SupplierManagement.Infrastructure.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "Product",
+                columns: table => new
+                {
+                    ProductId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    ProductName = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ProductDescription = table.Column<string>(type: "longtext", nullable: true, defaultValue: "No description")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Price = table.Column<int>(type: "int", nullable: true, defaultValue: 0),
+                    StockQuantity = table.Column<int>(type: "int", nullable: true, defaultValue: 0),
+                    Category = table.Column<string>(type: "longtext", nullable: true, defaultValue: "No category")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    SupplierId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Product", x => x.ProductId);
+                    table.ForeignKey(
+                        name: "FK_Product_Suppliers_SupplierId",
+                        column: x => x.SupplierId,
+                        principalTable: "Suppliers",
+                        principalColumn: "SupplierId");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.InsertData(
                 table: "Suppliers",
                 columns: new[] { "SupplierId", "Address", "ContactEmail", "ContactName", "ContactPhone", "SupplierName" },
@@ -48,6 +75,11 @@ namespace SupplierManagement.Infrastructure.Migrations
                     { 2, "Pokemon address", "Pokemon@mail.com", "Ash Ketchum", "987654321", "Pokemon Inc." },
                     { 3, "Red Bull Racing address", "Redbull@mail.com", "Max Verstappen", "123456789", "Red Bull Racing" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_SupplierId",
+                table: "Product",
+                column: "SupplierId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Suppliers_SupplierId",
@@ -65,6 +97,9 @@ namespace SupplierManagement.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Product");
+
             migrationBuilder.DropTable(
                 name: "Suppliers");
         }

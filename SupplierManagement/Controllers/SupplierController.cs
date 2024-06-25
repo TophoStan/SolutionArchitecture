@@ -25,11 +25,14 @@ public class SupplierController : ControllerBase
         return Ok();
     }
 
+
+    //Get the supplier id from the route params
     [HttpPost]
-    [Route("insertproduct")]
-    public async Task<IActionResult> InsertProduct([FromBody] Product product)
+    [Route("{supplierId}/product")]
+    public async Task<IActionResult> InsertProduct([FromBody] Product product, [FromRoute] int supplierId)
     {
-        await _supplierService.InsertProduct(product);
+        Console.WriteLine("SupplierId: " + supplierId);
+        await _supplierService.InsertProduct(product, supplierId);
         return Ok();
     }
 }

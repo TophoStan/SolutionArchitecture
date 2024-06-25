@@ -8,10 +8,11 @@
         "ASPNETCORE_ENVIRONMENT": "Development",
         "RABBITMQ_HOSTNAME": "localhost",
         "mysql_HOSTNAME": "localhost",
-        "MongoDB_HOSTNAME": "localhost"
+        "MongoDB_HOSTNAME": "localhost",
+        //"ASPNETCORE_URLS=http": "//+:5300" 
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:5219"
+      "applicationUrl": "http://localhost:5300"
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -24,9 +25,9 @@
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,
-      "launchUrl": "{Scheme}://{ServiceHost}:5219/swagger",
+      "launchUrl": "{Scheme}://{ServiceHost}:5300/swagger",
       "environmentVariables": {
-        "ASPNETCORE_HTTP_PORTS": "5219"
+        "ASPNETCORE_HTTP_PORTS": "5300"
       },
       "publishAllPorts": true
     }
