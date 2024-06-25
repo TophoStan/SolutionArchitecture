@@ -62,7 +62,6 @@ builder.Services.AddScoped<ProductConsumer>();
 // Add other services to the container.
 builder.Services.AddControllers();
 builder.Services.AddScoped<SupplierRepository>();
-builder.Services.AddScoped<EventPublisher>();
 builder.Services.AddScoped<SupplierService>();
 
 builder.Services.AddEndpointsApiExplorer();

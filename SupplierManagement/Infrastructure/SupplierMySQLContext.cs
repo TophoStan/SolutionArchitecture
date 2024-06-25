@@ -18,6 +18,22 @@ public class SupplierMySQLContext : DbContext
         modelBuilder.Entity<Supplier>().HasIndex(s => s.SupplierId).IsUnique();
         modelBuilder.Entity<Supplier>().HasIndex(s => s.SupplierName).IsUnique();
 
+        //The list of products only have a reference to the supplier by supplierId
+        modelBuilder.Entity<Product>().HasKey(p => p.ProductId);
+        modelBuilder.Entity<Product>().HasOne(p => p.Supplier).WithMany(s => s.Products).HasForeignKey(p => p.SupplierId);
+
+
+        // The product object only has the columns of productId and productName the other properties should not be saved in the database
+        modelBuilder.Entity<Product>().Property(p => p.ProductName).IsRequired();
+        modelBuilder.Entity<Product>().Property(p => p.ProductDescription).HasDefaultValue("No description").IsRequired(false);
+        modelBuilder.Entity<Product>().Property(p => p.Price).HasDefaultValue(0).IsRequired(false);
+        modelBuilder.Entity<Product>().Property(p => p.StockQuantity).HasDefaultValue(0).IsRequired(false);
+        modelBuilder.Entity<Product>().Property(p => p.Category).HasDefaultValue("No category").IsRequired(false);
+
+
+
+
+
         var Logitech = new Supplier
         {
             SupplierId = 1,

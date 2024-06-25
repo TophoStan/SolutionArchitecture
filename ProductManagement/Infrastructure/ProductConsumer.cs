@@ -1,7 +1,5 @@
 ﻿using MassTransit;
-using Microsoft.AspNetCore.Http.HttpResults;
 using ProductManagement.Domain;
-using ProductManagement.Domain.Events;
 using RabbitMQ.domain;
 
 namespace ProductManagement.Infrastructure;
@@ -25,10 +23,13 @@ public class ProductConsumer : IConsumer<IInsertedEvent>
             ProductName = @event.ProductName,
             ProductDescription = @event.ProductDescription,
             Price = @event.Price,
-            StockQuantity = @event.StockQuantity
+            StockQuantity = @event.StockQuantity,
+            Category = @event.Category,
+            SupplierId = @event.SupplierId,
+            ProductId = @event.ProductId
+            
         };
 
         await _productRepository.AddProductAsync(product);
-        return;
     }
 }
