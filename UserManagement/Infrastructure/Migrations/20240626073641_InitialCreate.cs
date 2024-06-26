@@ -73,9 +73,9 @@ namespace UserManagement.Infrastructure.Migrations
                 columns: new[] { "UserId", "Address", "Email", "FirstName", "LastName", "PhoneNumber" },
                 values: new object[,]
                 {
-                    { 1, "Logitech address", "Logitech@mail.com", "John Doe", "123456789", "Logitech BV." },
-                    { 2, "Pokemon address", "Pokemon@mail.com", "Ash Ketchum", "987654321", "Pokemon Inc." },
-                    { 3, "Red Bull Racing address", "Redbull@mail.com", "Max Verstappen", "123456789", "Red Bull Racing" }
+                    { 1, "Logitech address", "Logitech@mail.com", "John", "Doe", "123456789" },
+                    { 2, "Pokemon address", "Pokemon@mail.com", "Ash", "Ketchum", "987654321" },
+                    { 3, "Red Bull Racing address", "Redbull@mail.com", "Max", "Verstappen", "192837465" }
                 });
 
             migrationBuilder.CreateIndex(
