@@ -5,12 +5,10 @@ namespace UserManagement.Infrastructure;
 public class UserRepository
 {
     private readonly UserMySQLContext _SQLcontext;
-    private readonly UserMongoDBContext _MongoDBcontext;
 
-    public UserRepository(UserMySQLContext context, UserMongoDBContext mongoDBcontext)
+    public UserRepository(UserMySQLContext context)
     {
         _SQLcontext = context;
-        _MongoDBcontext = mongoDBcontext;
     }
 
     public async Task<bool> UpdateUserAsync(User user)
@@ -20,7 +18,6 @@ public class UserRepository
             _SQLcontext.Users.Update(user);
             await _SQLcontext.SaveChangesAsync();
 
-            await _MongoDBcontext.UpdateMongoDB(user);
             return true;
         } catch
         {
@@ -35,7 +32,6 @@ public class UserRepository
             await _SQLcontext.Users.AddAsync(user);
             await _SQLcontext.SaveChangesAsync();
 
-            await _MongoDBcontext.AddMongoDB(user);
             return true;
         } catch 
         {
