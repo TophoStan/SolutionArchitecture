@@ -3,21 +3,16 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
-EXPOSE 5219
-
-# Install curl
-USER root
-RUN apt-get update && apt-get install -y curl
-USER app
+EXPOSE 8080
+EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-RUN echo $BUILD_CONFIGURATION
 COPY ["ProductManagement/ProductManagement.csproj", "ProductManagement/"]
-RUN echo $BUILD_CONFIGURATION
-COPY ["ProductManagment.Domain/ProductManagement.Domain.csproj", "ProductManagment.Domain/"]
-RUN dotnet restore "./ProductManagement/ProductManagement.csproj"
+COPY ["ProductManagement.Domain/ProductManagement.Domain.csproj", "ProductManagement.Domain/"]
+COPY ["RabbitMQ.domain/RabbitMQ.domain.csproj", "RabbitMQ.domain/"]
+RUN dotnet restore "./ProductManagement/./ProductManagement.csproj"
 COPY . .
 WORKDIR "/src/ProductManagement"
 RUN dotnet build "./ProductManagement.csproj" -c $BUILD_CONFIGURATION -o /app/build

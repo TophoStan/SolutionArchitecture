@@ -2,36 +2,35 @@
 using OrderManagement.Domain;
 using OrderManagement.Infrastructure.Order;
 using OrderManagement.Domain.Events;
+using MassTransit;
+using RabbitMQ.domain;
+using RabbitMQ.domain.OrderEvents;
 
 namespace OrderManagement.Services;
 
 public class OrderService
 {
     private readonly OrderRepository _orderRepository;
-    private readonly EventPublisher _eventPublisher;
+    private readonly IBus _bus;
 
-    public OrderService(OrderRepository orderRepository, EventPublisher eventPublisher)
+    public OrderService(OrderRepository orderRepository, IBus bus)
     {
         _orderRepository = orderRepository;
-        _eventPublisher = eventPublisher;
+        _bus = bus;
     }
 
     public async Task<bool> AddOrder(Order order)
     {
         var result = await _orderRepository.AddOrderAsync(order);
-        var eventResult = await _orderRepository.SaveEventAsync(order.OrderNumber, "AddOrder", order);
 
-        if (!result || !eventResult)
+        if (!result)
             return false;
-
-        var @event = new OrderAddedEvent
+        
+        IOrderConfirmedEvent @event = new OrderConfirmedEvent() { OrderDate = order.OrderDate, OrderNumber = order.OrderNumber, SupplierName = order.SupplierName, UserName = order.User.Email };
+        await _bus.Publish(@event, x =>
         {
-            OrderNumber = order.OrderNumber,
-            UserEmail = order.UserEmail,
-            OrderDate = order.OrderDate,
-            Status = order.Status
-        };
-        _eventPublisher.Publish(@event);
+            x.SetRoutingKey("order-confirmed-routingkey");
+        });
 
         return true;
     }
@@ -39,25 +38,38 @@ public class OrderService
     public async Task<bool> UpdateOrder(Order order)
     {
         var result = await _orderRepository.UpdateOrderAsync(order);
-        var eventResult = await _orderRepository.SaveEventAsync(order.OrderNumber, "UpdateOrder", order);
 
-        if (!result || !eventResult)
+        if (result == null)
             return false;
 
-        var @event = new OrderUpdatedEvent
+        IOrderUpdatedEvent @event = new OrderUpdatedEvent()
         {
-            OrderNumber = order.OrderNumber,
-            UserEmail = order.UserEmail,
-            OrderDate = order.OrderDate,
-            Status = order.Status
+            OrderDate = result.OrderDate,
+            OrderNumber = result.OrderNumber,
+            Status = result.Status,
+            UserId = result.UserId,
         };
-        _eventPublisher.Publish(@event);
 
+        await _bus.Publish(@event);
         return true;
     }
 
-    public async Task<IEnumerable<OrderEvent>> GetOrderEvents(string orderNumber)
+    public async Task<bool> CancelOrder(string OrderNumber)
     {
-        return await _orderRepository.GetEventsAsync(orderNumber);
+        var result = await _orderRepository.CancelOrderAsync(OrderNumber);
+
+        if (result == null)
+            return false;
+
+        IOrderCanceledEvent @event = new OrderCanceledEvent()
+        {
+            OrderDate = result.OrderDate,
+            OrderNumber = result.OrderNumber,
+            Status = result.Status,
+            UserId = result.UserId,
+        };
+
+        await _bus.Publish(@event);
+        return true;
     }
 }

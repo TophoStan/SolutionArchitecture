@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OrderManagement.Domain;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace OrderManagement.Infrastructure.Order;
 
@@ -21,7 +23,7 @@ public class OrderRepository
             await _sqlContext.Orders.AddAsync(order);
             await _sqlContext.SaveChangesAsync();
             
-            await _mongoDBcontext.SQLToMongoDB();
+            //await _mongoDBcontext.SQLToMongoDB();
             return true;
         }
         catch
@@ -30,52 +32,57 @@ public class OrderRepository
         }   
     }
 
-    public async Task<bool> UpdateOrderAsync(Domain.Order order)
+    public async Task<Domain.User> UpdateUserAsync(Domain.User user)
+    {
+        try
+        {
+            _sqlContext.Users.Update(user);
+
+            await _sqlContext.SaveChangesAsync();
+
+            //await _mongoDBcontext.SQLToMongoDB();
+            
+            return await _sqlContext.Users.FirstOrDefaultAsync(u => u.UserId == user.UserId);
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e);
+            return null;
+        }
+    }
+
+    public async Task<Domain.Order> UpdateOrderAsync(Domain.Order order)
     {
         try
         {
             _sqlContext.Orders.Update(order);
+
             await _sqlContext.SaveChangesAsync();
 
-            await _mongoDBcontext.SQLToMongoDB();
-            return true;
+            return await _sqlContext.FindAsync<Domain.Order>(order.OrderNumber);
         }
         catch
         {
-            return false;
+            return null;
         }
     }
 
-    public async Task<bool> SaveEventAsync(string aggregateId, string eventType, object eventData)
+    public async Task<Domain.Order?> CancelOrderAsync(string OrderNumber)
     {
         try
         {
-            var orderEvent = new Domain.Events.OrderEvent
-            {
-                AggregateId = aggregateId,
-                EventType = eventType,
-                EventData = JsonSerializer.Serialize(eventData),
-                EventTime = DateTime.Now
-            };
-
-            await _sqlContext.Events.AddAsync(orderEvent);
+            var order = await _sqlContext.Orders.FindAsync(OrderNumber);
+            order.Status = "Cancelled";
+            _sqlContext.Orders.Update(order);
             await _sqlContext.SaveChangesAsync();
 
-            return true;
+            //await _mongoDBcontext.SQLToMongoDB();
+            return await _sqlContext.FindAsync<Domain.Order>(order.OrderNumber);
         }
-        catch   
+        catch
         {
-            return false;
+            return null;
         }
-
-    }
-
-    public async Task<IEnumerable<Domain.Events.OrderEvent>> GetEventsAsync(string aggregateId)
-    {
-        return await _sqlContext.Events
-            .Where(e => e.AggregateId == aggregateId)
-            .OrderBy(e => e.EventTime)
-            .ToListAsync();
     }
 
     public async Task<Domain.Order> GetOrderAsync(string orderNumber)

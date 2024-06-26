@@ -1,9 +1,11 @@
-﻿namespace OrderManagement.Domain.Events;
+﻿using RabbitMQ.domain.OrderEvents;
 
-public class OrderUpdatedEvent
+namespace OrderManagement.Domain.Events;
+
+public class OrderUpdatedEvent : IOrderUpdatedEvent
 {
     public string OrderNumber { get; set; }
-    public string UserEmail { get; set; }
     public DateTime OrderDate { get; set; }
     public string Status { get; set; }
+    public int UserId { get; set; }
 }

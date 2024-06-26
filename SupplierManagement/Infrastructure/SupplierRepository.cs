@@ -20,13 +20,22 @@ public class SupplierRepository
             await _SQLcontext.Suppliers.AddAsync(supplier);
             await _SQLcontext.SaveChangesAsync();
 
-            await _MongoDBcontext.SQLToMongoDB();
             return true;
         } catch 
         {
             return false;
         }
         
+    }
+
+
+    public async Task<Product> AddProductOfSupplierAsync(Product product, int supplierId)
+    {
+        var supplierInSQL = await _SQLcontext.Suppliers.FindAsync(supplierId);
+
+        supplierInSQL.Products.Add(product);
+        await _SQLcontext.SaveChangesAsync();
+        return supplierInSQL.Products.Find(p => p.ProductName == product.ProductName);
     }
 
     public async Task<Supplier?> GetSupplierAsync(string supplierId)

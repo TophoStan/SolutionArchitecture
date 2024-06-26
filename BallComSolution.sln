@@ -19,13 +19,27 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement", "UserManag
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement.Domain", "UserManagement.Domain\UserManagement.Domain.csproj", "{E48634C8-0772-44FF-9B9A-DB9B607DF105}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RabbitMQ.domain", "RabbitMQ.domain\RabbitMQ.domain.csproj", "{460215A2-0A4E-492F-A2E0-3D3B52F5B7BF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackingManagment.Domain", "TrackingManagment.Domain\TrackingManagment.Domain.csproj", "{7F656CEC-A99B-499F-A784-588DC80E6724}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackingManagement.Domain", "TrackingManagement.Domain\TrackingManagement.Domain.csproj", "{5E54FD1A-0C25-4FAD-972C-A5B42B8E16D3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackingManagement", "TrackingManagement\TrackingManagement.csproj", "{2E289D76-64C2-485E-BCD8-F17FF69BE423}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RabbitMQ.domain", "RabbitMQ.domain\RabbitMQ.domain.csproj", "{31579A79-D64E-4089-9739-D7112DD48EFC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvoiceManagement.Domain", "InvoiceManagement.Domain\InvoiceManagement.Domain.csproj", "{364AF584-6005-4104-B068-4953E70B4F1D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvoiceManagement", "InvoiceManagement\InvoiceManagement.csproj", "{586432B3-F972-4734-A0F7-513DCEEDE337}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupportManagement", "SupportManagement\SupportManagement.csproj", "{A30E382B-608B-46AF-A101-5409435F7539}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupportManagement.Domain", "SupportManagement.Domain\SupportManagement.Domain.csproj", "{5036D428-9DBF-4A9B-BFB2-DB57785650E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationManagement.Domain", "NotificationManagement.Domain\NotificationManagement.Domain.csproj", "{E18E59E4-A5D0-42A0-A17C-6D9938904E10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationManagement", "NotificationManagement\NotificationManagement.csproj", "{7A2659A0-22F5-4201-AC51-9183595090FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentManagement.Domain", "PaymentManagement.Domain\PaymentManagement.Domain.csproj", "{18D0FD1D-B818-4D4E-B062-C0883A5B967B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentManagement", "PaymentManagement\PaymentManagement.csproj", "{65C3EC7B-FB72-4408-9281-C8C01435FF1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +95,42 @@ Global
 		{2E289D76-64C2-485E-BCD8-F17FF69BE423}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E289D76-64C2-485E-BCD8-F17FF69BE423}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E289D76-64C2-485E-BCD8-F17FF69BE423}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31579A79-D64E-4089-9739-D7112DD48EFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31579A79-D64E-4089-9739-D7112DD48EFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31579A79-D64E-4089-9739-D7112DD48EFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31579A79-D64E-4089-9739-D7112DD48EFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{364AF584-6005-4104-B068-4953E70B4F1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{364AF584-6005-4104-B068-4953E70B4F1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{364AF584-6005-4104-B068-4953E70B4F1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{364AF584-6005-4104-B068-4953E70B4F1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{586432B3-F972-4734-A0F7-513DCEEDE337}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{586432B3-F972-4734-A0F7-513DCEEDE337}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{586432B3-F972-4734-A0F7-513DCEEDE337}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{586432B3-F972-4734-A0F7-513DCEEDE337}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A30E382B-608B-46AF-A101-5409435F7539}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A30E382B-608B-46AF-A101-5409435F7539}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A30E382B-608B-46AF-A101-5409435F7539}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A30E382B-608B-46AF-A101-5409435F7539}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5036D428-9DBF-4A9B-BFB2-DB57785650E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5036D428-9DBF-4A9B-BFB2-DB57785650E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5036D428-9DBF-4A9B-BFB2-DB57785650E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5036D428-9DBF-4A9B-BFB2-DB57785650E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E18E59E4-A5D0-42A0-A17C-6D9938904E10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E18E59E4-A5D0-42A0-A17C-6D9938904E10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E18E59E4-A5D0-42A0-A17C-6D9938904E10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E18E59E4-A5D0-42A0-A17C-6D9938904E10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A2659A0-22F5-4201-AC51-9183595090FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A2659A0-22F5-4201-AC51-9183595090FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A2659A0-22F5-4201-AC51-9183595090FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A2659A0-22F5-4201-AC51-9183595090FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18D0FD1D-B818-4D4E-B062-C0883A5B967B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18D0FD1D-B818-4D4E-B062-C0883A5B967B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18D0FD1D-B818-4D4E-B062-C0883A5B967B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18D0FD1D-B818-4D4E-B062-C0883A5B967B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65C3EC7B-FB72-4408-9281-C8C01435FF1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65C3EC7B-FB72-4408-9281-C8C01435FF1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65C3EC7B-FB72-4408-9281-C8C01435FF1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65C3EC7B-FB72-4408-9281-C8C01435FF1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

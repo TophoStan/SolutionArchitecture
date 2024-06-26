@@ -22,54 +22,6 @@ namespace OrderManagement.Infrastructure.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("OrderManagement.Domain.Events.OrderEvent", b =>
-                {
-                    b.Property<long>("EventId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("EventId"));
-
-                    b.Property<string>("AggregateId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("EventData")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("EventTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("EventType")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("EventId");
-
-                    b.HasIndex("AggregateId");
-
-                    b.ToTable("Events");
-
-                    b.HasData(
-                        new
-                        {
-                            EventId = -1L,
-                            AggregateId = "1234",
-                            EventData = "{\"OrderNumber\":\"1234\",\"UserEmail\":\"stijn@mail.com\",\"OrderDate\":\"2024-06-21T12:41:06.7514476+02:00\",\"Status\":\"Processing\"}",
-                            EventTime = new DateTime(2024, 6, 21, 12, 41, 6, 751, DateTimeKind.Local).AddTicks(5702),
-                            EventType = "OrderCreated"
-                        },
-                        new
-                        {
-                            EventId = -2L,
-                            AggregateId = "4321",
-                            EventData = "{\"OrderNumber\":\"4321\",\"UserEmail\":\"thomas@mail.com\",\"OrderDate\":\"2024-06-21T12:41:06.7514524+02:00\",\"Status\":\"Done\"}",
-                            EventTime = new DateTime(2024, 6, 21, 12, 41, 6, 751, DateTimeKind.Local).AddTicks(5720),
-                            EventType = "OrderCreated"
-                        });
-                });
-
             modelBuilder.Entity("OrderManagement.Domain.Order", b =>
                 {
                     b.Property<string>("OrderNumber")
@@ -82,32 +34,218 @@ namespace OrderManagement.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("UserEmail")
+                    b.Property<string>("SupplierName")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("OrderNumber");
 
                     b.HasIndex("OrderNumber")
                         .IsUnique();
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Orders");
 
                     b.HasData(
                         new
                         {
-                            OrderNumber = "1234",
-                            OrderDate = new DateTime(2024, 6, 21, 12, 41, 6, 751, DateTimeKind.Local).AddTicks(4476),
-                            Status = "Processing",
-                            UserEmail = "stijn@mail.com"
+                            OrderNumber = "1",
+                            OrderDate = new DateTime(2024, 6, 26, 13, 25, 6, 975, DateTimeKind.Local).AddTicks(2842),
+                            Status = "Delivered",
+                            SupplierName = "Logitech",
+                            UserId = 1
                         },
                         new
                         {
-                            OrderNumber = "4321",
-                            OrderDate = new DateTime(2024, 6, 21, 12, 41, 6, 751, DateTimeKind.Local).AddTicks(4524),
-                            Status = "Done",
-                            UserEmail = "thomas@mail.com"
+                            OrderNumber = "2",
+                            OrderDate = new DateTime(2024, 6, 26, 13, 25, 6, 975, DateTimeKind.Local).AddTicks(2891),
+                            Status = "Processing",
+                            SupplierName = "Pokemon",
+                            UserId = 2
+                        },
+                        new
+                        {
+                            OrderNumber = "3",
+                            OrderDate = new DateTime(2024, 6, 26, 13, 25, 6, 975, DateTimeKind.Local).AddTicks(2893),
+                            Status = "Shipped",
+                            SupplierName = "RedBull",
+                            UserId = 3
                         });
+                });
+
+            modelBuilder.Entity("OrderManagement.Domain.Product", b =>
+                {
+                    b.Property<string>("ProductId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<float>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<string>("ProductDescription")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("ProductId");
+
+                    b.HasIndex("ProductId")
+                        .IsUnique();
+
+                    b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductId = "1",
+                            Price = 50f,
+                            ProductDescription = "Mechanical Keyboard with RGB lighting",
+                            ProductName = "Keyboard"
+                        },
+                        new
+                        {
+                            ProductId = "2",
+                            Price = 30f,
+                            ProductDescription = "Gaming Mouse with 12 programmable buttons",
+                            ProductName = "Mouse"
+                        },
+                        new
+                        {
+                            ProductId = "3",
+                            Price = 70f,
+                            ProductDescription = "Wireless Headset with 7.1 Surround Sound",
+                            ProductName = "Headset"
+                        });
+                });
+
+            modelBuilder.Entity("OrderManagement.Domain.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("UserId"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("UserId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            Email = "Logitech@mail.com",
+                            FirstName = "John",
+                            LastName = "Doe"
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            Email = "Pokemon@mail.com",
+                            FirstName = "Ash",
+                            LastName = "Ketchum"
+                        },
+                        new
+                        {
+                            UserId = 3,
+                            Email = "Redbull@mail.com",
+                            FirstName = "Max",
+                            LastName = "Verstappen"
+                        });
+                });
+
+            modelBuilder.Entity("OrderProduct", b =>
+                {
+                    b.Property<string>("OrdersOrderNumber")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ProductsProductId")
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("OrdersOrderNumber", "ProductsProductId");
+
+                    b.HasIndex("ProductsProductId");
+
+                    b.ToTable("OrderProduct");
+
+                    b.HasData(
+                        new
+                        {
+                            OrdersOrderNumber = "1",
+                            ProductsProductId = "1"
+                        },
+                        new
+                        {
+                            OrdersOrderNumber = "1",
+                            ProductsProductId = "2"
+                        },
+                        new
+                        {
+                            OrdersOrderNumber = "2",
+                            ProductsProductId = "2"
+                        },
+                        new
+                        {
+                            OrdersOrderNumber = "2",
+                            ProductsProductId = "3"
+                        },
+                        new
+                        {
+                            OrdersOrderNumber = "3",
+                            ProductsProductId = "1"
+                        });
+                });
+
+            modelBuilder.Entity("OrderManagement.Domain.Order", b =>
+                {
+                    b.HasOne("OrderManagement.Domain.User", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("OrderProduct", b =>
+                {
+                    b.HasOne("OrderManagement.Domain.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrdersOrderNumber")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OrderManagement.Domain.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("OrderManagement.Domain.User", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

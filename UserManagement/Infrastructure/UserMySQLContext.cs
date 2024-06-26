@@ -17,13 +17,16 @@ public class UserMySQLContext : DbContext
         modelBuilder.Entity<User>().HasKey(s => s.UserId);
         modelBuilder.Entity<User>().HasIndex(s => s.UserId).IsUnique();
 
+        modelBuilder.Entity<Support>().HasKey(p => p.SupportId);
+        modelBuilder.Entity<Support>().HasOne(p => p.User).WithMany(s => s.Supports).HasForeignKey(p => p.UserId);
+
         var Logitech = new User
         {
             UserId = 1,
             Email = "Logitech@mail.com",
-            FirstName = "John Doe",
-            LastName = "123456789",
-            PhoneNumber = "Logitech BV.",
+            FirstName = "John",
+            LastName = "Doe",
+            PhoneNumber = "123456789",
             Address = "Logitech address"
         };
 
@@ -31,9 +34,9 @@ public class UserMySQLContext : DbContext
         {
             UserId = 2,
             Email = "Pokemon@mail.com",
-            FirstName = "Ash Ketchum",
-            LastName = "987654321",
-            PhoneNumber = "Pokemon Inc.",
+            FirstName = "Ash",
+            LastName = "Ketchum",
+            PhoneNumber = "987654321",
             Address = "Pokemon address"
 
         };
@@ -42,9 +45,9 @@ public class UserMySQLContext : DbContext
         {
             UserId = 3,
             Email = "Redbull@mail.com",
-            FirstName = "Max Verstappen",
-            LastName = "123456789",
-            PhoneNumber = "Red Bull Racing",
+            FirstName = "Max",
+            LastName = "Verstappen",
+            PhoneNumber = "192837465",
             Address = "Red Bull Racing address"
         };
 
