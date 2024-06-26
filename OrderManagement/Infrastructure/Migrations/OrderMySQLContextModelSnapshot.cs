@@ -54,7 +54,7 @@ namespace OrderManagement.Infrastructure.Migrations
                         new
                         {
                             OrderNumber = "1",
-                            OrderDate = new DateTime(2024, 6, 26, 13, 25, 6, 975, DateTimeKind.Local).AddTicks(2842),
+                            OrderDate = new DateTime(2024, 6, 26, 22, 55, 24, 670, DateTimeKind.Local).AddTicks(6575),
                             Status = "Delivered",
                             SupplierName = "Logitech",
                             UserId = 1
@@ -62,7 +62,7 @@ namespace OrderManagement.Infrastructure.Migrations
                         new
                         {
                             OrderNumber = "2",
-                            OrderDate = new DateTime(2024, 6, 26, 13, 25, 6, 975, DateTimeKind.Local).AddTicks(2891),
+                            OrderDate = new DateTime(2024, 6, 26, 22, 55, 24, 670, DateTimeKind.Local).AddTicks(6617),
                             Status = "Processing",
                             SupplierName = "Pokemon",
                             UserId = 2
@@ -70,7 +70,7 @@ namespace OrderManagement.Infrastructure.Migrations
                         new
                         {
                             OrderNumber = "3",
-                            OrderDate = new DateTime(2024, 6, 26, 13, 25, 6, 975, DateTimeKind.Local).AddTicks(2893),
+                            OrderDate = new DateTime(2024, 6, 26, 22, 55, 24, 670, DateTimeKind.Local).AddTicks(6619),
                             Status = "Shipped",
                             SupplierName = "RedBull",
                             UserId = 3
@@ -79,8 +79,15 @@ namespace OrderManagement.Infrastructure.Migrations
 
             modelBuilder.Entity("OrderManagement.Domain.Product", b =>
                 {
-                    b.Property<string>("ProductId")
-                        .HasColumnType("varchar(255)");
+                    b.Property<int>("ProductId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("ProductId"));
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<float>("Price")
                         .HasColumnType("float");
@@ -93,6 +100,9 @@ namespace OrderManagement.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.HasKey("ProductId");
 
                     b.HasIndex("ProductId")
@@ -103,24 +113,84 @@ namespace OrderManagement.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            ProductId = "1",
-                            Price = 50f,
-                            ProductDescription = "Mechanical Keyboard with RGB lighting",
-                            ProductName = "Keyboard"
+                            ProductId = 1,
+                            Category = "Energy drink",
+                            Price = 5f,
+                            ProductDescription = "Energy drink with wodka",
+                            ProductName = "Red Bull Wodka",
+                            Quantity = 0
                         },
                         new
                         {
-                            ProductId = "2",
-                            Price = 30f,
-                            ProductDescription = "Gaming Mouse with 12 programmable buttons",
-                            ProductName = "Mouse"
+                            ProductId = 2,
+                            Category = "Energy drink",
+                            Price = 3f,
+                            ProductDescription = "Energy drink with watermelon",
+                            ProductName = "Red Bull Watermelon",
+                            Quantity = 0
                         },
                         new
                         {
-                            ProductId = "3",
+                            ProductId = 3,
+                            Category = "Energy drink",
+                            Price = 4f,
+                            ProductDescription = "Energy drink with grapefruit",
+                            ProductName = "Red Bull Grapefruit",
+                            Quantity = 0
+                        },
+                        new
+                        {
+                            ProductId = 4,
+                            Category = "Energy drink",
                             Price = 70f,
-                            ProductDescription = "Wireless Headset with 7.1 Surround Sound",
-                            ProductName = "Headset"
+                            ProductDescription = "Wireless gaming mouse",
+                            ProductName = "Logitech G603",
+                            Quantity = 0
+                        },
+                        new
+                        {
+                            ProductId = 5,
+                            Category = "Energy drink",
+                            Price = 50f,
+                            ProductDescription = "Wired gaming mouse",
+                            ProductName = "Logitech G Pro",
+                            Quantity = 0
+                        },
+                        new
+                        {
+                            ProductId = 6,
+                            Category = "Energy drink",
+                            Price = 40f,
+                            ProductDescription = "Gaming keyboard",
+                            ProductName = "Logitech G213",
+                            Quantity = 0
+                        },
+                        new
+                        {
+                            ProductId = 7,
+                            Category = "Energy drink",
+                            Price = 100f,
+                            ProductDescription = "Electric pokemon",
+                            ProductName = "Pikachu",
+                            Quantity = 0
+                        },
+                        new
+                        {
+                            ProductId = 8,
+                            Category = "Energy drink",
+                            Price = 200f,
+                            ProductDescription = "Sleeping pokemon",
+                            ProductName = "Snorlax",
+                            Quantity = 0
+                        },
+                        new
+                        {
+                            ProductId = 9,
+                            Category = "Energy drink",
+                            Price = 150f,
+                            ProductDescription = "Fire pokemon",
+                            ProductName = "Charizard",
+                            Quantity = 0
                         });
                 });
 
@@ -180,8 +250,8 @@ namespace OrderManagement.Infrastructure.Migrations
                     b.Property<string>("OrdersOrderNumber")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("ProductsProductId")
-                        .HasColumnType("varchar(255)");
+                    b.Property<int>("ProductsProductId")
+                        .HasColumnType("int");
 
                     b.HasKey("OrdersOrderNumber", "ProductsProductId");
 
@@ -193,27 +263,27 @@ namespace OrderManagement.Infrastructure.Migrations
                         new
                         {
                             OrdersOrderNumber = "1",
-                            ProductsProductId = "1"
+                            ProductsProductId = 1
                         },
                         new
                         {
                             OrdersOrderNumber = "1",
-                            ProductsProductId = "2"
+                            ProductsProductId = 2
                         },
                         new
                         {
                             OrdersOrderNumber = "2",
-                            ProductsProductId = "2"
+                            ProductsProductId = 2
                         },
                         new
                         {
                             OrdersOrderNumber = "2",
-                            ProductsProductId = "3"
+                            ProductsProductId = 3
                         },
                         new
                         {
                             OrdersOrderNumber = "3",
-                            ProductsProductId = "1"
+                            ProductsProductId = 1
                         });
                 });
 

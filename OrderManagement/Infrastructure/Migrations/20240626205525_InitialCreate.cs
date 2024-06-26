@@ -18,36 +18,19 @@ namespace OrderManagement.Infrastructure.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Events",
-                columns: table => new
-                {
-                    EventId = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    AggregateId = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    EventType = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    EventData = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    EventTime = table.Column<DateTime>(type: "datetime(6)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Events", x => x.EventId);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
-                    ProductId = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ProductId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ProductName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ProductDescription = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Price = table.Column<float>(type: "float", nullable: false)
+                    Price = table.Column<float>(type: "float", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Category = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -83,7 +66,9 @@ namespace OrderManagement.Infrastructure.Migrations
                     OrderDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Status = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UserId = table.Column<int>(type: "int", nullable: true)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    SupplierName = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -92,7 +77,8 @@ namespace OrderManagement.Infrastructure.Migrations
                         name: "FK_Orders_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserId");
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -102,8 +88,7 @@ namespace OrderManagement.Infrastructure.Migrations
                 {
                     OrdersOrderNumber = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ProductsProductId = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    ProductsProductId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -124,6 +109,22 @@ namespace OrderManagement.Infrastructure.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "ProductId", "Category", "Price", "ProductDescription", "ProductName", "Quantity" },
+                values: new object[,]
+                {
+                    { 1, "Energy drink", 5f, "Energy drink with wodka", "Red Bull Wodka", 0 },
+                    { 2, "Energy drink", 3f, "Energy drink with watermelon", "Red Bull Watermelon", 0 },
+                    { 3, "Energy drink", 4f, "Energy drink with grapefruit", "Red Bull Grapefruit", 0 },
+                    { 4, "Energy drink", 70f, "Wireless gaming mouse", "Logitech G603", 0 },
+                    { 5, "Energy drink", 50f, "Wired gaming mouse", "Logitech G Pro", 0 },
+                    { 6, "Energy drink", 40f, "Gaming keyboard", "Logitech G213", 0 },
+                    { 7, "Energy drink", 100f, "Electric pokemon", "Pikachu", 0 },
+                    { 8, "Energy drink", 200f, "Sleeping pokemon", "Snorlax", 0 },
+                    { 9, "Energy drink", 150f, "Fire pokemon", "Charizard", 0 }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "Email", "FirstName", "LastName" },
                 values: new object[,]
@@ -133,10 +134,27 @@ namespace OrderManagement.Infrastructure.Migrations
                     { 3, "Redbull@mail.com", "Max", "Verstappen" }
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Events_AggregateId",
-                table: "Events",
-                column: "AggregateId");
+            migrationBuilder.InsertData(
+                table: "Orders",
+                columns: new[] { "OrderNumber", "OrderDate", "Status", "SupplierName", "UserId" },
+                values: new object[,]
+                {
+                    { "1", new DateTime(2024, 6, 26, 22, 55, 24, 670, DateTimeKind.Local).AddTicks(6575), "Delivered", "Logitech", 1 },
+                    { "2", new DateTime(2024, 6, 26, 22, 55, 24, 670, DateTimeKind.Local).AddTicks(6617), "Processing", "Pokemon", 2 },
+                    { "3", new DateTime(2024, 6, 26, 22, 55, 24, 670, DateTimeKind.Local).AddTicks(6619), "Shipped", "RedBull", 3 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "OrderProduct",
+                columns: new[] { "OrdersOrderNumber", "ProductsProductId" },
+                values: new object[,]
+                {
+                    { "1", 1 },
+                    { "1", 2 },
+                    { "2", 2 },
+                    { "2", 3 },
+                    { "3", 1 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderProduct_ProductsProductId",
@@ -170,9 +188,6 @@ namespace OrderManagement.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Events");
-
             migrationBuilder.DropTable(
                 name: "OrderProduct");
 

@@ -13,7 +13,7 @@ namespace InvoiceManagement.Infrastructure
         }
         public async void createInvoice(Invoice invoice)
         {
-            _dbContext.Invoices.Add(invoice);
+            await _dbContext.Invoices.AddAsync(invoice);
             await _dbContext.SaveChangesAsync();
         }
     }

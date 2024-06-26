@@ -19,7 +19,6 @@ public class ProductRepository
             await _SQLcontext.SaveChangesAsync();
 
 
-            //TODO await _MongoDBcontext.SQLToMongoDB();
 
             return _SQLcontext.Products.FirstOrDefault(p => p.ProductName == product.ProductName);
         }

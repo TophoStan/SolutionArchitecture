@@ -22,47 +22,56 @@ public class OrderMySQLContext : DbContext
 
         Domain.Product RbWodka = new Domain.Product()
         {
+            ProductId = 1,
             ProductName = "Red Bull Wodka",
             ProductDescription = "Energy drink with wodka",
             Price = 5,
+            Category = "Energy drink"
 
         };
         Domain.Product RbWaterMelon = new Domain.Product()
         {
+            ProductId = 2,
             ProductName = "Red Bull Watermelon",
             ProductDescription = "Energy drink with watermelon",
             Price = 3,
+            Category = "Energy drink"
 
         };
         Domain.Product RbGrapefruit = new Domain.Product()
         {
+            ProductId = 3,
             ProductName = "Red Bull Grapefruit",
             ProductDescription = "Energy drink with grapefruit",
             Price = 4,
-
+            Category = "Energy drink"
         };
 
         modelBuilder.Entity<Domain.Product>().HasData(RbWodka, RbWaterMelon, RbGrapefruit);
 
         Domain.Product G603 = new Domain.Product()
         {
+            ProductId = 4,
             ProductName = "Logitech G603",
             ProductDescription = "Wireless gaming mouse",
             Price = 70,
-
+            Category = "Energy drink"
         };
         Domain.Product GPro = new Domain.Product()
         {
+            ProductId = 5,
             ProductName = "Logitech G Pro",
             ProductDescription = "Wired gaming mouse",
             Price = 50,
-
+            Category = "Energy drink"
         };
         Domain.Product G213 = new Domain.Product()
         {
+            ProductId = 6,
             ProductName = "Logitech G213",
             ProductDescription = "Gaming keyboard",
             Price = 40,
+            Category = "Energy drink"
 
         };
 
@@ -70,26 +79,29 @@ public class OrderMySQLContext : DbContext
 
         Domain.Product pikachu = new Domain.Product()
         {
+            ProductId = 7,
             ProductName = "Pikachu",
             ProductDescription = "Electric pokemon",
             Price = 100,
-
+            Category = "Energy drink"
         };
 
         Domain.Product snorlax = new Domain.Product()
         {
+            ProductId = 8,
             ProductName = "Snorlax",
             ProductDescription = "Sleeping pokemon",
             Price = 200,
-
+            Category = "Energy drink"
         };
 
         Domain.Product charizard = new Domain.Product()
         {
+            ProductId = 9,
             ProductName = "Charizard",
             ProductDescription = "Fire pokemon",
             Price = 150,
-
+            Category = "Energy drink"
         };
 
         modelBuilder.Entity<Domain.Product>().HasData(pikachu, snorlax, charizard);
@@ -168,35 +180,26 @@ public class OrderMySQLContext : DbContext
                 order1, order2, order3
             );
 
-        modelBuilder.Entity("OrderProduct", b =>
-        {
-            b.HasData(
-                new
+        // Order - Products
+        modelBuilder.Entity<Domain.Order>().HasMany(o => o.Products).WithMany(p => p.Orders)
+            .UsingEntity<Dictionary<string, object>>(
+                "OrderProduct",
+                j => j.HasOne<Domain.Product>().WithMany().HasForeignKey("ProductsProductId"),
+                j => j.HasOne<Domain.Order>().WithMany().HasForeignKey("OrdersOrderNumber"),
+                j =>
                 {
-                    OrdersOrderNumber = "1",
-                    ProductsProductId = "1"
-                },
-                new
-                {
-                    OrdersOrderNumber = "1",
-                    ProductsProductId = "2"
-                },
-                new
-                {
-                    OrdersOrderNumber = "2",
-                    ProductsProductId = "2"
-                },
-                new
-                {
-                    OrdersOrderNumber = "2",
-                    ProductsProductId = "3"
-                },
-                new
-                {
-                    OrdersOrderNumber = "3",
-                    ProductsProductId = "1"
-                }
-                );
-        });
+                    j.Property<string>("OrdersOrderNumber");
+                    j.Property<int>("ProductsProductId");
+                    j.HasData(
+                        new { OrdersOrderNumber = "1", ProductsProductId = 1 },
+                        new { OrdersOrderNumber = "1", ProductsProductId = 2 },
+                        new { OrdersOrderNumber = "2", ProductsProductId = 2 },
+                        new { OrdersOrderNumber = "2", ProductsProductId = 3 },
+                        new { OrdersOrderNumber = "3", ProductsProductId = 1 }
+                    );
+                });
+
+        // Order - User
+        modelBuilder.Entity<Domain.Order>().HasOne(o => o.User).WithMany(u => u.Orders);
     }
 }

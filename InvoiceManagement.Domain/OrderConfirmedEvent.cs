@@ -4,9 +4,9 @@ namespace InvoiceManagement.Domain;
 
 public class OrderConfirmedEvent : IOrderConfirmedEvent
 {
-    public string OrderNumber { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    public DateTime OrderDate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    public string SupplierName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    public string UserName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    public Dictionary<int, int> ProductsWithQuanitity { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public string OrderNumber { get; set; }
+    public DateTime OrderDate { get; set; }
+    public string SupplierName { get; set; }
+    public string UserName { get; set; }
+    public Dictionary<int, int> ProductsWithQuanitity { get; set; }
 }

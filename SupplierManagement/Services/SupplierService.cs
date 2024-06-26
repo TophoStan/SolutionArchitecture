@@ -28,7 +28,7 @@ public class SupplierService
         // Insert into supplier database only the product id and name
 
         var productWithId = await _supplierRepository.AddProductOfSupplierAsync(product, supplierId);
-
+        Console.WriteLine(productWithId.ProductId);
         // Publish the event so that the product management service can insert the product into its database
         IInsertedEvent @event = new ProductInsertedEvent
         {

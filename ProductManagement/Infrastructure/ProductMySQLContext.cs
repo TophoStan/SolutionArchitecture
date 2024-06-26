@@ -9,7 +9,6 @@ public class ProductMySQLContext : DbContext
 
     public DbSet<Product> Products { get; set; }
 
-    //Onmodelcreating
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -19,6 +18,7 @@ public class ProductMySQLContext : DbContext
 
         Product RbWodka = new Product()
         {
+            ProductId = 1,
             ProductName = "Red Bull Wodka",
             ProductDescription = "Energy drink with wodka",
             Price = 5,
@@ -28,6 +28,7 @@ public class ProductMySQLContext : DbContext
         };
         Product RbWaterMelon = new Product()
         {
+            ProductId = 2,
             ProductName = "Red Bull Watermelon",
             ProductDescription = "Energy drink with watermelon",
             Price = 3,
@@ -37,6 +38,7 @@ public class ProductMySQLContext : DbContext
         };
         Product RbGrapefruit = new Product()
         {
+            ProductId = 3,
             ProductName = "Red Bull Grapefruit",
             ProductDescription = "Energy drink with grapefruit",
             Price = 4,
@@ -49,6 +51,7 @@ public class ProductMySQLContext : DbContext
 
         Product G603 = new Product()
         {
+            ProductId = 4,
             ProductName = "Logitech G603",
             ProductDescription = "Wireless gaming mouse",
             Price = 70,
@@ -58,6 +61,7 @@ public class ProductMySQLContext : DbContext
         };
         Product GPro = new Product()
         {
+            ProductId = 5,
             ProductName = "Logitech G Pro",
             ProductDescription = "Wired gaming mouse",
             Price = 50,
@@ -67,6 +71,7 @@ public class ProductMySQLContext : DbContext
         };
         Product G213 = new Product()
         {
+            ProductId = 6,
             ProductName = "Logitech G213",
             ProductDescription = "Gaming keyboard",
             Price = 40,
@@ -79,6 +84,7 @@ public class ProductMySQLContext : DbContext
 
         Product pikachu = new Product()
         {
+            ProductId = 7,
             ProductName = "Pikachu",
             ProductDescription = "Electric pokemon",
             Price = 100,
@@ -89,6 +95,7 @@ public class ProductMySQLContext : DbContext
 
         Product snorlax = new Product()
         {
+            ProductId = 8,
             ProductName = "Snorlax",
             ProductDescription = "Sleeping pokemon",
             Price = 200,
@@ -99,6 +106,7 @@ public class ProductMySQLContext : DbContext
 
         Product charizard = new Product()
         {
+            ProductId = 9,
             ProductName = "Charizard",
             ProductDescription = "Fire pokemon",
             Price = 150,
@@ -109,5 +117,4 @@ public class ProductMySQLContext : DbContext
 
         modelBuilder.Entity<Product>().HasData(pikachu, snorlax, charizard);
     }
-
 }

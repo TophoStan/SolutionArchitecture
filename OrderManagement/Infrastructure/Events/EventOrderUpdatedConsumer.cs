@@ -43,7 +43,7 @@ public class EventOrderUpdatedConsumer : IConsumer<IOrderUpdatedEvent>, IConsume
             OrderNumber = @event.OrderNumber,
             OrderDate = @event.OrderDate,
             Status = @event.Status,
-            UserId = @event.UserId,
+            UserId = 1,
             SupplierName = @event.SupplierName
         });
     }

@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SupplierManagement.Infrastructure;
+using ProductManagement.Infrastructure;
 
 #nullable disable
 
-namespace SupplierManagement.Infrastructure.Migrations
+namespace ProductManagement.Infrastructure.Migrations
 {
-    [DbContext(typeof(SupplierMySQLContext))]
-    partial class SupplierMySQLContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(ProductMySQLContext))]
+    [Migration("20240626201036_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,44 +25,36 @@ namespace SupplierManagement.Infrastructure.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("SupplierManagement.Domain.Product", b =>
+            modelBuilder.Entity("ProductManagement.Domain.Product", b =>
                 {
-                    b.Property<int>("ProductId")
+                    b.Property<int?>("ProductId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("ProductId"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int?>("ProductId"));
 
                     b.Property<string>("Category")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("longtext")
-                        .HasDefaultValue("No category");
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
-                    b.Property<int?>("Price")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
 
                     b.Property<string>("ProductDescription")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("longtext")
-                        .HasDefaultValue("No description");
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("StockQuantity")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
+                    b.Property<int>("StockQuantity")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("SupplierId")
+                    b.Property<int>("SupplierId")
                         .HasColumnType("int");
 
                     b.HasKey("ProductId");
-
-                    b.HasIndex("SupplierId");
 
                     b.ToTable("Products");
 
@@ -154,88 +149,6 @@ namespace SupplierManagement.Infrastructure.Migrations
                             StockQuantity = 1,
                             SupplierId = 2
                         });
-                });
-
-            modelBuilder.Entity("SupplierManagement.Domain.Supplier", b =>
-                {
-                    b.Property<int>("SupplierId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("SupplierId"));
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ContactEmail")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ContactName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ContactPhone")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("SupplierName")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("SupplierId");
-
-                    b.HasIndex("SupplierId")
-                        .IsUnique();
-
-                    b.HasIndex("SupplierName")
-                        .IsUnique();
-
-                    b.ToTable("Suppliers");
-
-                    b.HasData(
-                        new
-                        {
-                            SupplierId = 1,
-                            Address = "Logitech address",
-                            ContactEmail = "Logitech@mail.com",
-                            ContactName = "John Doe",
-                            ContactPhone = "123456789",
-                            SupplierName = "Logitech BV."
-                        },
-                        new
-                        {
-                            SupplierId = 2,
-                            Address = "Pokemon address",
-                            ContactEmail = "Pokemon@mail.com",
-                            ContactName = "Ash Ketchum",
-                            ContactPhone = "987654321",
-                            SupplierName = "Pokemon Inc."
-                        },
-                        new
-                        {
-                            SupplierId = 3,
-                            Address = "Red Bull Racing address",
-                            ContactEmail = "Redbull@mail.com",
-                            ContactName = "Max Verstappen",
-                            ContactPhone = "123456789",
-                            SupplierName = "Red Bull Racing"
-                        });
-                });
-
-            modelBuilder.Entity("SupplierManagement.Domain.Product", b =>
-                {
-                    b.HasOne("SupplierManagement.Domain.Supplier", "Supplier")
-                        .WithMany("Products")
-                        .HasForeignKey("SupplierId");
-
-                    b.Navigation("Supplier");
-                });
-
-            modelBuilder.Entity("SupplierManagement.Domain.Supplier", b =>
-                {
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

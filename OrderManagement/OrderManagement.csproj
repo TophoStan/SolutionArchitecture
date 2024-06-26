@@ -42,8 +42,4 @@
     <ProjectReference Include="..\RabbitMQ.domain\RabbitMQ.domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Infrastructure\Migrations\" />
-  </ItemGroup>
-
 </Project>

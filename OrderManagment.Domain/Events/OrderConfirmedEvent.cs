@@ -15,5 +15,5 @@ public class OrderConfirmedEvent : IOrderConfirmedEvent
     public string UserName { get; set; }
 
     public ICollection<Product> Products { get; set; }
-    public Dictionary<int, int> ProductsWithQuanitity { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public Dictionary<int, int> ProductsWithQuanitity { get; set; }
 }
