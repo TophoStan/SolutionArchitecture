@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace OrderManagement.Infrastructure.Order;
 
@@ -21,7 +22,7 @@ public class OrderRepository
             await _sqlContext.Orders.AddAsync(order);
             await _sqlContext.SaveChangesAsync();
             
-            await _mongoDBcontext.SQLToMongoDB();
+            //await _mongoDBcontext.SQLToMongoDB();
             return true;
         }
         catch
@@ -34,10 +35,12 @@ public class OrderRepository
     {
         try
         {
+            _sqlContext.Orders.Attach(order);
             _sqlContext.Orders.Update(order);
+
             await _sqlContext.SaveChangesAsync();
 
-            await _mongoDBcontext.SQLToMongoDB();
+            //await _mongoDBcontext.SQLToMongoDB();
             return true;
         }
         catch
@@ -50,11 +53,17 @@ public class OrderRepository
     {
         try
         {
+            var options = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.IgnoreCycles,
+                WriteIndented = true
+            };
+
             var orderEvent = new Domain.Events.OrderEvent
             {
                 AggregateId = aggregateId,
                 EventType = eventType,
-                EventData = JsonSerializer.Serialize(eventData),
+                EventData = JsonSerializer.Serialize(eventData, options),
                 EventTime = DateTime.Now
             };
 

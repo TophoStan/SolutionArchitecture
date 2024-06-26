@@ -1,19 +1,71 @@
 ﻿using OrderManagement.Domain;
+using OrderManagement.Infrastructure.Order;
+using System.Text.Json;
 
 namespace OrderManagement.Infrastructure.Product;
 
 public class ProductRepository
 {
-    private readonly Dictionary<string, Domain.Product> _products = new Dictionary<string, Domain.Product>();
-
-    public void AddProduct(Domain.Product product)
+    private readonly OrderMySQLContext _sqlContext;
+    
+    public ProductRepository(OrderMySQLContext context)
     {
-        _products[product.ProductId] = product;
+        _sqlContext = context;
     }
 
-    public Domain.Product GetProduct(string productId)
+    public async Task<bool> AddProductAsync(Domain.Product product)
     {
-        _products.TryGetValue(productId, out var product);
-        return product;
+        try
+        {
+            await _sqlContext.Products.AddAsync(product);
+            await _sqlContext.SaveChangesAsync();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public async Task<bool> UpdateProductAsync(Domain.Product product)
+    {
+        try
+        {
+            _sqlContext.Products.Attach(product);
+            _sqlContext.Products.Update(product);
+            await _sqlContext.SaveChangesAsync();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public async Task<bool> SaveEventAsync(string aggregateId, string eventType, object eventData)
+    {
+        try
+        {
+            var productEvent = new Domain.Events.OrderEvent
+            {
+                AggregateId = aggregateId,
+                EventType = eventType,
+                EventData = JsonSerializer.Serialize(eventData),
+                EventTime = DateTime.Now
+            };
+
+            await _sqlContext.Events.AddAsync(productEvent);
+            await _sqlContext.SaveChangesAsync();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public async Task<Domain.Product> GetProductAsync(string productId)
+    {
+        return await _sqlContext.Products.FindAsync(productId);
     }
 }
