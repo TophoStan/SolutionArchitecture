@@ -25,6 +25,22 @@ public class UserController : ControllerBase
         return Ok();
     }
 
+    [HttpPut]
+    [Route("update")]
+    public async Task<IActionResult> UpdateUser([FromBody] User user)
+    {
+        await _userService.UpdateUserAsync(user);
+        return Ok();
+    }
+
+    [HttpPost]
+    [Route("ticket/{userId}")]
+    public async Task<IActionResult> CreateSupportTicket([FromBody] Support support, [FromRoute] int userId)
+    {
+        await _userService.RequestUserSupport(support, userId);
+        return Ok();
+    }
+
     [HttpPost]
     [Route("import-csv")]
     public async Task<IActionResult> ImportUsersFromCsv(IFormFile file)

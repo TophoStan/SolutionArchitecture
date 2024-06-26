@@ -16,7 +16,7 @@ WORKDIR /src
 RUN echo $BUILD_CONFIGURATION
 COPY ["UserManagement/UserManagement.csproj", "UserManagement/"]
 RUN echo $BUILD_CONFIGURATION
-COPY ["UserManagment.Domain/UserManagement.Domain.csproj", "UserManagment.Domain/"]
+COPY ["UserManagement.Domain/UserManagement.Domain.csproj", "UserManagement.Domain/"]
 RUN dotnet restore "./UserManagement/UserManagement.csproj"
 COPY . .
 WORKDIR "/src/UserManagement"

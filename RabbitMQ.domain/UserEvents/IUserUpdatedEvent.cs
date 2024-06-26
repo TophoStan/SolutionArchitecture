@@ -1,6 +1,6 @@
-﻿namespace UserManagement.Domain;
+﻿namespace RabbitMQ.domain.UserEvents;
 
-public class User
+public interface IUserUpdatedEvent
 {
     public int UserId { get; set; }
     public string Email { get; set; }
@@ -8,6 +8,4 @@ public class User
     public string LastName { get; set; }
     public string PhoneNumber { get; set; }
     public string Address { get; set; }
-
-    public List<Support>? Supports { get; set; } = new List<Support>();
 }

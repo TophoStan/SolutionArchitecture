@@ -17,17 +17,23 @@ namespace UserManagement.Infrastructure
 
         public IMongoCollection<User> Users => _database.GetCollection<User>("Users");
 
-        public async Task SQLToMongoDB()
+        public async Task UpdateMongoDB(User user)
         {
-            Console.WriteLine("Migrating support data from SQL to MongoDB");
-            // Retrieve data from SQL database
-            List<User> sqlUsers = await _sqlContext.Users.ToListAsync();
+            // update user in mongodb
+            var filter = Builders<User>.Filter.Eq("Id", user.UserId);
+            var update = Builders<User>.Update
+                .Set("FirstName", user.FirstName)
+                .Set("LastName", user.LastName)
+                .Set("Email", user.Email)
+                .Set("PhoneNumber", user.PhoneNumber)
+                .Set("Address", user.Address);
+            await Users.UpdateOneAsync(filter, update);
+        }
 
-            // Insert data into MongoDB
-            if (sqlUsers.Any())
-            {
-                await Users.InsertManyAsync(sqlUsers);
-            }
+        public async Task AddMongoDB(User user)
+        {
+            // add user in mongodb
+            await Users.InsertOneAsync(user);
         }
     }
 }

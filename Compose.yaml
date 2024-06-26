@@ -14,7 +14,7 @@ services:
       - rabbitmq_data:/var/lib/rabbitmq
     networks:
       - my_network
-  
+
   # MySQL server
   mysqlserver:
     image: mysql:latest
@@ -55,12 +55,12 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - RABBITMQ_HOSTNAME=rabbitmq
-      - ASPNETCORE_URLS=http://+:5300 
+      - ASPNETCORE_URLS=http://+:5300
     volumes:
       - dotnet_supplier_data:/app
     networks:
       - my_network
-# Product
+  # Product
   product:
     image: productmanagement_app_asp:0.4
     build:
@@ -74,9 +74,29 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - RABBITMQ_HOSTNAME=rabbitmq
-      - ASPNETCORE_URLS=http://+:5301 
+      - ASPNETCORE_URLS=http://+:5301
     volumes:
       - dotnet_product_data:/app
+    networks:
+      - my_network
+
+  # User
+  user:
+    image: usermanagement_app:0.3
+    build:
+      context: .
+      dockerfile: ./UserDockerfile
+    ports:
+      - "5302:5302"
+      - "8083:8080"
+    depends_on:
+      - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - RABBITMQ_HOSTNAME=rabbitmq
+      - ASPNETCORE_URLS=http://+:5302
+    volumes:
+      - dotnet_user_data:/app
     networks:
       - my_network
 
@@ -94,6 +114,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - RABBITMQ_HOSTNAME=rabbitmq
+      - ASPNETCORE_URLS=http://+:5302
     volumes:
       - dotnet_order_data:/app
     networks:
@@ -106,3 +127,4 @@ volumes:
   dotnet_supplier_data:
   dotnet_order_data:
   dotnet_product_data:
+  dotnet_user_data:

@@ -1,3 +1,4 @@
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
 using OrderManagement.Infrastructure;
@@ -5,6 +6,7 @@ using OrderManagement.Infrastructure.Order;
 using OrderManagement.Infrastructure.Product;
 using OrderManagement.Infrastructure.User;
 using OrderManagement.Services;
+using RabbitMQ.domain.UserEvents;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,42 @@ var client = new MongoClient(mongoDBConnectionString);
 var database = client.GetDatabase("ReadOrder");
 builder.Services.AddSingleton(database);
 builder.Services.AddScoped<OrderMongoDBContext>();
+
+var rabbitMQHostName = builder.Configuration["RABBITMQ_HOSTNAME"];
+#pragma warning disable ASP0012 // Suggest using builder.Services over Host.ConfigureServices or WebHost.ConfigureServices
+builder.Host.ConfigureServices(services =>
+{
+    services.AddMassTransit(x =>
+    {
+        x.AddConsumer<UserConsumer>();
+        x.UsingRabbitMq((context, cfg) =>
+        {
+            cfg.Host(rabbitMQHostName, "/", h =>
+            {
+                h.Username("guest");
+                h.Password("guest");
+            });
+            cfg.ReceiveEndpoint("order-management-queue", e =>
+            {
+                e.ConfigureConsumer<UserConsumer>(context);
+                e.Bind("ballcom", x =>
+                {
+                    x.RoutingKey = "user-updated-routingkey";
+                    x.ExchangeType = "topic";
+                });
+            });
+            cfg.Message<IUserUpdatedEvent>(x =>
+            { 
+                x.SetEntityName("user-updated-event");
+            });
+            cfg.Publish<IUserUpdatedEvent>(x =>
+            {
+                x.ExchangeType = "topic";
+            });
+        });
+    });
+});
+#pragma warning restore ASP0012 // Suggest using builder.Services over Host.ConfigureServices or WebHost.ConfigureServices
 
 // Add other services to the container.
 builder.Services.AddControllers();

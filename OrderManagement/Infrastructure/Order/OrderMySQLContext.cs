@@ -22,8 +22,37 @@ public class OrderMySQLContext : DbContext
         modelBuilder.Entity<Domain.Product>().HasIndex(p => p.ProductId).IsUnique();
 
         // User
-        modelBuilder.Entity<Domain.User>().HasKey(o => o.Email);
-        modelBuilder.Entity<Domain.User>().HasIndex(o => o.Email).IsUnique();
+        modelBuilder.Entity<Domain.User>().HasKey(o => o.UserId);
+        modelBuilder.Entity<Domain.User>().HasIndex(o => o.UserId).IsUnique();
+
+        var Logitech = new Domain.User
+        {
+            UserId = 1,
+            Email = "Logitech@mail.com",
+            FirstName = "John",
+            LastName = "Doe"
+        };
+
+        var Pokemon = new Domain.User
+        {
+            UserId = 2,
+            Email = "Pokemon@mail.com",
+            FirstName = "Ash",
+            LastName = "Ketchum"
+
+        };
+
+        var RedBull = new Domain.User
+        {
+            UserId = 3,
+            Email = "Redbull@mail.com",
+            FirstName = "Max",
+            LastName = "Verstappen"
+        };
+
+        modelBuilder.Entity<Domain.User>().HasData(
+                Logitech, Pokemon, RedBull
+            );
 
         // Order
         modelBuilder.Entity<Domain.Order>().HasKey(o => o.OrderNumber);

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OrderManagement.Domain;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -29,6 +30,25 @@ public class OrderRepository
         {
             return false;
         }   
+    }
+
+    public async Task<Domain.User> UpdateUserAsync(Domain.User user)
+    {
+        try
+        {
+            _sqlContext.Users.Update(user);
+
+            await _sqlContext.SaveChangesAsync();
+
+            //await _mongoDBcontext.SQLToMongoDB();
+            
+            return await _sqlContext.Users.FirstOrDefaultAsync(u => u.UserId == user.UserId);
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e);
+            return null;
+        }
     }
 
     public async Task<bool> UpdateOrderAsync(Domain.Order order)
