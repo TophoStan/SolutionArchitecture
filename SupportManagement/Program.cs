@@ -1,6 +1,5 @@
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using MongoDB.Driver;
 using RabbitMQ.domain;
 using SupportManagement.Infrastructure;
 using SupportManagement.Services;
@@ -12,6 +11,14 @@ builder.Configuration.AddJsonFile("appsettings.json");
 builder.Configuration.AddEnvironmentVariables();
 
 var mySQLConnectionString = builder.Configuration.GetConnectionString("MySQLConnection");
+var developmentEnvironment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+if (developmentEnvironment != "Development")
+{
+    mySQLConnectionString = mySQLConnectionString.Replace("localhost", "mysqlserver");
+}
+Console.WriteLine("MySQL Connection String: " + mySQLConnectionString);
+
 builder.Services.AddDbContext<SupportMySQLContext>(options => options.UseMySql(mySQLConnectionString, new MySqlServerVersion(new Version(8, 0, 2))));
 
 var rabbitMQHostName = builder.Configuration["RABBITMQ_HOSTNAME"];
@@ -43,12 +50,15 @@ builder.Host.ConfigureServices(services =>
             {
                 x.SetEntityName("support-ticket-created-event");
             });
+
+            cfg.Publish<ISupportTicketCreatedEvent>(x =>
+            {
+                x.ExchangeType = "topic";
+            });
         });
     });
     // Add the bus to the container
 });
-
-builder.Services.AddScoped<UserSupportConsumer>();
 
 // Add other services to the container.
 builder.Services.AddControllers();

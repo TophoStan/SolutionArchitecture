@@ -12,7 +12,7 @@ using UserManagement.Infrastructure;
 namespace UserManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(UserMySQLContext))]
-    [Migration("20240625151738_InitialCreate")]
+    [Migration("20240626103313_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -103,27 +103,27 @@ namespace UserManagement.Infrastructure.Migrations
                             UserId = 1,
                             Address = "Logitech address",
                             Email = "Logitech@mail.com",
-                            FirstName = "John Doe",
-                            LastName = "123456789",
-                            PhoneNumber = "Logitech BV."
+                            FirstName = "John",
+                            LastName = "Doe",
+                            PhoneNumber = "123456789"
                         },
                         new
                         {
                             UserId = 2,
                             Address = "Pokemon address",
                             Email = "Pokemon@mail.com",
-                            FirstName = "Ash Ketchum",
-                            LastName = "987654321",
-                            PhoneNumber = "Pokemon Inc."
+                            FirstName = "Ash",
+                            LastName = "Ketchum",
+                            PhoneNumber = "987654321"
                         },
                         new
                         {
                             UserId = 3,
                             Address = "Red Bull Racing address",
                             Email = "Redbull@mail.com",
-                            FirstName = "Max Verstappen",
-                            LastName = "123456789",
-                            PhoneNumber = "Red Bull Racing"
+                            FirstName = "Max",
+                            LastName = "Verstappen",
+                            PhoneNumber = "192837465"
                         });
                 });
 
