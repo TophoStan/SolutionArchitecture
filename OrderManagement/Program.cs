@@ -39,6 +39,7 @@ builder.Host.ConfigureServices(services =>
     services.AddMassTransit(x =>
     {
         x.AddConsumer<UserConsumer>();
+        x.AddConsumer<PaymentConfirmedConsumer>();
         x.UsingRabbitMq((context, cfg) =>
         {
             cfg.Host(rabbitMQHostName, "/", h =>
@@ -49,33 +50,24 @@ builder.Host.ConfigureServices(services =>
             cfg.ReceiveEndpoint("order-management-queue", e =>
             {
                 e.ConfigureConsumer<UserConsumer>(context);
-                e.Bind("ballcom", x =>
+                e.ConfigureConsumer<PaymentConfirmedConsumer>(context);
+                e.Bind("ballcom-exchange", x =>
                 {
                     x.RoutingKey = "user-updated-routingkey";
                     x.ExchangeType = "topic";
                 });
-                e.Bind("ballcom", x =>
+                e.Bind("ballcom-exchange", x =>
                 {
                     x.RoutingKey = "payment-confirmed-routingkey";
                     x.ExchangeType = "topic";
                 });
             });
-            cfg.Message<IUserUpdatedEvent>(x =>
-            { 
-                x.SetEntityName("user-updated-event");
-            });
-            cfg.Publish<IUserUpdatedEvent>(x =>
-            {
-                x.ExchangeType = "topic";
-            });
-            cfg.Message<IPaymentConfirmedEvent>(x =>
-            {
-                x.SetEntityName("payment-confirmed-event");
-            });
-            cfg.Publish<IPaymentConfirmedEvent>(x =>
-            {
-                x.ExchangeType = "topic";
-            });
+            cfg.Message<IUserUpdatedEvent>(x => { x.SetEntityName("ballcom-exchange"); });
+            cfg.Publish<IUserUpdatedEvent>(x => { x.ExchangeType = "topic"; });
+            cfg.Message<IPaymentConfirmedEvent>(x => { x.SetEntityName("ballcom-exchange"); });
+            cfg.Publish<IPaymentConfirmedEvent>(x => { x.ExchangeType = "topic"; });
+            cfg.Message<IOrderConfirmedEvent>(x => { x.SetEntityName("ballcom-exchange"); });
+            cfg.Publish<IOrderConfirmedEvent>(x => { x.ExchangeType = "topic"; });
         });
     });
 });
