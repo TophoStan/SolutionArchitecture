@@ -1,4 +1,5 @@
 using InvoiceManagement.Infrastructure;
+using InvoiceManagement.Services;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
@@ -42,7 +43,7 @@ builder.Host.ConfigureServices(services =>
             cfg.ReceiveEndpoint("invoice-management-queue", e =>
             {
                 e.ConfigureConsumer<OrderConfirmedConsumer>(context);
-                e.Bind("ballcom", x =>
+                e.Bind("ballcom-exchange", x =>
                 {
                     x.RoutingKey = "order-confirmed-routingkey";
                     x.ExchangeType = "topic";
@@ -50,9 +51,10 @@ builder.Host.ConfigureServices(services =>
             });
         });
     });
-}); 
+});
 
-builder.Services.AddScoped<OrderConfirmedConsumer>();
+builder.Services.AddScoped<InvoiceService>();
+builder.Services.AddScoped<InvoiceRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

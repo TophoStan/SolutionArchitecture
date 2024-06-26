@@ -83,7 +83,7 @@ builder.Host.ConfigureServices(services =>
             });
             cfg.Message<IPaymentConfirmedEvent>(x =>
             {
-                x.SetEntityName("payment-confirmed-event");
+                x.SetEntityName("ballcom-exchange");
             });
             cfg.Publish<IPaymentConfirmedEvent>(x =>
             {

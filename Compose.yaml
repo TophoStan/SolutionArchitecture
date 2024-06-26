@@ -100,12 +100,12 @@ services:
     networks:
       - my_network
 
-  # Order
-  order:
-    image: ordermanagement_app:0.3
+  # Support
+  support:
+    image: supportmanagement_app:0.3
     build:
       context: .
-      dockerfile: ./OrderDockerfile
+      dockerfile: ./SupportDockerfile
     ports:
       - "5303:5303"
       - "8084:8080"
@@ -116,7 +116,87 @@ services:
       - RABBITMQ_HOSTNAME=rabbitmq
       - ASPNETCORE_URLS=http://+:5303
     volumes:
+      - dotnet_support_data:/app
+    networks:
+      - my_network
+
+  # Order
+  order:
+    image: ordermanagement_app:0.3
+    build:
+      context: .
+      dockerfile: ./OrderDockerfile
+    ports:
+      - "5304:5304"
+      - "8085:8080"
+    depends_on:
+      - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - RABBITMQ_HOSTNAME=rabbitmq
+      - ASPNETCORE_URLS=http://+:5304
+    volumes:
       - dotnet_order_data:/app
+    networks:
+      - my_network
+
+  # Payment
+  payment:
+    image: paymentmanagement_app:0.3
+    build:
+      context: .
+      dockerfile: ./PaymentDockerfile
+    ports:
+      - "5305:5305"
+      - "8086:8080"
+    depends_on:
+      - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - RABBITMQ_HOSTNAME=rabbitmq
+      - ASPNETCORE_URLS=http://+:5305
+    volumes:
+      - dotnet_payment_data:/app
+    networks:
+      - my_network
+
+  # Invoice
+  invoice:
+    image: invoicemanagement_app:0.3
+    build:
+      context: .
+      dockerfile: ./InvoiceDockerfile
+    ports:
+      - "5306:5306"
+      - "8087:8080"
+    depends_on:
+      - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - RABBITMQ_HOSTNAME=rabbitmq
+      - ASPNETCORE_URLS=http://+:5306
+    volumes:
+      - dotnet_invoice_data:/app
+    networks:
+      - my_network
+
+  # Notification
+  notification:
+    image: notificationmanagement_app:0.3
+    build:
+      context: .
+      dockerfile: ./NotificationDockerfile
+    ports:
+      - "5307:5307"
+      - "8088:8080"
+    depends_on:
+      - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - RABBITMQ_HOSTNAME=rabbitmq
+      - ASPNETCORE_URLS=http://+:5307
+    volumes:
+      - dotnet_notification_data:/app
     networks:
       - my_network
 
@@ -125,6 +205,11 @@ volumes:
   mysql_data:
   mongo_data:
   dotnet_supplier_data:
-  dotnet_order_data:
   dotnet_product_data:
   dotnet_user_data:
+  dotnet_payment_data:
+  dotnet_invoice_data:
+  dotnet_notification_data:
+  dotnet_support_data:
+  dotnet_order_data:
+  

@@ -16,6 +16,7 @@ public class OrderConfirmedConsumer : IConsumer<IOrderConfirmedEvent>
     }
     public async Task Consume(ConsumeContext<IOrderConfirmedEvent> context)
     {
+        Console.WriteLine("OrderConfirmedConsumer");
         IOrderConfirmedEvent order = context.Message;
 
         //TODO: Convert event to invoice

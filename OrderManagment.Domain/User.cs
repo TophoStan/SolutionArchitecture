@@ -1,6 +1,4 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-
-namespace OrderManagement.Domain;
+﻿namespace OrderManagement.Domain;
 
 public class User
 {

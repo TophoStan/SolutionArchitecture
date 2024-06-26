@@ -7,8 +7,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "RABBITMQ_HOSTNAME": "localhost",
-        "mysql_HOSTNAME": "localhost",
-        "MongoDB_HOSTNAME": "localhost"
+        "mysql_HOSTNAME": "localhost"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5219"
