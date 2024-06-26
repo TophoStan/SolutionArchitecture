@@ -17,6 +17,9 @@ public class UserMySQLContext : DbContext
         modelBuilder.Entity<User>().HasKey(s => s.UserId);
         modelBuilder.Entity<User>().HasIndex(s => s.UserId).IsUnique();
 
+        modelBuilder.Entity<Support>().HasKey(p => p.SupportId);
+        modelBuilder.Entity<Support>().HasOne(p => p.User).WithMany(s => s.Supports).HasForeignKey(p => p.UserId);
+
         var Logitech = new User
         {
             UserId = 1,

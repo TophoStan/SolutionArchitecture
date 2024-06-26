@@ -1,6 +1,8 @@
-﻿namespace UserManagement.Domain;
+﻿using RabbitMQ.domain.UserEvents;
 
-public class User
+namespace UserManagement.Domain.Events;
+
+public class UserRegisteredEvent : IUserRegisteredEvent
 {
     public int UserId { get; set; }
     public string Email { get; set; }
@@ -8,6 +10,4 @@ public class User
     public string LastName { get; set; }
     public string PhoneNumber { get; set; }
     public string Address { get; set; }
-
-    public List<Support>? Supports { get; set; } = new List<Support>();
 }

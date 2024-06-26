@@ -48,4 +48,13 @@ public class UserRepository
     {
         return await _SQLcontext.Users.FindAsync(userId!);
     }
+
+    public async Task<Support> AddTicketOfUserAsync(Support ticket, int userId)
+    {
+        var userInSQL = await _SQLcontext.Users.FindAsync(userId);
+
+        userInSQL.Supports.Add(ticket);
+        await _SQLcontext.SaveChangesAsync();
+        return userInSQL.Supports.Find(p => p.SupportTicketNumber == ticket.SupportTicketNumber);
+    }
 }
