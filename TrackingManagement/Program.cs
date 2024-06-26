@@ -44,7 +44,7 @@ builder.Host.ConfigureServices(services =>
             
             cfg.Message<ITrackingUpdatedEvent>(x =>
             {
-                x.SetEntityName("tracking-updated-event");
+                x.SetEntityName("ballcom-exchange");
             });
             cfg.Publish<ITrackingUpdatedEvent>(x =>
             {

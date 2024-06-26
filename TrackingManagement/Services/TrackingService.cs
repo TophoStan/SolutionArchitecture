@@ -35,7 +35,10 @@ public class TrackingService
             EstimatedDelivery = tracking.EstimatedDelivery
         };
 
-        await _bus.Publish(@event);
+        await _bus.Publish(@event,  x=>
+        {
+            x.SetRoutingKey("tracking-registered-routingkey");
+        });
     }
 
     public async Task UpdateTrackingAsync(TrackingData tracking)
