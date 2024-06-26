@@ -42,11 +42,11 @@ builder.Host.ConfigureServices(services =>
                 h.Password("guest");
             });
             
-            cfg.Message<ITrackingUpdatedEvent>(x =>
+            cfg.Message<ITrackingStartedEvent>(x =>
             {
                 x.SetEntityName("ballcom-exchange");
             });
-            cfg.Publish<ITrackingUpdatedEvent>(x =>
+            cfg.Publish<ITrackingStartedEvent>(x =>
             {
                 x.ExchangeType = "topic";
             });
