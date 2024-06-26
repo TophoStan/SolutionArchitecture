@@ -1,29 +1,9 @@
-using InvoiceManagement.Infrastructure;
 using MassTransit;
-using Microsoft.EntityFrameworkCore;
+using NotificationManagament.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-
-
-
-
-var mySQLConnectionString = builder.Configuration.GetConnectionString("mySQLConnection");
-var developmentEnvironment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-Console.WriteLine("Environment: " + developmentEnvironment);
-
-
-if (developmentEnvironment != "Development")
-{
-    mySQLConnectionString = mySQLConnectionString!.Replace("localhost", "mysqlserver");
-}
-Console.WriteLine("MySQL Connection String: " + mySQLConnectionString);
-
-builder.Services.AddDbContext<InvoiceMySQLContext>(options =>
-    options.UseMySql(mySQLConnectionString, new MySqlServerVersion(new Version(8, 0, 2))));
-
 
 var rabbitMQHostName = builder.Configuration["RABBITMQ_HOSTNAME"];
 #pragma warning disable ASP0012 // Suggest using builder.Services over Host.ConfigureServices or WebHost.ConfigureServices
@@ -39,7 +19,7 @@ builder.Host.ConfigureServices(services =>
                 h.Username("guest");
                 h.Password("guest");
             });
-            cfg.ReceiveEndpoint("invoice-management-queue", e =>
+            cfg.ReceiveEndpoint("notification-management-queue", e =>
             {
                 e.ConfigureConsumer<OrderConfirmedConsumer>(context);
                 e.Bind("ballcom", x =>
@@ -50,9 +30,10 @@ builder.Host.ConfigureServices(services =>
             });
         });
     });
-}); 
+});
 
-builder.Services.AddScoped<OrderConfirmedConsumer>();
+
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

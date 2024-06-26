@@ -4,12 +4,12 @@ using RabbitMQ.domain;
 
 namespace InvoiceManagement.Infrastructure;
 
-public class OrderConsumer : IConsumer<IOrderConfirmedEvent>
+public class OrderConfirmedConsumer : IConsumer<IOrderConfirmedEvent>
 {
 
     private readonly InvoiceService _invoiceService;
 
-    public OrderConsumer(InvoiceService invoiceService)
+    public OrderConfirmedConsumer(InvoiceService invoiceService)
     {
         _invoiceService = invoiceService;
     }
