@@ -8,12 +8,10 @@ namespace OrderManagement.Services;
 public class UserService
 {
     private readonly UserRepository _userRepository;
-    private readonly EventPublisher _eventPublisher;
 
-    public UserService(UserRepository userRepository, EventPublisher eventPublisher)
+    public UserService(UserRepository userRepository)
     {
         _userRepository = userRepository;
-        _eventPublisher = eventPublisher;
     }
 
     public async Task<bool> AddUser(User user)
@@ -24,13 +22,13 @@ public class UserService
         if (!result || !eventResult)
             return false;
 
-        var @event = new UserAddedEvent
-        {
-            Email = user.Email,
-            FirstName = user.FirstName,
-            LastName = user.LastName
-        };
-        _eventPublisher.Publish(@event);
+        //var @event = new UserAddedEvent
+        //{
+        //    Email = user.Email,
+        //    FirstName = user.FirstName,
+        //    LastName = user.LastName
+        //};
+        //_eventPublisher.Publish(@event);
 
         return true;
     }
@@ -43,13 +41,13 @@ public class UserService
         if (!result || !eventResult)
             return false;
 
-        var @event = new UserAddedEvent
-        {
-            Email = user.Email,
-            FirstName = user.FirstName,
-            LastName = user.LastName
-        };
-        _eventPublisher.Publish(@event);
+        //var @event = new UserAddedEvent
+        //{
+        //    Email = user.Email,
+        //    FirstName = user.FirstName,
+        //    LastName = user.LastName
+        //};
+        //_eventPublisher.Publish(@event);
 
         return true;
     }

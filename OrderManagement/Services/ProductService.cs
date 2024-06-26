@@ -8,12 +8,10 @@ namespace OrderManagement.Services;
 public class ProductService
 {
     private readonly ProductRepository _productRepository;
-    private readonly EventPublisher _eventPublisher;
 
-    public ProductService(ProductRepository productRepository, EventPublisher eventPublisher)
+    public ProductService(ProductRepository productRepository)
     {
         _productRepository = productRepository;
-        _eventPublisher = eventPublisher;
     }
 
     public async Task<bool> AddProduct(Product product)
@@ -24,14 +22,14 @@ public class ProductService
         if (!result || !eventResult)
             return false;
 
-        var @event = new ProductAddedEvent
-        {
-            ProductId = product.ProductId,
-            ProductName = product.ProductName,
-            ProductDescription = product.ProductDescription,
-            Price = product.Price
-        };
-        _eventPublisher.Publish(@event);
+        //var @event = new ProductAddedEvent
+        //{
+        //    ProductId = product.ProductId,
+        //    ProductName = product.ProductName,
+        //    ProductDescription = product.ProductDescription,
+        //    Price = product.Price
+        //};
+        //_eventPublisher.Publish(@event);
 
         return true;
     }
@@ -44,14 +42,14 @@ public class ProductService
         if (!result || !eventResult)
             return false;
 
-        var @event = new ProductUpdatedEvent
-        {
-            ProductId = product.ProductId,
-            ProductName = product.ProductName,
-            ProductDescription = product.ProductDescription,
-            Price = product.Price
-        };
-        _eventPublisher.Publish(@event);
+        //var @event = new ProductUpdatedEvent
+        //{
+        //    ProductId = product.ProductId,
+        //    ProductName = product.ProductName,
+        //    ProductDescription = product.ProductDescription,
+        //    Price = product.Price
+        //};
+        //_eventPublisher.Publish(@event);
 
         return true;
     }

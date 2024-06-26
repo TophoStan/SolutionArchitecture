@@ -42,4 +42,16 @@ public class OrderController : ControllerBase
         var events = await _orderService.GetOrderEvents(orderNumber);
         return Ok(events);
     }
+
+    [HttpPut]
+    [Route("cancelorder/{OrderNumber}")]
+    public async Task<IActionResult> CancelOrder(string OrderNumber)
+    {
+        Console.WriteLine("Cancelled order: " + OrderNumber);
+        
+        var result = await _orderService.CancelOrder(OrderNumber);
+        return result ? Ok() : BadRequest();
+    }
+
+    
 }

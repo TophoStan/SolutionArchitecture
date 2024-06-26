@@ -7,6 +7,7 @@ using OrderManagement.Infrastructure.Product;
 using OrderManagement.Infrastructure.User;
 using OrderManagement.Services;
 using RabbitMQ.domain;
+using RabbitMQ.domain.OrderEvents;
 using RabbitMQ.domain.UserEvents;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -73,6 +74,14 @@ builder.Host.ConfigureServices(services =>
                 x.SetEntityName("payment-confirmed-event");
             });
             cfg.Publish<IPaymentConfirmedEvent>(x =>
+            {
+                x.ExchangeType = "topic";
+            });
+            cfg.Message<IOrderCanceledEvent>(x =>
+            {
+                x.SetEntityName("order-canceled-event");
+            });
+            cfg.Publish<IOrderCanceledEvent>(x =>
             {
                 x.ExchangeType = "topic";
             });

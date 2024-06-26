@@ -69,8 +69,32 @@ public class OrderRepository
         }
     }
 
-    public async Task<bool> SaveEventAsync(string aggregateId, string eventType, object eventData)
+    public async Task<Domain.Order?> CancelOrderAsync(string OrderNumber)
     {
+        try
+        {
+            var order = await _sqlContext.Orders.FindAsync(OrderNumber);
+            order.Status = "Cancelled";
+            _sqlContext.Orders.Update(order);
+            await _sqlContext.SaveChangesAsync();
+
+            //await _mongoDBcontext.SQLToMongoDB();
+            return await _sqlContext.FindAsync<Domain.Order>(order.OrderNumber);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    public async Task<bool> SaveEventAsync(string aggregateId, string eventType, object? eventData)
+    {
+        if (eventData == null)
+        {
+            eventData = _sqlContext.FindAsync<Domain.Order>(aggregateId);
+        }     
+
+
         try
         {
             var options = new JsonSerializerOptions

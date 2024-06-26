@@ -4,6 +4,7 @@ using OrderManagement.Infrastructure.Order;
 using OrderManagement.Domain.Events;
 using MassTransit;
 using RabbitMQ.domain;
+using RabbitMQ.domain.OrderEvents;
 
 namespace OrderManagement.Services;
 
@@ -56,6 +57,26 @@ public class OrderService
         //};
         //_eventPublisher.Publish(@event);
 
+        return true;
+    }
+
+    public async Task<bool> CancelOrder(string OrderNumber)
+    {
+        var result = await _orderRepository.CancelOrderAsync(OrderNumber);
+        var eventResult = await _orderRepository.SaveEventAsync(OrderNumber, "CancelOrder", result);
+
+        if (result == null || !eventResult)
+            return false;
+
+        IOrderCanceledEvent @event = new OrderCanceledEvent() 
+        { 
+            OrderDate = result.OrderDate,
+            OrderNumber = result.OrderNumber,
+            Status = result.Status,
+            UserId = result.UserId,
+        };
+
+        await _bus.Publish(@event);
         return true;
     }
 
