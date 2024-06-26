@@ -50,6 +50,14 @@ builder.Host.ConfigureServices(services =>
             {
                 x.ExchangeType = "topic";
             });
+            cfg.Message<ITrackingUpdatedEvent>(x =>
+            {
+                x.SetEntityName("ballcom-exchange");
+            });
+            cfg.Publish<ITrackingUpdatedEvent>(x =>
+            {
+                x.ExchangeType = "topic";
+            });
         });
     });
 });

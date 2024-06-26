@@ -4,7 +4,7 @@ using RabbitMQ.domain;
 
 namespace NotificationManagement.Infrastructure;
 
-public class TrackingRegisteredConsumer : IConsumer<ITrackingStartedEvent>
+public class TrackingRegisteredConsumer : IConsumer<ITrackingStartedEvent>, IConsumer<ITrackingUpdatedEvent>
 {
     private readonly NotificationService _notificationService;
 
@@ -18,6 +18,14 @@ public class TrackingRegisteredConsumer : IConsumer<ITrackingStartedEvent>
         ITrackingStartedEvent order = context.Message;
 
         //TODO: Convert event to invoice
-        _notificationService.SendNotification("TrackinID " + order.TrackingId + ": Your package from " + order.ProductId + " will be deliverd: " + order.EstimatedDelivery);
+        _notificationService.SendNotification("Your product with TrackinID: " + order.TrackingId + " from: " + order.ProductId + " has been orderd, the estimated delivery time is: " + order.EstimatedDelivery);
+    }
+
+    public async Task Consume(ConsumeContext<ITrackingUpdatedEvent> context)
+    {
+        ITrackingUpdatedEvent order = context.Message;
+
+        //TODO: Convert event to invoice
+        _notificationService.SendNotification("Your product with TrackinID: " + order.TrackingId + " from: " + order.ProductId + " has been updated, the estimated delivery time is: " + order.EstimatedDelivery);
     }
 }

@@ -39,6 +39,12 @@ builder.Host.ConfigureServices(services =>
                     x.RoutingKey = "tracking-registered-routingkey";
                     x.ExchangeType = "topic";
                 });
+                e.ConfigureConsumer<TrackingRegisteredConsumer>(context);
+                e.Bind("ballcom-exchange", x =>
+                {
+                    x.RoutingKey = "tracking-updated-routingkey";
+                    x.ExchangeType = "topic";
+                });
             });
             cfg.Message<IOrderConfirmedEvent>(x => { x.SetEntityName("ballcom-exchange"); });
             cfg.Publish<IOrderConfirmedEvent>(x => { x.ExchangeType = "topic"; });
