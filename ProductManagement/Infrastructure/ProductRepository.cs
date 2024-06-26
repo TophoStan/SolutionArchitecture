@@ -5,12 +5,10 @@ namespace ProductManagement.Infrastructure;
 public class ProductRepository
 {
     private readonly ProductMySQLContext _SQLcontext;
-    private readonly ProductMongoDBContext _MongoDBcontext;
 
-    public ProductRepository(ProductMySQLContext context, ProductMongoDBContext mongoDBcontext)
+    public ProductRepository(ProductMySQLContext context)
     {
         _SQLcontext = context;
-        _MongoDBcontext = mongoDBcontext;
     }
 
     public async Task<Product> AddProductAsync(Product product)
