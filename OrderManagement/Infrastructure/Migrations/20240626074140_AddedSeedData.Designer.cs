@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OrderManagement.Infrastructure.Order;
 
@@ -11,9 +12,11 @@ using OrderManagement.Infrastructure.Order;
 namespace OrderManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(OrderMySQLContext))]
-    partial class OrderMySQLContextModelSnapshot : ModelSnapshot
+    [Migration("20240626074140_AddedSeedData")]
+    partial class AddedSeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,7 +67,7 @@ namespace OrderManagement.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("OrderNumber");
@@ -75,29 +78,6 @@ namespace OrderManagement.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Orders");
-
-                    b.HasData(
-                        new
-                        {
-                            OrderNumber = "1",
-                            OrderDate = new DateTime(2024, 6, 26, 9, 59, 30, 539, DateTimeKind.Local).AddTicks(4570),
-                            Status = "Delivered",
-                            UserId = 1
-                        },
-                        new
-                        {
-                            OrderNumber = "2",
-                            OrderDate = new DateTime(2024, 6, 26, 9, 59, 30, 539, DateTimeKind.Local).AddTicks(4661),
-                            Status = "Processing",
-                            UserId = 2
-                        },
-                        new
-                        {
-                            OrderNumber = "3",
-                            OrderDate = new DateTime(2024, 6, 26, 9, 59, 30, 539, DateTimeKind.Local).AddTicks(4663),
-                            Status = "Shipped",
-                            UserId = 3
-                        });
                 });
 
             modelBuilder.Entity("OrderManagement.Domain.Product", b =>
@@ -122,29 +102,6 @@ namespace OrderManagement.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            ProductId = "1",
-                            Price = 50f,
-                            ProductDescription = "Mechanical Keyboard with RGB lighting",
-                            ProductName = "Keyboard"
-                        },
-                        new
-                        {
-                            ProductId = "2",
-                            Price = 30f,
-                            ProductDescription = "Gaming Mouse with 12 programmable buttons",
-                            ProductName = "Mouse"
-                        },
-                        new
-                        {
-                            ProductId = "3",
-                            Price = 70f,
-                            ProductDescription = "Wireless Headset with 7.1 Surround Sound",
-                            ProductName = "Headset"
-                        });
                 });
 
             modelBuilder.Entity("OrderManagement.Domain.User", b =>
@@ -211,42 +168,13 @@ namespace OrderManagement.Infrastructure.Migrations
                     b.HasIndex("ProductsProductId");
 
                     b.ToTable("OrderProduct");
-
-                    b.HasData(
-                        new
-                        {
-                            OrdersOrderNumber = "1",
-                            ProductsProductId = "1"
-                        },
-                        new
-                        {
-                            OrdersOrderNumber = "1",
-                            ProductsProductId = "2"
-                        },
-                        new
-                        {
-                            OrdersOrderNumber = "2",
-                            ProductsProductId = "2"
-                        },
-                        new
-                        {
-                            OrdersOrderNumber = "2",
-                            ProductsProductId = "3"
-                        },
-                        new
-                        {
-                            OrdersOrderNumber = "3",
-                            ProductsProductId = "1"
-                        });
                 });
 
             modelBuilder.Entity("OrderManagement.Domain.Order", b =>
                 {
                     b.HasOne("OrderManagement.Domain.User", "User")
                         .WithMany("Orders")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });

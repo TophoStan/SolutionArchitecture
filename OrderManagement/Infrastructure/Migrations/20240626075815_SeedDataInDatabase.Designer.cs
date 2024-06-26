@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OrderManagement.Infrastructure.Order;
 
@@ -11,9 +12,11 @@ using OrderManagement.Infrastructure.Order;
 namespace OrderManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(OrderMySQLContext))]
-    partial class OrderMySQLContextModelSnapshot : ModelSnapshot
+    [Migration("20240626075815_SeedDataInDatabase")]
+    partial class SeedDataInDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,21 +83,21 @@ namespace OrderManagement.Infrastructure.Migrations
                         new
                         {
                             OrderNumber = "1",
-                            OrderDate = new DateTime(2024, 6, 26, 9, 59, 30, 539, DateTimeKind.Local).AddTicks(4570),
+                            OrderDate = new DateTime(2024, 6, 26, 9, 58, 15, 345, DateTimeKind.Local).AddTicks(5446),
                             Status = "Delivered",
                             UserId = 1
                         },
                         new
                         {
                             OrderNumber = "2",
-                            OrderDate = new DateTime(2024, 6, 26, 9, 59, 30, 539, DateTimeKind.Local).AddTicks(4661),
+                            OrderDate = new DateTime(2024, 6, 26, 9, 58, 15, 345, DateTimeKind.Local).AddTicks(5497),
                             Status = "Processing",
                             UserId = 2
                         },
                         new
                         {
                             OrderNumber = "3",
-                            OrderDate = new DateTime(2024, 6, 26, 9, 59, 30, 539, DateTimeKind.Local).AddTicks(4663),
+                            OrderDate = new DateTime(2024, 6, 26, 9, 58, 15, 345, DateTimeKind.Local).AddTicks(5499),
                             Status = "Shipped",
                             UserId = 3
                         });
@@ -211,33 +214,6 @@ namespace OrderManagement.Infrastructure.Migrations
                     b.HasIndex("ProductsProductId");
 
                     b.ToTable("OrderProduct");
-
-                    b.HasData(
-                        new
-                        {
-                            OrdersOrderNumber = "1",
-                            ProductsProductId = "1"
-                        },
-                        new
-                        {
-                            OrdersOrderNumber = "1",
-                            ProductsProductId = "2"
-                        },
-                        new
-                        {
-                            OrdersOrderNumber = "2",
-                            ProductsProductId = "2"
-                        },
-                        new
-                        {
-                            OrdersOrderNumber = "2",
-                            ProductsProductId = "3"
-                        },
-                        new
-                        {
-                            OrdersOrderNumber = "3",
-                            ProductsProductId = "1"
-                        });
                 });
 
             modelBuilder.Entity("OrderManagement.Domain.Order", b =>

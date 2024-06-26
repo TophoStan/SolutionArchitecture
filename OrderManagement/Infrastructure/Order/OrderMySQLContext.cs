@@ -21,6 +21,34 @@ public class OrderMySQLContext : DbContext
         modelBuilder.Entity<Domain.Product>().HasKey(p => p.ProductId);
         modelBuilder.Entity<Domain.Product>().HasIndex(p => p.ProductId).IsUnique();
 
+        var Keyboard = new Domain.Product
+        {
+            ProductId = "1",
+            ProductName = "Keyboard",
+            ProductDescription = "Mechanical Keyboard with RGB lighting",
+            Price = 50
+        };
+
+        var Mouse = new Domain.Product
+        {
+            ProductId = "2",
+            ProductName = "Mouse",
+            ProductDescription = "Gaming Mouse with 12 programmable buttons",
+            Price = 30
+        };
+
+        var Headset = new Domain.Product
+        {
+            ProductId = "3",
+            ProductName = "Headset",
+            ProductDescription = "Wireless Headset with 7.1 Surround Sound",
+            Price = 70
+        };
+
+        modelBuilder.Entity<Domain.Product>().HasData(
+               Keyboard, Mouse, Headset
+           );
+
         // User
         modelBuilder.Entity<Domain.User>().HasKey(o => o.UserId);
         modelBuilder.Entity<Domain.User>().HasIndex(o => o.UserId).IsUnique();
@@ -63,6 +91,65 @@ public class OrderMySQLContext : DbContext
 
         // Order - User
         modelBuilder.Entity<Domain.Order>().HasOne(o => o.User).WithMany(u => u.Orders);
+
+        var order1 = new Domain.Order
+        {
+            OrderNumber = "1",
+            OrderDate = DateTime.Now,
+            Status = "Delivered",
+            UserId = 1
+        };
+
+        var order2 = new Domain.Order
+        {
+            OrderNumber = "2",
+            OrderDate = DateTime.Now,
+            Status = "Processing",
+            UserId = 2
+        };
+
+        var order3 = new Domain.Order
+        {
+            OrderNumber = "3",
+            OrderDate = DateTime.Now,
+            Status = "Shipped",
+            UserId = 3
+        };
+
+        modelBuilder.Entity<Domain.Order>().HasData(
+                order1, order2, order3
+            );
+
+        modelBuilder.Entity("OrderProduct", b =>
+        {
+            b.HasData(
+                new
+                {
+                    OrdersOrderNumber = "1",
+                    ProductsProductId = "1"
+                },
+                new
+                {
+                    OrdersOrderNumber = "1",
+                    ProductsProductId = "2"
+                },
+                new
+                {
+                    OrdersOrderNumber = "2",
+                    ProductsProductId = "2"
+                },
+                new
+                {
+                    OrdersOrderNumber = "2",
+                    ProductsProductId = "3"
+                },
+                new
+                {
+                    OrdersOrderNumber = "3",
+                    ProductsProductId = "1"
+                }
+                );
+        });
 
         // Event
         modelBuilder.Entity<Domain.Events.OrderEvent>().HasKey(e => e.EventId);
