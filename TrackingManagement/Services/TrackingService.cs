@@ -18,6 +18,18 @@ public class TrackingService
         _bus = bus;
     }
 
+
+    private string FindCheapestCarrier()
+    {
+
+        //Randomly return a carrier
+        string[] carriers = new string[] { "DHL", "DPD", "PostNL" };
+
+        Random random = new Random();
+        int index = random.Next(carriers.Length);
+        return carriers[index];
+    }
+
     public async Task RegisterTrackingAsync(TrackingData tracking)
     {
         // Add to database
@@ -30,7 +42,7 @@ public class TrackingService
             TrackingId = tracking.TrackingId,
             SupplierId = tracking.SupplierId,
             ProductId = tracking.ProductId,
-            Carrier = tracking.Carrier,
+            Carrier = FindCheapestCarrier(),
             Status = tracking.Status,
             EstimatedDelivery = tracking.EstimatedDelivery
         };
