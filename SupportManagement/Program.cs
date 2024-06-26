@@ -2,6 +2,7 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
 using RabbitMQ.domain;
+using RabbitMQ.domain.UserEvents;
 using SupportManagement.Infrastructure;
 using SupportManagement.Services;
 
@@ -43,12 +44,15 @@ builder.Host.ConfigureServices(services =>
             {
                 x.SetEntityName("support-ticket-created-event");
             });
+
+            cfg.Publish<ISupportTicketCreatedEvent>(x =>
+            {
+                x.ExchangeType = "topic";
+            });
         });
     });
     // Add the bus to the container
 });
-
-builder.Services.AddScoped<UserSupportConsumer>();
 
 // Add other services to the container.
 builder.Services.AddControllers();
