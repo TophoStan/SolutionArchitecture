@@ -34,7 +34,7 @@ public class OrderService
         //    OrderDate = order.OrderDate,
         //    Status = order.Status
         //};
-        IOrderConfirmedEvent @event = new OrderConfirmedEvent() { OrderDate = order.OrderDate, OrderNumber = order.OrderNumber, SupplierName = "TEST", UserName = "John DOE" };
+        IOrderConfirmedEvent @event = new OrderConfirmedEvent() { OrderDate = order.OrderDate, OrderNumber = order.OrderNumber, SupplierName = order.SupplierName, UserName = order.User.Email };
         await _bus.Publish(@event);
 
         return true;

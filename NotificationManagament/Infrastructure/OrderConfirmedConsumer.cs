@@ -19,10 +19,7 @@ public class OrderConfirmedConsumer : IConsumer<IOrderConfirmedEvent>
         IOrderConfirmedEvent order = context.Message;
 
         //TODO: Convert event to invoice
-        _notificationService.SendNotification("Order Confirmed: " + order.ToString());
-        throw new NotImplementedException();
-
-
+        _notificationService.SendNotification("Notification sent to "+ order.UserName +": Your package from " + order.SupplierName + " will be deliverd in the coming 24 hours :)");
     }
 }
 

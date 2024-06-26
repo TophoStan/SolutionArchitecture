@@ -19,6 +19,12 @@ public class PaymentConfirmedConsumer : IConsumer<IPaymentConfirmedEvent>
         IPaymentConfirmedEvent @event = context.Message;
 
         Domain.Order order = new();
+        order.OrderNumber = @event.OrderNumber;
+        order.OrderDate = DateTime.Now;
+        order.Status = "Confirmed";
+        order.User.Email = @event.UserName;
+        order.SupplierName = @event.SupplierName;
+        
 
        await _orderService.AddOrder(order);
     }
