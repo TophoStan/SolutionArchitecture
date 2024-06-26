@@ -1,8 +1,6 @@
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using MongoDB.Driver;
 using RabbitMQ.domain;
-using RabbitMQ.domain.UserEvents;
 using SupportManagement.Infrastructure;
 using SupportManagement.Services;
 

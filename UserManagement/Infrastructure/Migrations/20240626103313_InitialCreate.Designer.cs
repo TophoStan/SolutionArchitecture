@@ -12,7 +12,7 @@ using UserManagement.Infrastructure;
 namespace UserManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(UserMySQLContext))]
-    [Migration("20240626073641_InitialCreate")]
+    [Migration("20240626103313_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
