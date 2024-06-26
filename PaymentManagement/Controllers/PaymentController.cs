@@ -24,6 +24,10 @@ namespace PaymentManagement.Controllers
             @event.OrderNumber = payment.OrderNumber;
             @event.UserName = payment.UserName;
             @event.SupplierName = payment.SupplierName;
+            @event.ProductIdQuantity = payment.ProductIdQuantity;
+
+
+
             await _bus.Publish(@event, x =>
             {
                 x.SetRoutingKey("payment-confirmed-routingkey");

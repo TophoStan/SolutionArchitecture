@@ -4,7 +4,7 @@ namespace OrderManagement.Infrastructure.Order;
 
 public class OrderMySQLContext : DbContext
 {
-    public OrderMySQLContext(DbContextOptions<OrderMySQLContext> options) : base(options){ }
+    public OrderMySQLContext(DbContextOptions<OrderMySQLContext> options) : base(options) { }
 
     public DbSet<Domain.Order> Orders { get; set; }
     public DbSet<Domain.Product> Products { get; set; }
@@ -17,34 +17,82 @@ public class OrderMySQLContext : DbContext
         // Product
         modelBuilder.Entity<Domain.Product>().HasKey(p => p.ProductId);
         modelBuilder.Entity<Domain.Product>().HasIndex(p => p.ProductId).IsUnique();
+        //autoincrement productid
+        modelBuilder.Entity<Domain.Product>().Property(p => p.ProductId).ValueGeneratedOnAdd();
 
-        var Keyboard = new Domain.Product
+        Domain.Product RbWodka = new Domain.Product()
         {
-            ProductId = "1",
-            ProductName = "Keyboard",
-            ProductDescription = "Mechanical Keyboard with RGB lighting",
-            Price = 50
+            ProductName = "Red Bull Wodka",
+            ProductDescription = "Energy drink with wodka",
+            Price = 5,
+
+        };
+        Domain.Product RbWaterMelon = new Domain.Product()
+        {
+            ProductName = "Red Bull Watermelon",
+            ProductDescription = "Energy drink with watermelon",
+            Price = 3,
+
+        };
+        Domain.Product RbGrapefruit = new Domain.Product()
+        {
+            ProductName = "Red Bull Grapefruit",
+            ProductDescription = "Energy drink with grapefruit",
+            Price = 4,
+
         };
 
-        var Mouse = new Domain.Product
+        modelBuilder.Entity<Domain.Product>().HasData(RbWodka, RbWaterMelon, RbGrapefruit);
+
+        Domain.Product G603 = new Domain.Product()
         {
-            ProductId = "2",
-            ProductName = "Mouse",
-            ProductDescription = "Gaming Mouse with 12 programmable buttons",
-            Price = 30
+            ProductName = "Logitech G603",
+            ProductDescription = "Wireless gaming mouse",
+            Price = 70,
+
+        };
+        Domain.Product GPro = new Domain.Product()
+        {
+            ProductName = "Logitech G Pro",
+            ProductDescription = "Wired gaming mouse",
+            Price = 50,
+
+        };
+        Domain.Product G213 = new Domain.Product()
+        {
+            ProductName = "Logitech G213",
+            ProductDescription = "Gaming keyboard",
+            Price = 40,
+
         };
 
-        var Headset = new Domain.Product
+        modelBuilder.Entity<Domain.Product>().HasData(G603, GPro, G213);
+
+        Domain.Product pikachu = new Domain.Product()
         {
-            ProductId = "3",
-            ProductName = "Headset",
-            ProductDescription = "Wireless Headset with 7.1 Surround Sound",
-            Price = 70
+            ProductName = "Pikachu",
+            ProductDescription = "Electric pokemon",
+            Price = 100,
+
         };
 
-        modelBuilder.Entity<Domain.Product>().HasData(
-               Keyboard, Mouse, Headset
-           );
+        Domain.Product snorlax = new Domain.Product()
+        {
+            ProductName = "Snorlax",
+            ProductDescription = "Sleeping pokemon",
+            Price = 200,
+
+        };
+
+        Domain.Product charizard = new Domain.Product()
+        {
+            ProductName = "Charizard",
+            ProductDescription = "Fire pokemon",
+            Price = 150,
+
+        };
+
+        modelBuilder.Entity<Domain.Product>().HasData(pikachu, snorlax, charizard);
 
         // User
         modelBuilder.Entity<Domain.User>().HasKey(o => o.UserId);

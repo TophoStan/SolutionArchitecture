@@ -26,6 +26,14 @@ public class PaymentConfirmedConsumer : IConsumer<IPaymentConfirmedEvent>
         order.Status = "Confirmed";
         order.User.Email = @event.UserName;
         order.SupplierName = @event.SupplierName;
+        order.ProductIdQuantity = @event.ProductIdQuantity;
+
+        order.Products = new List<Domain.Product>();
+
+        foreach (var item in @event.ProductIdQuantity)
+        {
+            order.Products.Add(new Domain.Product() { ProductId = item.Key.ToString(), Quantity = item.Value });
+        }
 
 
         await _orderService.AddOrder(order);

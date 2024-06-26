@@ -14,4 +14,6 @@ public class Order
 
     public virtual ICollection<Product>? Products { get; set; } = new List<Product>();
     public virtual User? User { get; set; } 
+
+    public Dictionary<int, int> ProductIdQuantity { get; set; }
 }

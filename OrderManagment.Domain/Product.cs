@@ -10,5 +10,7 @@ public class Product
     public string ProductDescription { get; set; }
     public float Price { get; set; }
 
+    public int Quantity { get; set; } = 0;
+
     public virtual ICollection<Order>? Orders { get; set; } = new List<Order>();
 }

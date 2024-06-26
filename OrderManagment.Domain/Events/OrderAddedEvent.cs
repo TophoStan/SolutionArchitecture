@@ -10,4 +10,6 @@ public class OrderAddedEvent : IOrderAddedEvent
     public int UserId { get; set; }
     public string SupplierName { get; set; }
     public string UserName { get; set; }
+
+    public ICollection<Product> Products { get; set; } 
 }

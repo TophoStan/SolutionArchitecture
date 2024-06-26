@@ -8,7 +8,6 @@ namespace OrderManagement.Infrastructure.Order;
 public class OrderRepository
 {
     private readonly OrderMySQLContext _sqlContext;
-    private readonly OrderMongoDBContext _mongoDBcontext;
 
     public OrderRepository(OrderMySQLContext context, OrderMongoDBContext mongoDBcontext)
     {
@@ -23,7 +22,6 @@ public class OrderRepository
             await _sqlContext.Orders.AddAsync(order);
             await _sqlContext.SaveChangesAsync();
             
-            //await _mongoDBcontext.SQLToMongoDB();
             return true;
         }
         catch
@@ -40,7 +38,6 @@ public class OrderRepository
 
             await _sqlContext.SaveChangesAsync();
 
-            //await _mongoDBcontext.SQLToMongoDB();
             
             return await _sqlContext.Users.FirstOrDefaultAsync(u => u.UserId == user.UserId);
         }
@@ -78,7 +75,6 @@ public class OrderRepository
             _sqlContext.Orders.Update(order);
             await _sqlContext.SaveChangesAsync();
 
-            //await _mongoDBcontext.SQLToMongoDB();
             return await _sqlContext.FindAsync<Domain.Order>(order.OrderNumber);
         }
         catch

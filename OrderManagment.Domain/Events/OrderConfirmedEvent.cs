@@ -13,4 +13,7 @@ public class OrderConfirmedEvent : IOrderConfirmedEvent
     public DateTime OrderDate { get; set; }
     public string SupplierName { get; set; }
     public string UserName { get; set; }
+
+    public ICollection<Product> Products { get; set; }
+    public Dictionary<int, int> ProductsWithQuanitity { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 }

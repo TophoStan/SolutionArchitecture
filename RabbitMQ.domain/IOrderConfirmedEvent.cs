@@ -12,4 +12,5 @@ public interface IOrderConfirmedEvent
     public DateTime OrderDate { get; set; }
     public string SupplierName { get; set; }
     public string UserName { get; set; }
+    public Dictionary<int, int> ProductsWithQuanitity { get; set; }
 }

@@ -24,18 +24,24 @@ public class OrderService
 
     public async Task<bool> AddOrder(Order order)
     {
+
+
+
+
+
         var result = await _eventRepository.SaveEventAsync(order.OrderNumber, "OrderAdded", new OrderAddedEvent()
         {
             OrderDate = order.OrderDate,
             OrderNumber = order.OrderNumber,
             Status = order.Status,
-            UserId = order.UserId
+            UserId = order.UserId,
+            Products = order.Products,
         });
 
         if (!result)
             return false;
 
-        IOrderConfirmedEvent @event = new OrderConfirmedEvent() { OrderDate = order.OrderDate, OrderNumber = order.OrderNumber, SupplierName = order.SupplierName, UserName = order.User.Email };
+        IOrderConfirmedEvent @event = new OrderConfirmedEvent() { OrderDate = order.OrderDate, OrderNumber = order.OrderNumber, SupplierName = order.SupplierName, UserName = order.User.Email, ProductsWithQuanitity = order.ProductIdQuantity };
         await _bus.Publish(@event, x =>
         {
             x.SetRoutingKey("order-confirmed-routingkey");
@@ -49,6 +55,7 @@ public class OrderService
             Status = order.Status,
             UserId = order.UserId,
             SupplierName = order.SupplierName,
+            Products = order.Products
         };
         await _bus.Publish(@addEvent);
 

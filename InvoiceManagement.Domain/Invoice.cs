@@ -15,4 +15,6 @@ public class Invoice
     public string SupplierName { get; set; }
     public string UserName { get; set; }
 
+    public Dictionary<int, int> Products { get; set; }
+
 }

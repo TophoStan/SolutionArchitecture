@@ -19,8 +19,7 @@ public class OrderConfirmedConsumer : IConsumer<IOrderConfirmedEvent>
         Console.WriteLine("OrderConfirmedConsumer");
         IOrderConfirmedEvent order = context.Message;
 
-        //TODO: Convert event to invoice
-        _invoiceService.createInvoice(new Invoice() { OrderNumber = order.OrderNumber, SupplierName = order.SupplierName, InvoiceDate = order.OrderDate, InvoiceNumber = Guid.NewGuid().ToString(), Status = "Confirmed", UserName = order.UserName });
+        _invoiceService.createInvoice(new Invoice() { OrderNumber = order.OrderNumber, SupplierName = order.SupplierName, InvoiceDate = order.OrderDate, InvoiceNumber = Guid.NewGuid().ToString(), Status = "Confirmed", UserName = order.UserName, Products= order.ProductsWithQuanitity });
 
 
     }
