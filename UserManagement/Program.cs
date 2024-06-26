@@ -15,7 +15,7 @@ builder.Configuration.AddEnvironmentVariables();
 var mySQLConnectionString = builder.Configuration.GetConnectionString("MySQLConnection");
 var developmentEnvironment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-if(developmentEnvironment != "Development")
+if (developmentEnvironment != "Development")
 {
     mySQLConnectionString = mySQLConnectionString.Replace("localhost", "mysqlserver");
 }
@@ -48,24 +48,17 @@ builder.Host.ConfigureServices(services =>
             cfg.ReceiveEndpoint("user-support-queue", e =>
             {
                 e.ConfigureConsumer<UserSupportConsumer>(context);
-                e.Bind("ballcom", x =>
+                e.Bind("ballcom-exchange", x =>
                 {
                     x.RoutingKey = "user-support-key";
                     x.ExchangeType = "topic";
                 });
             });
 
-            cfg.Message<IUserUpdatedEvent>(x => { x.SetEntityName("user-updated-event"); });
+            cfg.Message<IUserUpdatedEvent>(x => { x.SetEntityName("ballcom-exchange"); });
             cfg.Publish<IUserUpdatedEvent>(x => { x.ExchangeType = "topic"; });
-            cfg.Message<ISupportTicketCreatedEvent>(x =>
-            {
-                x.SetEntityName("support-ticket-created-event");
-            });
-
-            cfg.Publish<ISupportTicketCreatedEvent>(x =>
-            {
-                x.ExchangeType = "topic";
-            });
+            cfg.Message<ISupportTicketCreatedEvent>(x => { x.SetEntityName("ballcom-exchange"); }); 
+            cfg.Publish<ISupportTicketCreatedEvent>(x => { x.ExchangeType = "topic"; });
         });
     });
     // Add the bus to the container

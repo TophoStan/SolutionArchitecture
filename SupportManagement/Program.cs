@@ -33,7 +33,7 @@ builder.Host.ConfigureServices(services =>
             cfg.ReceiveEndpoint("user-support-queue", e =>
             {
                 e.ConfigureConsumer<UserSupportConsumer>(context);
-                e.Bind("ballcom", x =>
+                e.Bind("ballcom-exchange", x =>
                 {
                     x.RoutingKey = "user-support-key";
                     x.ExchangeType = "topic";

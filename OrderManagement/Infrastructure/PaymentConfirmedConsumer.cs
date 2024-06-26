@@ -14,18 +14,20 @@ public class PaymentConfirmedConsumer : IConsumer<IPaymentConfirmedEvent>
 
     public async Task Consume(ConsumeContext<IPaymentConfirmedEvent> context)
     {
+        Console.WriteLine("PaymentConfirmedConsumer");
 
         // Publish OrderConfirmedEvent
         IPaymentConfirmedEvent @event = context.Message;
 
-        Domain.Order order = new();
+        Domain.Order order = new() { User = new Domain.User()};
+
         order.OrderNumber = @event.OrderNumber;
         order.OrderDate = DateTime.Now;
         order.Status = "Confirmed";
         order.User.Email = @event.UserName;
         order.SupplierName = @event.SupplierName;
-        
 
-       await _orderService.AddOrder(order);
+
+        await _orderService.AddOrder(order);
     }
 }
