@@ -1,8 +1,8 @@
 ﻿using MassTransit;
-using NotificationManagament.Service;
+using NotificationManagement.Service;
 using RabbitMQ.domain;
 
-namespace NotificationManagament.Infrastructure;
+namespace NotificationManagement.Infrastructure;
 
 public class OrderConfirmedConsumer : IConsumer<IOrderConfirmedEvent>
 {

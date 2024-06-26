@@ -1,6 +1,6 @@
 using MassTransit;
-using NotificationManagament.Infrastructure;
-using NotificationManagament.Service;
+using NotificationManagement.Infrastructure;
+using NotificationManagement.Service;
 using RabbitMQ.domain;
 
 var builder = WebApplication.CreateBuilder(args);

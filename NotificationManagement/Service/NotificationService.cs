@@ -1,4 +1,4 @@
-﻿namespace NotificationManagament.Service;
+﻿namespace NotificationManagement.Service;
 
 public class NotificationService
 {

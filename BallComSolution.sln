@@ -29,9 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupportManagement", "Suppor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupportManagement.Domain", "SupportManagement.Domain\SupportManagement.Domain.csproj", "{5036D428-9DBF-4A9B-BFB2-DB57785650E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationManagament.Domain", "NotificationManagament.Domain\NotificationManagament.Domain.csproj", "{E18E59E4-A5D0-42A0-A17C-6D9938904E10}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationManagement.Domain", "NotificationManagement.Domain\NotificationManagement.Domain.csproj", "{E18E59E4-A5D0-42A0-A17C-6D9938904E10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationManagament", "NotificationManagament\NotificationManagament.csproj", "{7A2659A0-22F5-4201-AC51-9183595090FE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationManagement", "NotificationManagement\NotificationManagement.csproj", "{7A2659A0-22F5-4201-AC51-9183595090FE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentManagement.Domain", "PaymentManagement.Domain\PaymentManagement.Domain.csproj", "{18D0FD1D-B818-4D4E-B062-C0883A5B967B}"
 EndProject
