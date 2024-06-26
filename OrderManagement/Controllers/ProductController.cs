@@ -17,10 +17,21 @@ public class ProductController : ControllerBase
 
     [HttpPost]
     [Route("addproduct")]
-    public IActionResult AddProduct([FromBody] Product product)
+    public async Task<IActionResult> AddProduct([FromBody] Product product)
     {
         Console.WriteLine("Added product");
-        _productService.AddProduct(product);
-        return Ok();
+
+        var result = await _productService.AddProduct(product);
+        return result ? Ok() : BadRequest();
+    }
+
+    [HttpPut]
+    [Route("updateproduct")]
+    public async Task<IActionResult> UpdateProduct([FromBody] Product product)
+    {
+        Console.WriteLine("Updated product");
+
+        var result = await _productService.UpdateProduct(product);
+        return result ? Ok() : BadRequest();
     }
 }

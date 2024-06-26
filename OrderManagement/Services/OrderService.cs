@@ -27,7 +27,6 @@ public class OrderService
         var @event = new OrderAddedEvent
         {
             OrderNumber = order.OrderNumber,
-            UserEmail = order.UserEmail,
             OrderDate = order.OrderDate,
             Status = order.Status
         };
@@ -47,7 +46,6 @@ public class OrderService
         var @event = new OrderUpdatedEvent
         {
             OrderNumber = order.OrderNumber,
-            UserEmail = order.UserEmail,
             OrderDate = order.OrderDate,
             Status = order.Status
         };

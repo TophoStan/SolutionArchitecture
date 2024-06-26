@@ -1,4 +1,6 @@
 ﻿using OrderManagement.Domain;
+using OrderManagement.Domain.Events;
+using OrderManagement.Infrastructure;
 using OrderManagement.Infrastructure.Product;
 
 namespace OrderManagement.Services;
@@ -6,18 +8,51 @@ namespace OrderManagement.Services;
 public class ProductService
 {
     private readonly ProductRepository _productRepository;
-    //private readonly EventPublisher _eventPublisher;
+    private readonly EventPublisher _eventPublisher;
 
-    public ProductService(ProductRepository productRepository)
+    public ProductService(ProductRepository productRepository, EventPublisher eventPublisher)
     {
         _productRepository = productRepository;
-        //_eventPublisher = eventPublisher;
+        _eventPublisher = eventPublisher;
     }
 
-    public void AddProduct(Product product)
+    public async Task<bool> AddProduct(Product product)
     {
-        _productRepository.AddProduct(product);
+        var result = await _productRepository.AddProductAsync(product);
+        var eventResult = await _productRepository.SaveEventAsync(product.ProductId, "AddProduct", product);
 
-        // event shit
+        if (!result || !eventResult)
+            return false;
+
+        var @event = new ProductAddedEvent
+        {
+            ProductId = product.ProductId,
+            ProductName = product.ProductName,
+            ProductDescription = product.ProductDescription,
+            Price = product.Price
+        };
+        _eventPublisher.Publish(@event);
+
+        return true;
+    }
+
+    public async Task<bool> UpdateProduct(Product product)
+    {
+        var result = await _productRepository.UpdateProductAsync(product);
+        var eventResult = await _productRepository.SaveEventAsync(product.ProductId, "UpdateProduct", product);
+
+        if (!result || !eventResult)
+            return false;
+
+        var @event = new ProductUpdatedEvent
+        {
+            ProductId = product.ProductId,
+            ProductName = product.ProductName,
+            ProductDescription = product.ProductDescription,
+            Price = product.Price
+        };
+        _eventPublisher.Publish(@event);
+
+        return true;
     }
 }
