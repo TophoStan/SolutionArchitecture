@@ -53,4 +53,13 @@ public class UserRepository
         await _SQLcontext.SaveChangesAsync();
         return userInSQL.Supports.Find(p => p.SupportTicketNumber == ticket.SupportTicketNumber);
     }
+
+    public async Task<AnswerTicket> AddAnswerOfTicket(AnswerTicket ticket)
+    {
+        var userInSQL = await _SQLcontext.Users.FindAsync(ticket);
+
+        userInSQL.AnswerTickets.Add(ticket);
+        await _SQLcontext.SaveChangesAsync();
+        return userInSQL.AnswerTickets.Find(p => p.SupportTicketNumber == ticket.SupportTicketNumber);
+    }
 }

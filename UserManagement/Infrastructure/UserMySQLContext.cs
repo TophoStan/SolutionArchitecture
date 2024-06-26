@@ -19,8 +19,11 @@ public class UserMySQLContext : DbContext
 
         modelBuilder.Entity<Support>().HasKey(p => p.SupportId);
         modelBuilder.Entity<Support>().HasOne(p => p.User).WithMany(s => s.Supports).HasForeignKey(p => p.UserId);
-
-        var Logitech = new User
+       
+        modelBuilder.Entity<AnswerTicket>().HasKey(p => p.AnswerTicketId);
+        modelBuilder.Entity<AnswerTicket>().HasOne(p => p.User).WithMany(s => s.AnswerTickets).HasForeignKey(p => p.AnswerTicketId);
+        
+         var Logitech = new User
         {
             UserId = 1,
             Email = "Logitech@mail.com",

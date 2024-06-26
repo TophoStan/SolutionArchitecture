@@ -1,13 +1,28 @@
 ﻿using MassTransit;
 using RabbitMQ.domain;
+using UserManagement.Domain;
 
 namespace UserManagement.Infrastructure;
 
 public class AnswerTicketConsumer : IConsumer<ITicketAnsweredEvent>
 {
-    public Task Consume(ConsumeContext<ITicketAnsweredEvent> context)
+    private readonly UserRepository _userRepository;
+    public AnswerTicketConsumer(UserRepository userRepository)
     {
-        Console.WriteLine($"Answer received for support ticket: " + context.Message.ToString());
-        return Task.CompletedTask;
+        _userRepository = userRepository;
+    }
+
+    public async Task Consume(ConsumeContext<ITicketAnsweredEvent> context)
+    {
+        Console.WriteLine("Support received on SupportManagement: " + context.Message.ToString());
+
+        ITicketAnsweredEvent @event = context.Message;
+        AnswerTicket supportTicket = new AnswerTicket
+        {
+            SupportTicketNumber = @event.SupportTicketNumber,
+            AnswerText = @event.AnswerText
+        };
+
+        await _userRepository.AddAnswerOfTicket(supportTicket);
     }
 }

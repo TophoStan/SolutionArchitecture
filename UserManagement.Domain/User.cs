@@ -10,4 +10,5 @@ public class User
     public string Address { get; set; }
 
     public List<Support>? Supports { get; set; } = new List<Support>();
+    public List<AnswerTicket>? AnswerTickets { get; set; } = new List<AnswerTicket>();
 }
