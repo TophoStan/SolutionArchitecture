@@ -107,14 +107,14 @@ services:
       context: .
       dockerfile: ./OrderDockerfile
     ports:
-      - "5220:5219"
-      - "8081:8080"
+      - "5303:5303"
+      - "8084:8080"
     depends_on:
       - rabbitmq
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - RABBITMQ_HOSTNAME=rabbitmq
-      - ASPNETCORE_URLS=http://+:5302
+      - ASPNETCORE_URLS=http://+:5303
     volumes:
       - dotnet_order_data:/app
     networks:
