@@ -25,6 +25,7 @@ namespace PaymentManagement.Controllers
             @event.UserName = payment.UserName;
             @event.SupplierName = payment.SupplierName;
             @event.ProductIdQuantity = payment.ProductIdQuantity;
+            @event.IsForwardPaid = payment.IsForwardPaid;
 
 
 

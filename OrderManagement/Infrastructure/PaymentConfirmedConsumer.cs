@@ -15,9 +15,12 @@ public class PaymentConfirmedConsumer : IConsumer<IPaymentConfirmedEvent>
     public async Task Consume(ConsumeContext<IPaymentConfirmedEvent> context)
     {
         Console.WriteLine("PaymentConfirmedConsumer");
-
         // Publish OrderConfirmedEvent
         IPaymentConfirmedEvent @event = context.Message;
+        if (!@event.IsForwardPaid) {
+            Console.WriteLine("Order has not been paid yet.");
+            return;
+        };
 
         Domain.Order order = new() { User = new Domain.User()};
 
