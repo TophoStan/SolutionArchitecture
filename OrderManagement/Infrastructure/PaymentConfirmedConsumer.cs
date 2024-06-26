@@ -31,7 +31,7 @@ public class PaymentConfirmedConsumer : IConsumer<IPaymentConfirmedEvent>, ICons
 
         foreach (var item in @event.ProductIdQuantity)
         {
-            order.Products.Add(new Domain.Product() { ProductId = item.Key.ToString(), Quantity = item.Value });
+            order.Products.Add(new Domain.Product() { ProductId = item.Key, Quantity = item.Value });
         }
 
 

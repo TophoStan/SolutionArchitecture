@@ -5,7 +5,7 @@ namespace OrderManagement.Domain;
 public class Product
 {
     [BsonId]
-    public string ProductId { get; set; }
+    public int ProductId { get; set; }
     public string ProductName { get; set; }
     public string ProductDescription { get; set; }
     public float Price { get; set; }
