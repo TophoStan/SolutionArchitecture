@@ -4,7 +4,7 @@ using RabbitMQ.domain;
 
 namespace ProductManagement.Infrastructure;
 
-public class ProductConsumer : IConsumer<IInsertedEvent>
+public class ProductConsumer : IConsumer<IInsertedEvent>, IConsumer<IOrderConfirmedEvent>
 {
     private readonly ProductRepository _productRepository;
     public ProductConsumer(ProductRepository productRepository)
@@ -31,5 +31,16 @@ public class ProductConsumer : IConsumer<IInsertedEvent>
         };
 
         await _productRepository.AddProductAsync(product);
+    }
+
+    public async Task Consume(ConsumeContext<IOrderConfirmedEvent> context)
+    {
+        Console.WriteLine("Product quantity changed on Product management: " + context.Message.ToString());
+        
+        IOrderConfirmedEvent @event = context.Message;
+        foreach (var item in @event.ProductsWithQuanitity)
+        {
+            await _productRepository.UpdateProductQuantityAsync(item.Key, item.Value);
+        }
     }
 }

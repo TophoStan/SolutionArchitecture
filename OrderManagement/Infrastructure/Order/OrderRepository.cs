@@ -9,10 +9,9 @@ public class OrderRepository
 {
     private readonly OrderMySQLContext _sqlContext;
 
-    public OrderRepository(OrderMySQLContext context, OrderMongoDBContext mongoDBcontext)
+    public OrderRepository(OrderMySQLContext context)
     {
         _sqlContext = context;
-        _mongoDBcontext = mongoDBcontext;
     }
 
     public async Task<bool> AddOrderAsync(Domain.Order order)

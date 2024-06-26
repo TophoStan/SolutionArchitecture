@@ -1,6 +1,6 @@
 ﻿using RabbitMQ.domain;
 
-namespace NotificationManagement.Domain;
+namespace ProductManagement.Domain.Events;
 
 public class OrderConfirmedEvent : IOrderConfirmedEvent
 {

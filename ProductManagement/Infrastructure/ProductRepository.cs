@@ -31,6 +31,22 @@ public class ProductRepository
 
     }
 
+    public async Task<Product> UpdateProductQuantityAsync(int productKey, int quantity)
+    {
+        try
+        {
+            var product = await _SQLcontext.Products.FindAsync(productKey);
+            product.StockQuantity -= quantity;
+            await _SQLcontext.SaveChangesAsync();
+            return product;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return null;
+        }
+    }
+
     public async Task<Product?> GetProductAsync(int productId)
     {
         return await _SQLcontext.Products.FindAsync(productId);

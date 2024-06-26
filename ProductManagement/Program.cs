@@ -49,6 +49,12 @@ builder.Host.ConfigureServices(services =>
                     x.RoutingKey = "product-inserted-routingkey";
                     x.ExchangeType = "topic";
                 });
+                e.ConfigureConsumer<ProductConsumer>(context);
+                e.Bind("ballcom", x =>
+                {
+                    x.RoutingKey = "order-confirmed-routingkey";
+                    x.ExchangeType = "topic";
+                });
             });
             cfg.Message<IInsertedEvent>(x =>
             {
