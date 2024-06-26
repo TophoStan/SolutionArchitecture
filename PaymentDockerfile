@@ -16,7 +16,7 @@ WORKDIR /src
 RUN echo $BUILD_CONFIGURATION
 COPY ["PaymentManagement/PaymentManagement.csproj", "PaymentManagement/"]
 RUN echo $BUILD_CONFIGURATION
-COPY ["OrderManagment.Domain/PaymentManagement.Domain.csproj", "OrderManagment.Domain/"]
+COPY ["PaymentManagement.Domain/PaymentManagement.Domain.csproj", "PaymentManagement.Domain/"]
 RUN dotnet restore "./PaymentManagement/PaymentManagement.csproj"
 COPY . .
 WORKDIR "/src/PaymentManagement"

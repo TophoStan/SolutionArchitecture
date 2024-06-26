@@ -16,7 +16,7 @@ WORKDIR /src
 RUN echo $BUILD_CONFIGURATION
 COPY ["NotificationManagement/NotificationManagement.csproj", "NotificationManagement/"]
 RUN echo $BUILD_CONFIGURATION
-COPY ["OrderManagment.Domain/NotificationManagement.Domain.csproj", "OrderManagment.Domain/"]
+COPY ["PaymentManagement.Domain/NotificationManagement.Domain.csproj", "NotificationManagement.Domain/"]
 RUN dotnet restore "./NotificationManagement/NotificationManagement.csproj"
 COPY . .
 WORKDIR "/src/NotificationManagement"
