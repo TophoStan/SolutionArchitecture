@@ -32,6 +32,19 @@ public class SupportRepository
             throw new ApplicationException("Failed to add support ticket.", e);
         }
     }
+    public async Task UpdateSupportTicketAsync(Support support)
+    {
+        try
+        {
+            _SQLcontext.Supports.Update(support);
+            await _SQLcontext.SaveChangesAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw new ApplicationException("Failed to update support ticket.", e);
+        }
+    }
 
     public async Task<Support?> GetSupportAsync(string supportId)
     {

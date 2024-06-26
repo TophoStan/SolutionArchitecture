@@ -1,5 +1,6 @@
 ﻿using MassTransit;
 using SupportManagement.Domain;
+using SupportManagement.Domain.Events;
 using SupportManagement.Infrastructure;
 
 namespace SupportManagement.Services;
@@ -17,7 +18,38 @@ public class SupportService
 
     public async Task RegisterSupportAsync(Support support)
     {
-        // Add to database
         var insertResult = await _supportRepository.AddSupportTicketAsync(support);
+    }
+
+    public async Task AnswerCustomerTicketAsync(AnswerTicket answer)
+    {
+        try
+        {
+            var ticket = await _supportRepository.GetSupportAsync(answer.SupportTicketNumber);
+
+            if (ticket == null)
+            {
+                throw new KeyNotFoundException($"Support ticket with number '{answer.SupportTicketNumber}' not found.");
+            }
+
+            ticket.Status = "Answered";
+            ticket.Description = answer.AnswerText;
+
+            await _supportRepository.UpdateSupportTicketAsync(ticket);
+
+            var @event = new TicketAnsweredEvent
+            {
+                SupportTicketNumber = answer.SupportTicketNumber,
+                AnswerText = answer.AnswerText
+            };
+
+            await _bus.Publish(@event);
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw new ApplicationException("Failed to answer customer ticket.", e);
+        }
     }
 }

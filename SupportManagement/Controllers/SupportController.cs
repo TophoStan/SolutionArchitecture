@@ -21,4 +21,11 @@ public class SupportController : ControllerBase
         await _supportService.RegisterSupportAsync(support);
         return Ok();
     }
+
+    [HttpPost("answer")]
+    public async Task<IActionResult> AnswerCustomerTicket([FromBody] AnswerTicket answer)
+    {
+        await _supportService.AnswerCustomerTicketAsync(answer);
+        return Ok();
+    }
 }
