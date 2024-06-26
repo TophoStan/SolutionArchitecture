@@ -17,18 +17,11 @@ public class UserService
     public async Task<bool> AddUser(User user)
     {
         var result = await _userRepository.AddUserAsync(user);
-        var eventResult = await _userRepository.SaveEventAsync(user.Email, "AddUser", user);
 
-        if (!result || !eventResult)
+        if (!result)
             return false;
 
-        //var @event = new UserAddedEvent
-        //{
-        //    Email = user.Email,
-        //    FirstName = user.FirstName,
-        //    LastName = user.LastName
-        //};
-        //_eventPublisher.Publish(@event);
+        // BUS NAAR EVENT
 
         return true;
     }
@@ -36,18 +29,11 @@ public class UserService
     public async Task<bool> UpdateUser(User user)
     {
         var result = await _userRepository.UpdateUserAsync(user);
-        var eventResult = await _userRepository.SaveEventAsync(user.Email, "AddUser", user);
 
-        if (!result || !eventResult)
+        if (!result)
             return false;
 
-        //var @event = new UserAddedEvent
-        //{
-        //    Email = user.Email,
-        //    FirstName = user.FirstName,
-        //    LastName = user.LastName
-        //};
-        //_eventPublisher.Publish(@event);
+        // BUS NAAR EVENT
 
         return true;
     }

@@ -41,28 +41,6 @@ public class UserRepository
         }
     }
 
-    public async Task<bool> SaveEventAsync(string aggregateId, string eventType, object eventData)
-    {
-        try
-        {
-            var userEvent = new Domain.Events.OrderEvent
-            {
-                AggregateId = aggregateId,
-                EventType = eventType,
-                EventData = JsonSerializer.Serialize(eventData),
-                EventTime = DateTime.Now
-            };
-
-            await _sqlContext.Events.AddAsync(userEvent);
-            await _sqlContext.SaveChangesAsync();
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
     public async Task<Domain.User> GetUserAsync(string userId)
     {
         return await _sqlContext.Users.FindAsync(userId);

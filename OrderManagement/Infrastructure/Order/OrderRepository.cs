@@ -51,21 +51,19 @@ public class OrderRepository
         }
     }
 
-    public async Task<bool> UpdateOrderAsync(Domain.Order order)
+    public async Task<Domain.Order> UpdateOrderAsync(Domain.Order order)
     {
         try
         {
-            _sqlContext.Orders.Attach(order);
             _sqlContext.Orders.Update(order);
 
             await _sqlContext.SaveChangesAsync();
 
-            //await _mongoDBcontext.SQLToMongoDB();
-            return true;
+            return await _sqlContext.FindAsync<Domain.Order>(order.OrderNumber);
         }
         catch
         {
-            return false;
+            return null;
         }
     }
 
@@ -85,50 +83,6 @@ public class OrderRepository
         {
             return null;
         }
-    }
-
-    public async Task<bool> SaveEventAsync(string aggregateId, string eventType, object? eventData)
-    {
-        if (eventData == null)
-        {
-            eventData = _sqlContext.FindAsync<Domain.Order>(aggregateId);
-        }     
-
-
-        try
-        {
-            var options = new JsonSerializerOptions
-            {
-                ReferenceHandler = ReferenceHandler.IgnoreCycles,
-                WriteIndented = true
-            };
-
-            var orderEvent = new Domain.Events.OrderEvent
-            {
-                AggregateId = aggregateId,
-                EventType = eventType,
-                EventData = JsonSerializer.Serialize(eventData, options),
-                EventTime = DateTime.Now
-            };
-
-            await _sqlContext.Events.AddAsync(orderEvent);
-            await _sqlContext.SaveChangesAsync();
-
-            return true;
-        }
-        catch   
-        {
-            return false;
-        }
-
-    }
-
-    public async Task<IEnumerable<Domain.Events.OrderEvent>> GetEventsAsync(string aggregateId)
-    {
-        return await _sqlContext.Events
-            .Where(e => e.AggregateId == aggregateId)
-            .OrderBy(e => e.EventTime)
-            .ToListAsync();
     }
 
     public async Task<Domain.Order> GetOrderAsync(string orderNumber)

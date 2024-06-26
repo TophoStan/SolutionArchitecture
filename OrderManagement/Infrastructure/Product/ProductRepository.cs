@@ -42,28 +42,6 @@ public class ProductRepository
         }
     }
 
-    public async Task<bool> SaveEventAsync(string aggregateId, string eventType, object eventData)
-    {
-        try
-        {
-            var productEvent = new Domain.Events.OrderEvent
-            {
-                AggregateId = aggregateId,
-                EventType = eventType,
-                EventData = JsonSerializer.Serialize(eventData),
-                EventTime = DateTime.Now
-            };
-
-            await _sqlContext.Events.AddAsync(productEvent);
-            await _sqlContext.SaveChangesAsync();
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
     public async Task<Domain.Product> GetProductAsync(string productId)
     {
         return await _sqlContext.Products.FindAsync(productId);

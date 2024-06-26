@@ -2,6 +2,7 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
 using OrderManagement.Infrastructure;
+using OrderManagement.Infrastructure.Events;
 using OrderManagement.Infrastructure.Order;
 using OrderManagement.Infrastructure.Product;
 using OrderManagement.Infrastructure.User;
@@ -17,15 +18,17 @@ builder.Configuration.AddJsonFile("appsettings.json");
 builder.Configuration.AddEnvironmentVariables();
 
 var mySQLConnectionString = builder.Configuration.GetConnectionString("MySQLConnection");
+var mySQLEventsConnectionString = builder.Configuration.GetConnectionString("MySQLEventsConnection");
 var developmentEnvironment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
 if (developmentEnvironment != "Development")
 {
     mySQLConnectionString = mySQLConnectionString.Replace("localhost", "mysqlserver");
+    mySQLEventsConnectionString = mySQLEventsConnectionString.Replace("localhost", "mysqlserver");
 }
-Console.WriteLine("MySQL Connection String: " + mySQLConnectionString);
 
 builder.Services.AddDbContext<OrderMySQLContext>(options => options.UseMySql(mySQLConnectionString, new MySqlServerVersion(new Version(8, 0, 2))));
+builder.Services.AddDbContext<EventsMySQLContext>(options => options.UseMySql(mySQLEventsConnectionString, new MySqlServerVersion(new Version(8, 0, 2))));
 
 var mongoDBConnectionString = builder.Configuration.GetConnectionString("MongoDBConnection");
 var client = new MongoClient(mongoDBConnectionString);
@@ -41,6 +44,7 @@ builder.Host.ConfigureServices(services =>
     {
         x.AddConsumer<UserConsumer>();
         x.AddConsumer<PaymentConfirmedConsumer>();
+        x.AddConsumer<EventOrderUpdatedConsumer>();
         x.UsingRabbitMq((context, cfg) =>
         {
             cfg.Host(rabbitMQHostName, "/", h =>
@@ -52,6 +56,7 @@ builder.Host.ConfigureServices(services =>
             {
                 e.ConfigureConsumer<UserConsumer>(context);
                 e.ConfigureConsumer<PaymentConfirmedConsumer>(context);
+                e.ConfigureConsumer<EventOrderUpdatedConsumer>(context);
                 e.Bind("ballcom-exchange", x =>
                 {
                     x.RoutingKey = "user-updated-routingkey";
@@ -60,6 +65,11 @@ builder.Host.ConfigureServices(services =>
                 e.Bind("ballcom-exchange", x =>
                 {
                     x.RoutingKey = "payment-confirmed-routingkey";
+                    x.ExchangeType = "topic";
+                });
+                e.Bind("ballcom-exchange", x =>
+                {
+                    x.RoutingKey = "order-updated-routingkey";
                     x.ExchangeType = "topic";
                 });
             });
@@ -102,6 +112,7 @@ builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<OrderRepository>();
 builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<EventsRepository>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -1,8 +1,6 @@
-﻿using RabbitMQ.domain.OrderEvents;
+﻿namespace RabbitMQ.domain.OrderEvents;
 
-namespace OrderManagement.Domain.Events;
-
-public class OrderUpdatedEvent : IOrderUpdatedEvent
+public interface IOrderUpdatedEvent
 {
     public string OrderNumber { get; set; }
     public DateTime OrderDate { get; set; }

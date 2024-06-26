@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
 
 namespace OrderManagement.Infrastructure.Order;
 
@@ -10,8 +9,6 @@ public class OrderMySQLContext : DbContext
     public DbSet<Domain.Order> Orders { get; set; }
     public DbSet<Domain.Product> Products { get; set; }
     public DbSet<Domain.User> Users { get; set; }
-
-    public DbSet<Domain.Events.OrderEvent> Events { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -97,7 +94,8 @@ public class OrderMySQLContext : DbContext
             OrderNumber = "1",
             OrderDate = DateTime.Now,
             Status = "Delivered",
-            UserId = 1
+            UserId = 1,
+            SupplierName = "Logitech"
         };
 
         var order2 = new Domain.Order
@@ -105,7 +103,8 @@ public class OrderMySQLContext : DbContext
             OrderNumber = "2",
             OrderDate = DateTime.Now,
             Status = "Processing",
-            UserId = 2
+            UserId = 2,
+            SupplierName = "Pokemon"
         };
 
         var order3 = new Domain.Order
@@ -113,7 +112,8 @@ public class OrderMySQLContext : DbContext
             OrderNumber = "3",
             OrderDate = DateTime.Now,
             Status = "Shipped",
-            UserId = 3
+            UserId = 3,
+            SupplierName = "RedBull"
         };
 
         modelBuilder.Entity<Domain.Order>().HasData(
@@ -150,12 +150,5 @@ public class OrderMySQLContext : DbContext
                 }
                 );
         });
-
-        // Event
-        modelBuilder.Entity<Domain.Events.OrderEvent>().HasKey(e => e.EventId);
-        modelBuilder.Entity<Domain.Events.OrderEvent>().Property(e => e.EventId).ValueGeneratedOnAdd();
-        modelBuilder.Entity<Domain.Events.OrderEvent>().HasIndex(e => e.AggregateId);
-        modelBuilder.Entity<Domain.Events.OrderEvent>().Property(e => e.EventData).IsRequired();
-        modelBuilder.Entity<Domain.Events.OrderEvent>().Property(e => e.EventTime).IsRequired();
     }
 }

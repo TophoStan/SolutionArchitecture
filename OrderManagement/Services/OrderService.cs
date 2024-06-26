@@ -22,19 +22,10 @@ public class OrderService
     public async Task<bool> AddOrder(Order order)
     {
         var result = await _orderRepository.AddOrderAsync(order);
-        var eventResult = await _orderRepository.SaveEventAsync(order.OrderNumber, "AddOrder", order);
 
-        if (!result || !eventResult)
+        if (!result)
             return false;
-
-
-        //Data that gets sent over the bus
-        //var @event = new OrderAddedEvent
-        //{
-        //    OrderNumber = order.OrderNumber,
-        //    OrderDate = order.OrderDate,
-        //    Status = order.Status
-        //};
+        
         IOrderConfirmedEvent @event = new OrderConfirmedEvent() { OrderDate = order.OrderDate, OrderNumber = order.OrderNumber, SupplierName = order.SupplierName, UserName = order.User.Email };
         await _bus.Publish(@event);
 
@@ -44,28 +35,27 @@ public class OrderService
     public async Task<bool> UpdateOrder(Order order)
     {
         var result = await _orderRepository.UpdateOrderAsync(order);
-        var eventResult = await _orderRepository.SaveEventAsync(order.OrderNumber, "UpdateOrder", order);
 
-        if (!result || !eventResult)
+        if (result == null)
             return false;
 
-        //var @event = new OrderUpdatedEvent
-        //{
-        //    OrderNumber = order.OrderNumber,
-        //    OrderDate = order.OrderDate,
-        //    Status = order.Status
-        //};
-        //_eventPublisher.Publish(@event);
+        IOrderUpdatedEvent @event = new OrderUpdatedEvent()
+        {
+            OrderDate = result.OrderDate,
+            OrderNumber = result.OrderNumber,
+            Status = result.Status,
+            UserId = result.UserId,
+        };
 
+        await _bus.Publish(@event);
         return true;
     }
 
     public async Task<bool> CancelOrder(string OrderNumber)
     {
         var result = await _orderRepository.CancelOrderAsync(OrderNumber);
-        var eventResult = await _orderRepository.SaveEventAsync(OrderNumber, "CancelOrder", result);
 
-        if (result == null || !eventResult)
+        if (result == null)
             return false;
 
         IOrderCanceledEvent @event = new OrderCanceledEvent() 
@@ -79,10 +69,4 @@ public class OrderService
         await _bus.Publish(@event);
         return true;
     }
-
-    public async Task<IEnumerable<OrderEvent>> GetOrderEvents(string orderNumber)
-    {
-        return await _orderRepository.GetEventsAsync(orderNumber);
-    }
-
 }

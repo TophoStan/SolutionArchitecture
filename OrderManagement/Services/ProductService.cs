@@ -17,19 +17,11 @@ public class ProductService
     public async Task<bool> AddProduct(Product product)
     {
         var result = await _productRepository.AddProductAsync(product);
-        var eventResult = await _productRepository.SaveEventAsync(product.ProductId, "AddProduct", product);
 
-        if (!result || !eventResult)
+        if (!result)
             return false;
 
-        //var @event = new ProductAddedEvent
-        //{
-        //    ProductId = product.ProductId,
-        //    ProductName = product.ProductName,
-        //    ProductDescription = product.ProductDescription,
-        //    Price = product.Price
-        //};
-        //_eventPublisher.Publish(@event);
+        // BUS NAAR EVENT
 
         return true;
     }
@@ -37,19 +29,11 @@ public class ProductService
     public async Task<bool> UpdateProduct(Product product)
     {
         var result = await _productRepository.UpdateProductAsync(product);
-        var eventResult = await _productRepository.SaveEventAsync(product.ProductId, "UpdateProduct", product);
 
-        if (!result || !eventResult)
+        if (!result)
             return false;
 
-        //var @event = new ProductUpdatedEvent
-        //{
-        //    ProductId = product.ProductId,
-        //    ProductName = product.ProductName,
-        //    ProductDescription = product.ProductDescription,
-        //    Price = product.Price
-        //};
-        //_eventPublisher.Publish(@event);
+        // BUS NAAR EVENT
 
         return true;
     }
