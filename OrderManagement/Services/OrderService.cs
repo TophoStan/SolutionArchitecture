@@ -2,18 +2,20 @@
 using OrderManagement.Domain;
 using OrderManagement.Infrastructure.Order;
 using OrderManagement.Domain.Events;
+using MassTransit;
+using RabbitMQ.domain;
 
 namespace OrderManagement.Services;
 
 public class OrderService
 {
     private readonly OrderRepository _orderRepository;
-    private readonly EventPublisher _eventPublisher;
+    private readonly IBus _bus;
 
-    public OrderService(OrderRepository orderRepository, EventPublisher eventPublisher)
+    public OrderService(OrderRepository orderRepository, IBus bus)
     {
         _orderRepository = orderRepository;
-        _eventPublisher = eventPublisher;
+        _bus = bus;
     }
 
     public async Task<bool> AddOrder(Order order)
@@ -24,13 +26,16 @@ public class OrderService
         if (!result || !eventResult)
             return false;
 
-        var @event = new OrderAddedEvent
-        {
-            OrderNumber = order.OrderNumber,
-            OrderDate = order.OrderDate,
-            Status = order.Status
-        };
-        _eventPublisher.Publish(@event);
+
+        //Data that gets sent over the bus
+        //var @event = new OrderAddedEvent
+        //{
+        //    OrderNumber = order.OrderNumber,
+        //    OrderDate = order.OrderDate,
+        //    Status = order.Status
+        //};
+        IOrderConfirmedEvent @event = new OrderConfirmedEvent() { OrderDate = order.OrderDate, OrderNumber = order.OrderNumber, SupplierName = "TEST", UserName = "John DOE" };
+        await _bus.Publish(@event);
 
         return true;
     }
@@ -43,13 +48,13 @@ public class OrderService
         if (!result || !eventResult)
             return false;
 
-        var @event = new OrderUpdatedEvent
-        {
-            OrderNumber = order.OrderNumber,
-            OrderDate = order.OrderDate,
-            Status = order.Status
-        };
-        _eventPublisher.Publish(@event);
+        //var @event = new OrderUpdatedEvent
+        //{
+        //    OrderNumber = order.OrderNumber,
+        //    OrderDate = order.OrderDate,
+        //    Status = order.Status
+        //};
+        //_eventPublisher.Publish(@event);
 
         return true;
     }
@@ -58,4 +63,5 @@ public class OrderService
     {
         return await _orderRepository.GetEventsAsync(orderNumber);
     }
+
 }
