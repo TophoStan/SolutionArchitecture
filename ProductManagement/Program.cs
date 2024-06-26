@@ -26,16 +26,6 @@ Console.WriteLine("MySQL Connection String: " + mySQLConnectionString);
 builder.Services.AddDbContext<ProductMySQLContext>(options =>
     options.UseMySql(mySQLConnectionString, new MySqlServerVersion(new Version(8, 0, 2))));
 
-var mongoDBConnectionString = builder.Configuration.GetConnectionString("MongoDBConnection");
-if (developmentEnvironment != "Development")
-{
-    mongoDBConnectionString = mongoDBConnectionString.Replace("localhost", "mongo");
-}
-var client = new MongoClient(mongoDBConnectionString);
-var database = client.GetDatabase("ReadProduct");
-builder.Services.AddSingleton(database);
-builder.Services.AddScoped<ProductMongoDBContext>();
-
 // RabbitMQ
 var rabbitMQHostName = builder.Configuration["RABBITMQ_HOSTNAME"];
 #pragma warning disable ASP0012 // Suggest using builder.Services over Host.ConfigureServices or WebHost.ConfigureServices

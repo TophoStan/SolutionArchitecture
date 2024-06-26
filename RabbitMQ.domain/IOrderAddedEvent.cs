@@ -1,8 +1,12 @@
-﻿using RabbitMQ.domain;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace OrderManagement.Domain.Events;
+namespace RabbitMQ.domain;
 
-public class OrderAddedEvent : IOrderAddedEvent
+public interface IOrderAddedEvent
 {
     public string OrderNumber { get; set; }
     public DateTime OrderDate { get; set; }

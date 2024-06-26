@@ -8,4 +8,5 @@ public class OrderUpdatedEvent : IOrderUpdatedEvent
     public DateTime OrderDate { get; set; }
     public string Status { get; set; }
     public int UserId { get; set; }
+    public string SupplierName { get; set; }
 }

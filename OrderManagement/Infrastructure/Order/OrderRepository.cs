@@ -55,6 +55,8 @@ public class OrderRepository
     {
         try
         {
+            order = _sqlContext.Orders!.FirstOrDefault(x => x.OrderNumber == order.OrderNumber);
+
             _sqlContext.Orders.Update(order);
 
             await _sqlContext.SaveChangesAsync();
