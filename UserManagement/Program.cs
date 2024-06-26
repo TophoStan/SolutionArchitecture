@@ -42,6 +42,16 @@ builder.Host.ConfigureServices(services =>
             cfg.Publish<IUserUpdatedEvent>(x => { x.ExchangeType = "topic"; });
             cfg.Message<ISupportTicketCreatedEvent>(x => { x.SetEntityName("ballcom-exchange"); }); 
             cfg.Publish<ISupportTicketCreatedEvent>(x => { x.ExchangeType = "topic"; });
+
+            cfg.ReceiveEndpoint("ticket-answered-event", e =>
+            {
+                e.ConfigureConsumer<AnswerTicketConsumer>(context);
+                e.Bind("ballcom-exchange", x =>
+                {
+                    x.RoutingKey = "ticket-answered-key";
+                    x.ExchangeType = "topic";
+                });
+            });
         });
     });
     // Add the bus to the container

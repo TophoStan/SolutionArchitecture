@@ -1,4 +1,5 @@
 using MassTransit;
+using MassTransit.RabbitMqTransport.Topology;
 using Microsoft.EntityFrameworkCore;
 using RabbitMQ.domain;
 using SupportManagement.Infrastructure;
@@ -55,6 +56,9 @@ builder.Host.ConfigureServices(services =>
             {
                 x.ExchangeType = "topic";
             });
+
+            cfg.Message<ITicketAnsweredEvent>(x => { x.SetEntityName("ballcom-exchange"); });
+            cfg.Publish<ITicketAnsweredEvent>(x => { x.ExchangeType = "topic"; });
         });
     });
     // Add the bus to the container
