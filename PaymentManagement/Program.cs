@@ -21,6 +21,8 @@ builder.Host.ConfigureServices(services =>
 
             cfg.Message<IPaymentConfirmedEvent>(x => { x.SetEntityName("ballcom-exchange"); });
             cfg.Publish<IPaymentConfirmedEvent>(x => { x.ExchangeType = "topic"; });
+            cfg.Message<IAfterPaymentConfirmedEvent>(x => { x.SetEntityName("ballcom-exchange"); });
+            cfg.Publish<IAfterPaymentConfirmedEvent>(x => { x.ExchangeType = "topic"; });
         });
     });
 });

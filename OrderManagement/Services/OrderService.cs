@@ -6,6 +6,7 @@ using MassTransit;
 using RabbitMQ.domain;
 using RabbitMQ.domain.OrderEvents;
 using OrderManagement.Infrastructure.Events;
+using MassTransit.Transports;
 
 namespace OrderManagement.Services;
 
@@ -107,5 +108,11 @@ public class OrderService
 
         await _bus.Publish(@event);
         return true;
+    }
+
+    public async Task<Order> GetOrderByOrdernumber(string orderNumber)
+    {
+        var order = await _orderRepository.GetOrderAsync(orderNumber);
+        return order;
     }
 }

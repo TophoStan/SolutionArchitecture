@@ -12,5 +12,6 @@ public class Payment
 
     public Dictionary<int, int> ProductIdQuantity { get; set; } = new();
 
+    public bool IsForwardPaid { get; set; }
 
 }

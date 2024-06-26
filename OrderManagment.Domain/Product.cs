@@ -12,5 +12,9 @@ public class Product
 
     public int Quantity { get; set; } = 0;
 
+    public string Category { get; set; }
+
+
+
     public virtual ICollection<Order>? Orders { get; set; } = new List<Order>();
 }

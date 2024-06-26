@@ -6,6 +6,8 @@ namespace RabbitMQ.domain;
 
 public interface IInsertedEvent
 {
+
+    public string ProductId { get; set; }
     public string ProductName { get; set; }
     public string ProductDescription { get; set; }
     public int Price { get; set; }
@@ -14,7 +16,6 @@ public interface IInsertedEvent
 
     public int SupplierId { get; set; }
 
-    public int ProductId { get; set; }
 
 }
 

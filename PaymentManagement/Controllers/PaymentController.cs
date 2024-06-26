@@ -25,6 +25,7 @@ namespace PaymentManagement.Controllers
             @event.UserName = payment.UserName;
             @event.SupplierName = payment.SupplierName;
             @event.ProductIdQuantity = payment.ProductIdQuantity;
+            @event.IsForwardPaid = payment.IsForwardPaid;
 
 
 
@@ -33,6 +34,21 @@ namespace PaymentManagement.Controllers
                 x.SetRoutingKey("payment-confirmed-routingkey");
             });
             return Ok();
+        }
+        [HttpPost]
+        [Route("pay-after-pay")]
+        public async Task PayAfterPay(Payment payment)
+        {
+            IAfterPaymentConfirmedEvent @event = new AfterPaymentConfirmedEvent();
+            @event.OrderNumber = payment.OrderNumber;
+
+
+
+            await _bus.Publish(@event, x =>
+            {
+                x.SetRoutingKey("after-payment-confirmed-routingkey");
+            });
+
         }
     }
 }

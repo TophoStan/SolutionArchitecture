@@ -14,5 +14,9 @@ public class InvoiceService
     public async void createInvoice(Invoice invoice)
     {
         _invoiceRepository.createInvoice(invoice);
+
+        Console.WriteLine("Sending invoice to user by email");
+
+        Console.WriteLine("Invoice sent to: " + invoice.UserName);
     }
 }

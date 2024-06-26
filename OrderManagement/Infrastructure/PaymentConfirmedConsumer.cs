@@ -4,7 +4,7 @@ using RabbitMQ.domain;
 
 namespace OrderManagement.Infrastructure;
 
-public class PaymentConfirmedConsumer : IConsumer<IPaymentConfirmedEvent>
+public class PaymentConfirmedConsumer : IConsumer<IPaymentConfirmedEvent>, IConsumer<IAfterPaymentConfirmedEvent>
 {
     private readonly OrderService _orderService;
     public PaymentConfirmedConsumer(OrderService orderService)
@@ -15,7 +15,6 @@ public class PaymentConfirmedConsumer : IConsumer<IPaymentConfirmedEvent>
     public async Task Consume(ConsumeContext<IPaymentConfirmedEvent> context)
     {
         Console.WriteLine("PaymentConfirmedConsumer");
-
         // Publish OrderConfirmedEvent
         IPaymentConfirmedEvent @event = context.Message;
 
@@ -23,7 +22,7 @@ public class PaymentConfirmedConsumer : IConsumer<IPaymentConfirmedEvent>
 
         order.OrderNumber = @event.OrderNumber;
         order.OrderDate = DateTime.Now;
-        order.Status = "Confirmed";
+        order.Status = "Paying after";
         order.User.Email = @event.UserName;
         order.SupplierName = @event.SupplierName;
         order.ProductIdQuantity = @event.ProductIdQuantity;
@@ -37,5 +36,24 @@ public class PaymentConfirmedConsumer : IConsumer<IPaymentConfirmedEvent>
 
 
         await _orderService.AddOrder(order);
+    }
+
+    public async Task Consume(ConsumeContext<IAfterPaymentConfirmedEvent> context)
+    {
+        Console.WriteLine("AfterPaymentConfirmedConsumer");
+        IAfterPaymentConfirmedEvent @event = context.Message;
+        var result = await _orderService.GetOrderByOrdernumber(@event.OrderNumber);
+        if(result == null)
+        {
+            Console.WriteLine("Order not found.");
+            return;
+        }
+        if(result.Status == "Paid")
+        {
+            Console.WriteLine("Order already paid.");
+            return;
+        }
+        result.Status = "Paid";
+        await _orderService.UpdateOrder(result);
     }
 }
