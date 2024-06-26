@@ -35,5 +35,20 @@ namespace PaymentManagement.Controllers
             });
             return Ok();
         }
+        [HttpPost]
+        [Route("pay-after-pay")]
+        public async Task PayAfterPay(Payment payment)
+        {
+            IAfterPaymentConfirmedEvent @event = new AfterPaymentConfirmedEvent();
+            @event.OrderNumber = payment.OrderNumber;
+
+
+
+            await _bus.Publish(@event, x =>
+            {
+                x.SetRoutingKey("after-payment-confirmed-routingkey");
+            });
+
+        }
     }
 }

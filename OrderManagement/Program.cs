@@ -45,6 +45,9 @@ builder.Host.ConfigureServices(services =>
         x.AddConsumer<UserConsumer>();
         x.AddConsumer<PaymentConfirmedConsumer>();
         x.AddConsumer<EventOrderUpdatedConsumer>();
+        x.AddConsumer<ProductInsertedConsumer>();
+
+
         x.UsingRabbitMq((context, cfg) =>
         {
             cfg.Host(rabbitMQHostName, "/", h =>
@@ -57,6 +60,7 @@ builder.Host.ConfigureServices(services =>
                 e.ConfigureConsumer<UserConsumer>(context);
                 e.ConfigureConsumer<PaymentConfirmedConsumer>(context);
                 e.ConfigureConsumer<EventOrderUpdatedConsumer>(context);
+                e.ConfigureConsumer<ProductInsertedConsumer>(context);
                 e.Bind("ballcom-exchange", x =>
                 {
                     x.RoutingKey = "user-updated-routingkey";
@@ -72,6 +76,18 @@ builder.Host.ConfigureServices(services =>
                     x.RoutingKey = "order-updated-routingkey";
                     x.ExchangeType = "topic";
                 });
+                e.Bind("ballcom-exchange", x =>
+                {
+                    x.RoutingKey = "after-payment-confirmed-routingkey";
+                    x.ExchangeType = "topic";
+                });
+                e.Bind("ballcom-exchange", x =>
+                {
+                    x.RoutingKey = "product-inserted-routingkey";
+                    x.ExchangeType = "topic";
+                });
+
+
             });
             cfg.Message<IUserUpdatedEvent>(x =>
             { 
@@ -89,6 +105,14 @@ builder.Host.ConfigureServices(services =>
             {
                 x.ExchangeType = "topic";
             });
+            cfg.Message<IAfterPaymentConfirmedEvent>(x =>
+            {
+                x.SetEntityName("ballcom-exchange");
+            });
+            cfg.Publish<IAfterPaymentConfirmedEvent>(x =>
+            {
+                x.ExchangeType = "topic";
+            });
             cfg.Message<IOrderCanceledEvent>(x =>
             {
                 x.SetEntityName("order-canceled-event");
@@ -99,6 +123,8 @@ builder.Host.ConfigureServices(services =>
             });
             cfg.Message<IOrderConfirmedEvent>(x => { x.SetEntityName("ballcom-exchange"); });
             cfg.Publish<IOrderConfirmedEvent>(x => { x.ExchangeType = "topic"; });
+            cfg.Message<IInsertedEvent>(x => { x.SetEntityName("ballcom-exchange"); });
+            cfg.Publish<IInsertedEvent>(x => { x.ExchangeType = "topic"; });
         });
     });
 });

@@ -18,7 +18,6 @@ public class InvoiceMySQLContext : DbContext
             InvoiceNumber = "1234",
             InvoiceDate = DateTime.Now,
             OrderNumber = "1",
-            Status = "Paid",
             SupplierName = "Logitech",
             UserName = "John Doe"
 
@@ -29,7 +28,6 @@ public class InvoiceMySQLContext : DbContext
             InvoiceNumber = "2345",
             InvoiceDate = DateTime.Now,
             OrderNumber = "2",
-            Status = "Paid",
             SupplierName = "Pokemon",
             UserName = "Brock"
         };
@@ -39,7 +37,6 @@ public class InvoiceMySQLContext : DbContext
             InvoiceNumber = "3456",
             InvoiceDate = DateTime.Now,
             OrderNumber = "3",
-            Status = "Paid",
             SupplierName = "RedBull",
             UserName = "Max Doe"
         };

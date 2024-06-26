@@ -9,4 +9,5 @@ public class PaymentConfirmedEvent : IPaymentConfirmedEvent
     public Dictionary<int, int> ProductIdQuantity { get; set; } = new Dictionary<int, int>();
     public string UserName { get; set; }
     public string SupplierName { get; set; }
+    public bool IsForwardPaid { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 }
