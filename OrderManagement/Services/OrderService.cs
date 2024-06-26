@@ -36,7 +36,10 @@ public class OrderService
         //    Status = order.Status
         //};
         IOrderConfirmedEvent @event = new OrderConfirmedEvent() { OrderDate = order.OrderDate, OrderNumber = order.OrderNumber, SupplierName = order.SupplierName, UserName = order.User.Email };
-        await _bus.Publish(@event);
+        await _bus.Publish(@event, x =>
+        {
+            x.SetRoutingKey("order-confirmed-routingkey");
+        });
 
         return true;
     }
@@ -68,8 +71,8 @@ public class OrderService
         if (result == null || !eventResult)
             return false;
 
-        IOrderCanceledEvent @event = new OrderCanceledEvent() 
-        { 
+        IOrderCanceledEvent @event = new OrderCanceledEvent()
+        {
             OrderDate = result.OrderDate,
             OrderNumber = result.OrderNumber,
             Status = result.Status,

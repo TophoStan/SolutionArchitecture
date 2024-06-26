@@ -1,5 +1,7 @@
 using MassTransit;
 using NotificationManagament.Infrastructure;
+using NotificationManagament.Service;
+using RabbitMQ.domain;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,18 +24,20 @@ builder.Host.ConfigureServices(services =>
             cfg.ReceiveEndpoint("notification-management-queue", e =>
             {
                 e.ConfigureConsumer<OrderConfirmedConsumer>(context);
-                e.Bind("ballcom", x =>
+                e.Bind("ballcom-exchange", x =>
                 {
                     x.RoutingKey = "order-confirmed-routingkey";
                     x.ExchangeType = "topic";
                 });
             });
+            cfg.Message<IOrderConfirmedEvent>(x => { x.SetEntityName("ballcom-exchange"); });
+            cfg.Publish<IOrderConfirmedEvent>(x => { x.ExchangeType = "topic"; });
         });
     });
 });
 
 
-
+builder.Services.AddScoped<NotificationService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
