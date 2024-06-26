@@ -12,7 +12,7 @@ using UserManagement.Infrastructure;
 namespace UserManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(UserMySQLContext))]
-    [Migration("20240626103313_InitialCreate")]
+    [Migration("20240626174806_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -24,6 +24,24 @@ namespace UserManagement.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
+            modelBuilder.Entity("UserManagement.Domain.AnswerTicket", b =>
+                {
+                    b.Property<int>("AnswerTicketId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AnswerText")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("SupportTicketNumber")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("AnswerTicketId");
+
+                    b.ToTable("AnswerTicket");
+                });
 
             modelBuilder.Entity("UserManagement.Domain.Support", b =>
                 {
@@ -127,6 +145,17 @@ namespace UserManagement.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("UserManagement.Domain.AnswerTicket", b =>
+                {
+                    b.HasOne("UserManagement.Domain.User", "User")
+                        .WithMany("AnswerTickets")
+                        .HasForeignKey("AnswerTicketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("UserManagement.Domain.Support", b =>
                 {
                     b.HasOne("UserManagement.Domain.User", "User")
@@ -138,6 +167,8 @@ namespace UserManagement.Infrastructure.Migrations
 
             modelBuilder.Entity("UserManagement.Domain.User", b =>
                 {
+                    b.Navigation("AnswerTickets");
+
                     b.Navigation("Supports");
                 });
 #pragma warning restore 612, 618

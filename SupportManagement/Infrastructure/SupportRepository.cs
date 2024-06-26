@@ -32,11 +32,11 @@ public class SupportRepository
             throw new ApplicationException("Failed to add support ticket.", e);
         }
     }
-    public async Task UpdateSupportTicketAsync(Support support)
+    public async Task AnswerSupportTicketAsync(AnswerTicket answer)
     {
         try
         {
-            _SQLcontext.Supports.Update(support);
+            _SQLcontext.AnswerTickets.Update(answer);
             await _SQLcontext.SaveChangesAsync();
         }
         catch (Exception e)
@@ -49,5 +49,10 @@ public class SupportRepository
     public async Task<Support?> GetSupportAsync(string supportId)
     {
         return await _SQLcontext.Supports.FindAsync(supportId!);
+    }
+
+    public async Task<AnswerTicket?> GetTicketAsync(string ticketId)
+    {
+        return await _SQLcontext.AnswerTickets.FindAsync(ticketId!);
     }
 }

@@ -8,6 +8,7 @@ public class SupportMySQLContext : DbContext
     public SupportMySQLContext(DbContextOptions<SupportMySQLContext> options) : base(options) { }
 
     public DbSet<Support> Supports { get; set; }
+    public DbSet<AnswerTicket> AnswerTickets { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -17,6 +18,8 @@ public class SupportMySQLContext : DbContext
         modelBuilder.Entity<Support>().HasKey(s => s.SupportId);
         modelBuilder.Entity<Support>().HasIndex(s => s.SupportId).IsUnique();
 
+        modelBuilder.Entity<AnswerTicket>().HasKey(p => p.AnswerTicketId);
+        
         var ST1001 = new Support
         {
             SupportId = 1,

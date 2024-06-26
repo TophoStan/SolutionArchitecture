@@ -25,17 +25,14 @@ public class SupportService
     {
         try
         {
-            var ticket = await _supportRepository.GetSupportAsync(answer.SupportTicketNumber);
+            var ticket = await _supportRepository.GetTicketAsync(answer.SupportTicketNumber);
 
             if (ticket == null)
             {
                 throw new KeyNotFoundException($"Support ticket with number '{answer.SupportTicketNumber}' not found.");
             }
 
-            ticket.Status = "Answered";
-            ticket.Description = answer.AnswerText;
-
-            await _supportRepository.UpdateSupportTicketAsync(ticket);
+            await _supportRepository.AnswerSupportTicketAsync(ticket);
 
             var @event = new TicketAnsweredEvent
             {

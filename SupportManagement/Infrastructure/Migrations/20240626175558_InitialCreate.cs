@@ -16,6 +16,23 @@ namespace SupportManagement.Infrastructure.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "AnswerTicket",
+                columns: table => new
+                {
+                    AnswerTicketId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    SupportTicketNumber = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    AnswerText = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AnswerTicket", x => x.AnswerTicketId);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Supports",
                 columns: table => new
                 {
@@ -41,7 +58,7 @@ namespace SupportManagement.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Supports",
                 columns: new[] { "SupportId", "Description", "IssueDate", "Status", "SupportTicketNumber", "UserEmail", "UserId" },
-                values: new object[] { 1, "Unable to login to the account.", new DateTime(2024, 6, 25, 17, 18, 23, 715, DateTimeKind.Local).AddTicks(7124), "Open", "ST-1001", "user1@example.com", 0 });
+                values: new object[] { 1, "Unable to login to the account.", new DateTime(2024, 6, 26, 19, 55, 57, 991, DateTimeKind.Local).AddTicks(6261), "Open", "ST-1001", "user1@example.com", 0 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Supports_SupportId",
@@ -53,6 +70,9 @@ namespace SupportManagement.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AnswerTicket");
+
             migrationBuilder.DropTable(
                 name: "Supports");
         }

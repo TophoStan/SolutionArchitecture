@@ -12,7 +12,7 @@ using SupportManagement.Infrastructure;
 namespace SupportManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(SupportMySQLContext))]
-    [Migration("20240625151824_InitialCreate")]
+    [Migration("20240626175558_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -24,6 +24,27 @@ namespace SupportManagement.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
+            modelBuilder.Entity("SupportManagement.Domain.AnswerTicket", b =>
+                {
+                    b.Property<int>("AnswerTicketId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("AnswerTicketId"));
+
+                    b.Property<string>("AnswerText")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("SupportTicketNumber")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("AnswerTicketId");
+
+                    b.ToTable("AnswerTicket");
+                });
 
             modelBuilder.Entity("SupportManagement.Domain.Support", b =>
                 {
@@ -67,7 +88,7 @@ namespace SupportManagement.Infrastructure.Migrations
                         {
                             SupportId = 1,
                             Description = "Unable to login to the account.",
-                            IssueDate = new DateTime(2024, 6, 25, 17, 18, 23, 715, DateTimeKind.Local).AddTicks(7124),
+                            IssueDate = new DateTime(2024, 6, 26, 19, 55, 57, 991, DateTimeKind.Local).AddTicks(6261),
                             Status = "Open",
                             SupportTicketNumber = "ST-1001",
                             UserEmail = "user1@example.com",

@@ -41,6 +41,28 @@ namespace UserManagement.Infrastructure.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "AnswerTicket",
+                columns: table => new
+                {
+                    AnswerTicketId = table.Column<int>(type: "int", nullable: false),
+                    SupportTicketNumber = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    AnswerText = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AnswerTicket", x => x.AnswerTicketId);
+                    table.ForeignKey(
+                        name: "FK_AnswerTicket_Users_AnswerTicketId",
+                        column: x => x.AnswerTicketId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Support",
                 columns: table => new
                 {
@@ -93,6 +115,9 @@ namespace UserManagement.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AnswerTicket");
+
             migrationBuilder.DropTable(
                 name: "Support");
 
