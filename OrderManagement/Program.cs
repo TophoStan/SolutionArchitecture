@@ -6,6 +6,7 @@ using OrderManagement.Infrastructure.Order;
 using OrderManagement.Infrastructure.Product;
 using OrderManagement.Infrastructure.User;
 using OrderManagement.Services;
+using RabbitMQ.domain;
 using RabbitMQ.domain.UserEvents;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -53,12 +54,25 @@ builder.Host.ConfigureServices(services =>
                     x.RoutingKey = "user-updated-routingkey";
                     x.ExchangeType = "topic";
                 });
+                e.Bind("ballcom", x =>
+                {
+                    x.RoutingKey = "payment-confirmed-routingkey";
+                    x.ExchangeType = "topic";
+                });
             });
             cfg.Message<IUserUpdatedEvent>(x =>
             { 
                 x.SetEntityName("user-updated-event");
             });
             cfg.Publish<IUserUpdatedEvent>(x =>
+            {
+                x.ExchangeType = "topic";
+            });
+            cfg.Message<IPaymentConfirmedEvent>(x =>
+            {
+                x.SetEntityName("payment-confirmed-event");
+            });
+            cfg.Publish<IPaymentConfirmedEvent>(x =>
             {
                 x.ExchangeType = "topic";
             });
@@ -75,7 +89,6 @@ builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<OrderRepository>();
 builder.Services.AddScoped<UserRepository>();
-builder.Services.AddScoped<EventPublisher>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

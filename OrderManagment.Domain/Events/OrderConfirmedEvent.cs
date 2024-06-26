@@ -1,12 +1,13 @@
-﻿using System;
+﻿using RabbitMQ.domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RabbitMQ.domain;
+namespace OrderManagement.Domain.Events;
 
-public interface IOrderConfirmedEvent
+public class OrderConfirmedEvent : IOrderConfirmedEvent
 {
     public string OrderNumber { get; set; }
     public DateTime OrderDate { get; set; }
