@@ -140,6 +140,26 @@ services:
     networks:
       - my_network
 
+  # Tracking
+  tracking:
+    image: trackingmanagement_app:0.3
+    build:
+      context: .
+      dockerfile: ./TrackingDockerfile
+    ports:
+      - "5308:5308"
+      - "8089:8080"
+    depends_on:
+      - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - RABBITMQ_HOSTNAME=rabbitmq
+      - ASPNETCORE_URLS=http://+:5308
+    volumes:
+      - dotnet_tracking_data:/app
+    networks:
+      - my_network
+
   # Payment
   payment:
     image: paymentmanagement_app:0.3
@@ -212,4 +232,4 @@ volumes:
   dotnet_notification_data:
   dotnet_support_data:
   dotnet_order_data:
-  
+  dotnet_tracking_data:

@@ -5,6 +5,9 @@ using RabbitMQ.domain;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddJsonFile("appsettings.json");
+builder.Configuration.AddEnvironmentVariables();
+
 // Add services to the container.
 
 var rabbitMQHostName = builder.Configuration["RABBITMQ_HOSTNAME"];
@@ -14,6 +17,7 @@ builder.Host.ConfigureServices(services =>
     services.AddMassTransit(x =>
     {
         x.AddConsumer<OrderConfirmedConsumer>();
+        x.AddConsumer<TrackingRegisteredConsumer>();
         x.UsingRabbitMq((context, cfg) =>
         {
             cfg.Host(rabbitMQHostName, "/", h =>
@@ -27,6 +31,12 @@ builder.Host.ConfigureServices(services =>
                 e.Bind("ballcom-exchange", x =>
                 {
                     x.RoutingKey = "order-confirmed-routingkey";
+                    x.ExchangeType = "topic";
+                });
+                e.ConfigureConsumer<TrackingRegisteredConsumer>(context);
+                e.Bind("ballcom-exchange", x =>
+                {
+                    x.RoutingKey = "tracking-registered-routingkey";
                     x.ExchangeType = "topic";
                 });
             });
