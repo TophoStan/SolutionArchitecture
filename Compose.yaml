@@ -128,7 +128,7 @@ services:
       dockerfile: ./PaymentDockerfile
     ports:
       - "5305:5305"
-      - "8084:8080"
+      - "8086:8080"
     depends_on:
       - rabbitmq
     environment:
@@ -148,7 +148,7 @@ services:
       dockerfile: ./InvoiceDockerfile
     ports:
       - "5306:5306"
-      - "8084:8080"
+      - "8087:8080"
     depends_on:
       - rabbitmq
     environment:
@@ -157,6 +157,26 @@ services:
       - ASPNETCORE_URLS=http://+:5306
     volumes:
       - dotnet_invoice_data:/app
+    networks:
+      - my_network
+
+  # Notification
+  notification:
+    image: notificationmanagement_app:0.3
+    build:
+      context: .
+      dockerfile: ./NotificationDockerfile
+    ports:
+      - "5307:5307"
+      - "8088:8080"
+    depends_on:
+      - rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - RABBITMQ_HOSTNAME=rabbitmq
+      - ASPNETCORE_URLS=http://+:5307
+    volumes:
+      - dotnet_notification_data:/app
     networks:
       - my_network
 
@@ -170,3 +190,4 @@ volumes:
   dotnet_user_data:
   dotnet_payment_data:
   dotnet_invoice_data:
+  dotnet_notification_data:
